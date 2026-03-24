@@ -142,24 +142,28 @@ This three-layer architecture is the platform's core structural advantage:
 
 ### What is built and working
 
-- Full action contract covering entity resolution, invoice lifecycle, payment requests, reconciliation, and exception management.
+- Full action contract covering entity resolution, invoice lifecycle, payment requests, event ingestion, approvals, exception management, trade validation, and halal operations.
+- Autonomous workflow runner that follows `next_action` until completion or a clean blocked state.
 - Sandbox environment with deterministic Malaysian business fixtures for end-to-end testing.
-- Live MyInvois integration -- authentication, TIN validation, document submission, status retrieval, and cancellation against LHDN's official sandbox.
+- High-level invoice actions that can delegate to real MyInvois flows when credentials and compliant documents are provided.
+- Live MyInvois integration -- authentication, TIN validation, document submission, status retrieval, and cancellation against LHDN's official rails.
 - Live CIDB N3C integration -- state lookups, labour wages, building material prices, and machinery rates from official APIs.
-- CLI and HTTP API surfaces exposing all actions through a single consistent interface.
+- CLI, HTTP API, stdio MCP server, and repo-local agent skill exposing the same business contract through different agent entrypoints.
+- Halal operator workbench and seeded F&B pilot dataset on top of the same local API contract.
 
 ### What is next
 
 | Phase | Focus | Status |
 |---|---|---|
 | Phase 0 | Contract and sandbox core | Complete |
-| Phase 1 | MyInvois real-provider integration | In progress |
-| Phase 1.5 | CIDB real-provider integration | In progress |
-| Phase 2 | PayNet and DuitNow payment rails | Planned |
-| Phase 3 | MyDigital ID and delegated authority | Planned |
-| Phase 4 | Trade and logistics (DagangNet / NSW) | Planned |
-| Phase 5 | Halal compliance and certification | Planned |
-| Phase 6 | Healthcare revenue cycle (DRG, ICD-10) | Later stage |
+| Phase 1 | Autonomous runner, approvals, event-driven payments, MCP | Complete |
+| Phase 2 | MyInvois high-level execution through `invoices.*` | Partial |
+| Phase 3 | CIDB read-only live retrieval | Partial |
+| Phase 4 | PayNet and DuitNow real settlement rails | Planned |
+| Phase 5 | MyDigital ID and delegated authority | Planned |
+| Phase 6 | Trade and logistics live execution (DagangNet / NSW) | Planned |
+| Phase 7 | Halal regulator-side integration | Planned |
+| Phase 8 | Healthcare revenue cycle (DRG, ICD-10) | Later stage |
 
 ### Commercial milestones
 

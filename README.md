@@ -1,6 +1,6 @@
 # Malaysia Agent Ops
 
-JSON-first API and CLI primitives for Malaysia-specific agent workflows.
+Execution-layer alpha for Malaysia-specific agent workflows, exposed through JSON-first CLI, HTTP API, MCP, and a repo-local agent skill.
 
 This MVP implements the Phase 1 wedge from the strategy:
 
@@ -73,6 +73,14 @@ The package is intentionally dependency-free so it runs in this environment with
 - [Project status dashboard](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/project-status-dashboard.html)
 - [Halal vertical attack plan](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-vertical-attack-plan.html)
 - [Halal operations workbench](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-ops-workbench.html)
+- [Repo-local agent skill](/Users/faiqhilman/Projects/malaysia-agent-ops/skill/SKILL.md)
+
+## Current state
+
+- `45` action contracts are exposed through the shared service layer.
+- The autonomous runner, approval store, payment event ingestion path, MCP server, and repo-local skill are implemented.
+- `MyInvois` and `CIDB` official adapters are wired, but live execution is still gated by credentials and partner onboarding.
+- The richest vertical in the repo is the halal operations layer with a seeded F&B pilot, persistent artifact graph, and browser workbench.
 
 ## Run
 
@@ -412,6 +420,8 @@ python3 manage.py action providers.cidb.building_material_price --json '{
 ```
 
 ## Tests
+
+Current automated status in this workspace: `16/16` passing.
 
 ```bash
 cd /Users/faiqhilman/Projects/malaysia-agent-ops

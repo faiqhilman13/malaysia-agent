@@ -362,12 +362,12 @@
     <main class="page">
       <section class="hero">
         <span class="eyebrow">Malaysia Agent Ops / status snapshot / updated 2026-03-24</span>
-        <h1>Local pilot platform live, official rails wired, halal vertical now has a usable operator workbench.</h1>
+        <h1>Execution-layer alpha live: autonomous runner, approval gates, official rails, and a usable halal operator workbench.</h1>
         <p>
-          The project has moved past a backend-only POC. It now has a stateful workflow engine,
-          documented provider adapters for real Malaysia rails, a seeded F&amp;B halal pilot dataset,
-          and a browser workbench at <strong>/app/halal-ops</strong> that sits directly on top of the
-          local API contract.
+          The project has moved past a backend-only POC. It now has an autonomous workflow runner,
+          approval and exception state, documented provider adapters for real Malaysia rails, a seeded
+          F&amp;B halal pilot dataset, stdio MCP exposure, and a browser workbench at
+          <strong>/app/halal-ops</strong> that sits directly on top of the local API contract.
         </p>
         <div class="pill-row">
           <span class="status-pill"><span class="dot poc"></span>Overall state: local pilot platform</span>
@@ -377,11 +377,11 @@
         </div>
         <div class="metrics">
           <article class="metric">
-            <div class="value">39</div>
+            <div class="value">45</div>
             <div class="label">Action contracts exposed through CLI/API</div>
           </article>
           <article class="metric">
-            <div class="value">11/11</div>
+            <div class="value">16/16</div>
             <div class="label">Automated tests passing in the local workspace</div>
           </article>
           <article class="metric">
@@ -398,9 +398,9 @@
       <section class="section">
         <h2>Architecture Status</h2>
         <p class="kicker">
-          The system now has four layers: agent entrypoints, action contracts, durable workflow state,
-          and presentation surfaces. The browser layer is new and is served by the same local server as
-          the API so the workbench can call live endpoints without extra glue.
+          The system now has five practical layers: agent entrypoints, action contracts, workflow and
+          approval state, provider adapters, and presentation surfaces. The browser layer is served by
+          the same local server as the API so the workbench can call live endpoints without extra glue.
         </p>
         <div class="architecture-grid">
           <div class="diagram-card">
@@ -422,24 +422,24 @@
 
               <rect x="22" y="32" width="170" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
               <text x="48" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">ENTRYPOINTS</text>
-              <text x="48" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">CLI / API / App</text>
+              <text x="48" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">CLI / API / MCP / App</text>
 
               <rect x="234" y="32" width="182" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
               <text x="262" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">CONTRACT</text>
-              <text x="262" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">39 actions</text>
+              <text x="262" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">45 actions</text>
 
               <rect x="458" y="32" width="192" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
               <text x="486" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">WORKFLOW</text>
-              <text x="486" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">State engine</text>
+              <text x="486" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">Runner + approvals</text>
 
               <rect x="692" y="32" width="246" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
               <text x="720" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">STORE + STATIC</text>
-              <text x="720" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">SQLite + served HTML</text>
+              <text x="720" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">SQLite + HTML + skill</text>
 
               <rect x="70" y="206" width="348" height="218" rx="28" fill="url(#panelB)" stroke="rgba(15,118,110,0.18)" />
               <text x="100" y="248" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#0f766e">SANDBOX + LOCAL PILOT</text>
               <text x="100" y="286" font-size="30" font-family="Iowan Old Style, serif" fill="#152028">Runnable today</text>
-              <text x="100" y="324" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Finance-ops workflow sandbox</text>
+              <text x="100" y="324" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Autonomous finance-ops workflow sandbox</text>
               <text x="100" y="352" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Trade document validation</text>
               <text x="100" y="380" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Halal supplier/BOM/checklist/workflow</text>
               <text x="100" y="408" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Seeded F&amp;B pilot with export dossier</text>
@@ -449,7 +449,7 @@
               <text x="498" y="286" font-size="30" font-family="Iowan Old Style, serif" fill="#152028">Deployment shape is visible</text>
               <text x="498" y="324" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">MyInvois login / TIN / submit / poll / cancel</text>
               <text x="498" y="352" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">CIDB states / labour / materials / machinery</text>
-              <text x="498" y="380" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Static HTML served at /app/halal-ops</text>
+              <text x="498" y="380" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">MCP + repo-local skill shipped for agents</text>
               <text x="498" y="408" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Live execution still gated by credentials / approvals</text>
 
               <path d="M192 78 H234" stroke="#152028" stroke-width="2.4" stroke-linecap="round" />
@@ -498,8 +498,8 @@
 
           <article class="vertical-card">
             <span class="mini-status"><span class="dot poc"></span>Payments / Reconciliation</span>
-            <h3>Good internal workflow, no real settlement yet</h3>
-            <p>The exception and reconciliation logic is useful, but it still terminates in a sandbox-shaped payment request instead of PayNet or bank callbacks.</p>
+            <h3>Event-driven locally, not provider-backed yet</h3>
+            <p>The payment layer now models event ingestion correctly, but the request rail and callback source are still sandbox-shaped rather than PayNet-backed.</p>
             <div class="strip">
               <strong>Runs now</strong>
               <span>DuitNow-shaped request objects, matched/mismatch paths, exception resolution.</span>
@@ -577,8 +577,8 @@
         <div class="snapshot-grid">
           <article class="snapshot-card">
             <span class="badge teal">Supplier Registry</span>
-            <h3>4 suppliers tracked</h3>
-            <p>All four current registry entries are marked active. Two renewals fall inside the configured watch window, including one expired official record and one upcoming pilot renewal.</p>
+            <h3>5 suppliers tracked</h3>
+            <p>Five supplier records now exist in the local registry and directory view. Two renewals fall inside the configured watch window, including one expired official record and one upcoming pilot renewal.</p>
           </article>
           <article class="snapshot-card">
             <span class="badge blue">Workflow State</span>
@@ -605,7 +605,7 @@
             <tbody>
               <tr>
                 <td>Supplier registry</td>
-                <td>4</td>
+                <td>5</td>
                 <td><span class="badge teal">active local model</span></td>
                 <td>The registry and renewal layer now has persistent state instead of ad hoc lookup only.</td>
               </tr>
