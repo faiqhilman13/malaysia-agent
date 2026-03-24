@@ -1,0 +1,7 @@
+interface:
+  display_name: "Malaysia Agent Ops"
+  short_description: "Operate the Malaysia agent ops app"
+  default_prompt: "Use $malaysia-agent-ops to operate the malaysia-agent-ops app, run workflows, inspect approvals, and handle blocked states safely."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Malaysia Agent Ops — Halal Vertical Attack Plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --white: #ffffff;
+        --bg: #F5F0E8;
+        --surface: #ffffff;
+        --ink: #1A2744;
+        --ink-secondary: #2C3E6B;
+        --ink-light: #6B6155;
+        --border: #E8E0D0;
+        --border-light: #F0EBE1;
+        --accent: #B8860B;
+        --accent-light: rgba(184,134,11,0.10);
+        --accent-text: #B8860B;
+        --blue: #2C3E6B;
+        --blue-light: rgba(44,62,107,0.10);
+        --amber: #D4A843;
+        --amber-light: rgba(212,168,67,0.12);
+        --rose: #8B2E3B;
+        --rose-light: rgba(139,46,59,0.10);
+        --radius-lg: 4px;
+        --radius-md: 2px;
+        --shadow-sm: 0 1px 3px rgba(26,39,68,0.04);
+        --shadow-md: 0 2px 12px rgba(26,39,68,0.08);
+        --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+        --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+      }
+
+      * { box-sizing: border-box; margin: 0; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        color: var(--ink);
+        font-family: var(--font-body);
+        background: var(--bg);
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        font-size: 15px;
+      }
+
+      .page {
+        width: min(1100px, calc(100vw - 64px));
+        margin: 0 auto;
+        padding: 0 0 80px;
+      }
+
+      /* ── topbar ── */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 56px;
+      }
+
+      .topbar-brand {
+        font-family: var(--font-body);
+        font-weight: 700;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--ink-light);
+      }
+
+      .topbar-links {
+        display: flex;
+        gap: 4px;
+      }
+
+      .topbar-links a {
+        color: var(--ink-light);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 500;
+        padding: 5px 12px;
+        border-radius: 999px;
+        transition: all 0.15s ease;
+      }
+
+      .topbar-links a:hover {
+        color: var(--ink);
+        background: var(--border-light);
+      }
+
+      /* ── hero ── */
+      .hero {
+        padding: 0 0 48px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 56px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 5px 14px;
+        border: 1px solid var(--accent);
+        border-radius: 2px;
+        color: var(--accent-text);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 28px 0 20px;
+        max-width: 780px;
+        font-family: var(--font-display);
+        font-size: clamp(2.4rem, 4vw, 3.4rem);
+        font-weight: 400;
+        line-height: 1.12;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+      }
+
+      .hero > p {
+        max-width: 640px;
+        color: var(--ink-secondary);
+        font-size: 1.02rem;
+        line-height: 1.75;
+      }
+
+      /* ── key signals row ── */
+      .signals {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 32px;
+      }
+
+      .signal {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 14px;
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        font-size: 0.84rem;
+        color: var(--ink-secondary);
+        background: var(--white);
+      }
+
+      .signal-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .signal-dot.green { background: var(--accent); }
+      .signal-dot.blue { background: var(--blue); }
+      .signal-dot.amber { background: var(--amber); }
+      .signal-dot.rose { background: var(--rose); }
+
+      /* ── metrics bar ── */
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        margin-top: 40px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+      }
+
+      .metric {
+        padding: 28px 24px;
+        background: var(--white);
+      }
+
+      .metric .value {
+        font-family: var(--font-display);
+        font-size: 2.4rem;
+        line-height: 1;
+        color: var(--accent);
+      }
+
+      .metric .label {
+        margin-top: 8px;
+        color: var(--ink-light);
+        font-size: 0.84rem;
+        line-height: 1.4;
+      }
+
+      /* ── sections ── */
+      .section {
+        margin-bottom: 56px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 10px;
+      }
+
+      .section-num {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--accent);
+        min-width: 24px;
+      }
+
+      .section h2 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+      }
+
+      .section p.kicker {
+        max-width: 640px;
+        color: var(--ink-secondary);
+        font-size: 0.96rem;
+        line-height: 1.75;
+        margin-bottom: 28px;
+        margin-left: 40px;
+      }
+
+      /* ── grids ── */
+      .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+      /* ── cards ── */
+      .card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 28px 24px;
+        transition: box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        box-shadow: var(--shadow-md);
+      }
+
+      .card h3 {
+        margin: 14px 0 8px;
+        font-family: var(--font-body);
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .card p, .card li {
+        color: var(--ink-secondary);
+        font-size: 0.9rem;
+        line-height: 1.65;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      ul li { margin-bottom: 6px; }
+      ul li:last-child { margin-bottom: 0; }
+
+      /* ── badges ── */
+      .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 2px;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .badge.green { background: var(--accent-light); color: var(--accent-text); }
+      .badge.blue { background: var(--blue-light); color: var(--blue); }
+      .badge.amber { background: var(--amber-light); color: var(--amber); }
+      .badge.rose { background: var(--rose-light); color: var(--rose); }
+
+      /* ── tables ── */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 14px 16px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--border);
+      }
+
+      th {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-light);
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 10px;
+      }
+
+      td { color: var(--ink-secondary); }
+      td strong { color: var(--ink); font-weight: 600; }
+      tr:last-child td { border-bottom: none; }
+
+      /* ── execution flow ── */
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: var(--border);
+      }
+
+      .flow-step {
+        padding: 24px 20px;
+        background: var(--white);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .flow-step + .flow-step {
+        border-left: 1px solid var(--border);
+      }
+
+      .flow-step .step-num {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--accent);
+        margin-bottom: 4px;
+      }
+
+      .flow-step strong {
+        display: block;
+        margin: 10px 0 8px;
+        font-size: 0.96rem;
+        font-weight: 700;
+      }
+
+      .flow-step p {
+        font-size: 0.84rem;
+        color: var(--ink-secondary);
+        line-height: 1.6;
+        margin: 0;
+        flex-grow: 1;
+      }
+
+      /* ── product tiles ── */
+      .tile-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+
+      .tile {
+        padding: 24px;
+        background: var(--white);
+      }
+
+      .tile-num {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      .tile strong {
+        display: block;
+        font-size: 0.96rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+
+      .tile p {
+        margin: 0;
+        font-size: 0.86rem;
+        color: var(--ink-secondary);
+        line-height: 1.6;
+      }
+
+      /* ── callout box ── */
+      .callout {
+        margin-top: 24px;
+        padding: 24px 28px;
+        border-left: 3px solid var(--accent);
+        background: var(--accent-light);
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        color: var(--ink-secondary);
+        font-size: 0.92rem;
+        line-height: 1.7;
+      }
+
+      /* ── divider ── */
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 56px 0;
+      }
+
+      /* ── responsive ── */
+      @media (max-width: 1000px) {
+        .metrics { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: 1fr; }
+        .flow { grid-template-columns: 1fr; }
+        .flow-step + .flow-step { border-left: none; border-top: 1px solid var(--border); }
+        .tile-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 680px) {
+        .page { width: calc(100vw - 40px); }
+        .hero { padding-bottom: 36px; }
+        .metrics, .grid-2 { grid-template-columns: 1fr; }
+        .topbar { flex-direction: column; gap: 12px; align-items: flex-start; }
+        .topbar-links { flex-wrap: wrap; }
+        .section p.kicker { margin-left: 0; }
+      }
+
+      /* ── subtle entrance ── */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .hero { animation: fadeIn 0.5s ease both; }
+      .section { animation: fadeIn 0.5s ease both; }
+      .section:nth-of-type(2) { animation-delay: 0.04s; }
+      .section:nth-of-type(3) { animation-delay: 0.08s; }
+      .section:nth-of-type(4) { animation-delay: 0.12s; }
+      .section:nth-of-type(5) { animation-delay: 0.16s; }
+      .section:nth-of-type(6) { animation-delay: 0.2s; }
+
+      /* ── print ── */
+      @media print {
+        .topbar { display: none; }
+        body { background: white; font-size: 12px; }
+        .page { width: 100%; padding: 0; }
+        .section { break-inside: avoid; }
+        .card, .metric, .tile { break-inside: avoid; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <nav class="topbar">
+        <div class="topbar-brand">Malaysia Agent Ops / Halal Vertical</div>
+        <div class="topbar-links">
+          <a href="#why">Why This Wedge</a>
+          <a href="#stakeholders">Stakeholders</a>
+          <a href="#execution">Execution</a>
+          <a href="#product">V1 Product</a>
+          <a href="#dependencies">Dependencies</a>
+          <a href="#plan">30-Day Plan</a>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="eyebrow">Halal Vertical Attack Plan</div>
+        <h1>Build the workflow layer before the regulator integration layer.</h1>
+        <p>
+          The fastest wedge is not "consumer halal search." It is B2B compliance operations:
+          supplier evidence, ingredient traceability, renewal control, audit response, and export
+          dossiers. This presentation turns that thesis into an execution sequence for Malaysia
+          Agent Ops.
+        </p>
+
+        <div class="signals">
+          <div class="signal"><span class="signal-dot green"></span>Immediate wedge: manufacturer compliance ops</div>
+          <div class="signal"><span class="signal-dot blue"></span>Current product fit: document-heavy workflow middleware</div>
+          <div class="signal"><span class="signal-dot amber"></span>Dependency: regulator/process access, not just API docs</div>
+          <div class="signal"><span class="signal-dot rose"></span>Avoid: pretending to be the certifier</div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="value">3-5</div>
+            <div class="label">Anchor design partners needed</div>
+          </div>
+          <div class="metric">
+            <div class="value">1</div>
+            <div class="label">Halal domain expert required from day one</div>
+          </div>
+          <div class="metric">
+            <div class="value">9</div>
+            <div class="label">Domestic certification schemes noted in JAKIM materials</div>
+          </div>
+          <div class="metric">
+            <div class="value">2</div>
+            <div class="label">Primary frameworks to support first: HAS and IHCS</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="why">
+        <div class="section-head">
+          <span class="section-num">01</span>
+          <h2>Why This Wedge</h2>
+        </div>
+        <p class="kicker">
+          The manual pain sits in evidence collection, supplier verification, renewal discipline,
+          and audit response. Those are machine-friendly, high-frequency workflows even before
+          direct regulator integration exists.
+        </p>
+        <div class="grid-3">
+          <article class="card">
+            <div class="badge green">Best Starting Point</div>
+            <h3>Ingredient + Supplier Control</h3>
+            <p>
+              Centralize the upstream supplier and ingredient evidence that currently lives across
+              spreadsheets, PDFs, email threads, and shared drives.
+            </p>
+          </article>
+          <article class="card">
+            <div class="badge blue">Core Moat</div>
+            <h3>Traceability Graph</h3>
+            <p>
+              Turn BOMs into a compliance graph that connects every product, ingredient, supplier,
+              certificate, and renewal risk in one machine-readable layer.
+            </p>
+          </article>
+          <article class="card">
+            <div class="badge amber">Commercial Edge</div>
+            <h3>Audit-Speed Advantage</h3>
+            <p>
+              The buyer value is faster submission readiness, fewer missing-evidence loops, and
+              lower dependence on manual compliance staff.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="stakeholders">
+        <div class="section-head">
+          <span class="section-num">02</span>
+          <h2>Who To Talk To</h2>
+        </div>
+        <p class="kicker">The regulator unlocks legitimacy. The market unlocks distribution. Both matter.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Stakeholder</th>
+              <th>Why They Matter</th>
+              <th>What You Need From Them</th>
+              <th>Output Of The Meeting</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>JAKIM Bahagian Pengurusan Halal</strong></td>
+              <td>Core national certification authority and process owner.</td>
+              <td>Clarity on what third-party software can assist with: data prep, uploads, evidence handling, partner access, or sanctioned integrations.</td>
+              <td>Explicit integration boundary and compliance do/don't list.</td>
+            </tr>
+            <tr>
+              <td><strong>Relevant MAIN/JAIN</strong></td>
+              <td>Real state-level operational behavior and audit friction.</td>
+              <td>Operational truth about queries, evidence gaps, timing, and applicant pain.</td>
+              <td>State workflow map and escalation paths.</td>
+            </tr>
+            <tr>
+              <td><strong>HDC</strong></td>
+              <td>Best channel for training, advisory, ecosystem access, and design-partner sourcing.</td>
+              <td>Customer introductions, ecosystem positioning, and program alignment.</td>
+              <td>Commercial partnership path and pilot pipeline.</td>
+            </tr>
+            <tr>
+              <td><strong>Halal Executive / Internal Auditor</strong></td>
+              <td>Turns regulatory text into actual operating logic.</td>
+              <td>Framework logic for HAS, IHCS, evidence packs, and renewal control.</td>
+              <td>Working compliance ontology for the product.</td>
+            </tr>
+            <tr>
+              <td><strong>3-5 Anchor Design Partners</strong></td>
+              <td>Source of the real workflow and the first paid problem.</td>
+              <td>Live BOMs, supplier matrices, recurring renewal issues, and audit query history.</td>
+              <td>Pilot scope, dataset, and ROI baseline.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="execution">
+        <div class="section-head">
+          <span class="section-num">03</span>
+          <h2>Execution Sequence</h2>
+        </div>
+        <p class="kicker">Start where you can create value before direct portal integration exists.</p>
+        <div class="flow">
+          <div class="flow-step">
+            <span class="step-num">Step 1</span>
+            <div class="badge blue">Phase 1</div>
+            <strong>Registry Layer</strong>
+            <p>Build supplier certificate registry, expiry watchlists, product coverage mapping, and document indexing.</p>
+          </div>
+          <div class="flow-step">
+            <span class="step-num">Step 2</span>
+            <div class="badge blue">Phase 1</div>
+            <strong>Traceability Layer</strong>
+            <p>Transform BOMs into ingredient-supplier-certificate graphs with risk and gap detection.</p>
+          </div>
+          <div class="flow-step">
+            <span class="step-num">Step 3</span>
+            <div class="badge green">Phase 1</div>
+            <strong>Evidence Layer</strong>
+            <p>Generate MyHALALINGREDIENTS-ready packs, MHMS artifacts, and framework checklists.</p>
+          </div>
+          <div class="flow-step">
+            <span class="step-num">Step 4</span>
+            <div class="badge amber">Phase 2</div>
+            <strong>Audit Workspace</strong>
+            <p>Track queries, due dates, attachments, resolutions, OEM coordination, and internal approvals.</p>
+          </div>
+          <div class="flow-step">
+            <span class="step-num">Step 5</span>
+            <div class="badge amber">Phase 2</div>
+            <strong>Submission Interface</strong>
+            <p>Only after process clarity: sanctioned upload, batch export, or portal-assist layer.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="product">
+        <div class="section-head">
+          <span class="section-num">04</span>
+          <h2>V1 Product Surface</h2>
+        </div>
+        <p class="kicker">This is the practical product to ship before any deep regulator integration.</p>
+        <div class="tile-grid">
+          <div class="tile">
+            <div class="tile-num">01</div>
+            <strong>Supplier Certificate Registry</strong>
+            <p>Single source of truth for supplier cert refs, expiry dates, product scope, risk level, and evidence ownership.</p>
+          </div>
+          <div class="tile">
+            <div class="tile-num">02</div>
+            <strong>Ingredient/BOM Compliance Graph</strong>
+            <p>Graph view of every product to ingredient to supplier to certificate dependency and the exact point of risk.</p>
+          </div>
+          <div class="tile">
+            <div class="tile-num">03</div>
+            <strong>Evidence Pack Generator</strong>
+            <p>Compiles submission-ready matrices, supporting document sections, and ingredient records for review.</p>
+          </div>
+          <div class="tile">
+            <div class="tile-num">04</div>
+            <strong>Renewal Control Tower</strong>
+            <p>Flags expiring supplier certs, applicant renewal windows, and weak points before they break a submission.</p>
+          </div>
+          <div class="tile">
+            <div class="tile-num">05</div>
+            <strong>HAS / IHCS Checklist Engine</strong>
+            <p>Scores framework readiness, identifies missing controls, and gives the agent the next compliance move.</p>
+          </div>
+          <div class="tile">
+            <div class="tile-num">06</div>
+            <strong>Audit Query Workspace</strong>
+            <p>Tracks every auditor query, deadline, attachment, response, and internal owner in one auditable trail.</p>
+          </div>
+          <div class="tile">
+            <div class="tile-num">07</div>
+            <strong>OEM / Client Share Room</strong>
+            <p>Lets brands, OEMs, and logistics partners exchange the exact compliance packet tied to a workflow.</p>
+          </div>
+          <div class="tile">
+            <div class="tile-num">08</div>
+            <strong>Export Dossier Generator</strong>
+            <p>Produces country-facing compliance dossiers from the same underlying supplier and evidence graph.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="dependencies">
+        <div class="section-head">
+          <span class="section-num">05</span>
+          <h2>Dependency Map</h2>
+        </div>
+        <p class="kicker">Separate what can be built immediately from what needs external approval or relationships.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Can Build Now</th>
+              <th>External Dependency</th>
+              <th>Blocker Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Supplier registry</strong></td>
+              <td>Yes</td>
+              <td>Design-partner data and domain model</td>
+              <td>Commercial / data access</td>
+            </tr>
+            <tr>
+              <td><strong>BOM graph</strong></td>
+              <td>Yes</td>
+              <td>Real ingredient matrices and supplier coverage</td>
+              <td>Commercial / data access</td>
+            </tr>
+            <tr>
+              <td><strong>Evidence pack generation</strong></td>
+              <td>Yes</td>
+              <td>Accepted evidence taxonomy and operator workflow</td>
+              <td>Domain expertise</td>
+            </tr>
+            <tr>
+              <td><strong>HAS / IHCS engine</strong></td>
+              <td>Yes</td>
+              <td>Validation with halal operators and consultants</td>
+              <td>Domain expertise</td>
+            </tr>
+            <tr>
+              <td><strong>Audit workspace</strong></td>
+              <td>Yes</td>
+              <td>Real query examples and response timelines</td>
+              <td>Commercial / workflow data</td>
+            </tr>
+            <tr>
+              <td><strong>Direct MYeHALAL integration</strong></td>
+              <td>No assumption</td>
+              <td>JAKIM / approved process / sanctioned access</td>
+              <td>Regulatory / platform access</td>
+            </tr>
+            <tr>
+              <td><strong>MyHALALINGREDIENTS direct integration</strong></td>
+              <td>No assumption</td>
+              <td>Official access pattern or partner arrangement</td>
+              <td>Regulatory / platform access</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="plan">
+        <div class="section-head">
+          <span class="section-num">06</span>
+          <h2>First 30 Days</h2>
+        </div>
+        <p class="kicker">This is the attack plan to turn the halal thesis into a pilot-worthy product wedge.</p>
+        <div class="grid-2">
+          <article class="card">
+            <div class="badge green">Week 1-2</div>
+            <h3>Customer + Regulator Discovery</h3>
+            <ul>
+              <li>Book JAKIM, one MAIN/JAIN, HDC, and at least three manufacturer/OEM interviews.</li>
+              <li>Collect 5 real BOMs, 20 supplier cert samples, and 10 audit query examples.</li>
+              <li>Lock the initial scope to F&amp;B or cosmetics, not both.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <div class="badge blue">Week 2-3</div>
+            <h3>Productization</h3>
+            <ul>
+              <li>Implement registry, graph, checklist, workflow, and audit workspace in the product.</li>
+              <li>Use one real client dataset to generate an end-to-end evidence pack and export dossier.</li>
+              <li>Measure manual time saved versus the current spreadsheet process.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="grid-2" style="margin-top: 16px;">
+          <article class="card">
+            <div class="badge amber">Week 3-4</div>
+            <h3>Pilot Definition</h3>
+            <ul>
+              <li>Agree the pilot KPI: at least 50% reduction in manual document handling time.</li>
+              <li>Define the exact submission stage the software supports and where humans still approve.</li>
+              <li>Document every unsupported regulator interaction explicitly.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <div class="badge rose">Never</div>
+            <h3>What Not To Claim</h3>
+            <ul>
+              <li>Do not claim you are the certifying authority.</li>
+              <li>Do not imply official API access unless it is actually granted.</li>
+              <li>Do not sell "full automation" before you prove the sanctioned boundary.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="callout">
+          Position the product as the compliance operating system that prepares, tracks, and explains halal evidence.
+          If official write access is later allowed, that becomes a second-layer advantage, not the first reason the
+          product exists.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

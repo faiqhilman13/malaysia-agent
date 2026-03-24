@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Malaysia Agent Ops - Halal Operations Workbench</title>
+    <style>
+      :root {
+        --bg: #f4eee3;
+        --panel: rgba(255, 251, 244, 0.92);
+        --panel-strong: #fffaf2;
+        --ink: #152028;
+        --muted: #5f6c74;
+        --line: rgba(21, 32, 40, 0.12);
+        --teal: #0f766e;
+        --teal-soft: rgba(15, 118, 110, 0.12);
+        --amber: #b45309;
+        --amber-soft: rgba(180, 83, 9, 0.12);
+        --blue: #1d4ed8;
+        --blue-soft: rgba(29, 78, 216, 0.12);
+        --rose: #be123c;
+        --rose-soft: rgba(190, 18, 60, 0.12);
+        --shadow: 0 26px 70px rgba(31, 38, 45, 0.13);
+        --radius-xl: 28px;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+        background:
+          radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 28%),
+          radial-gradient(circle at top right, rgba(29, 78, 216, 0.08), transparent 26%),
+          linear-gradient(180deg, #faf5ec 0%, #f4eee3 48%, #ebdfcf 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(21, 32, 40, 0.032) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(21, 32, 40, 0.032) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.34), transparent 86%);
+      }
+
+      .page {
+        width: min(1400px, calc(100vw - 40px));
+        margin: 0 auto;
+        padding: 32px 0 72px;
+      }
+
+      .hero,
+      .section {
+        border: 1px solid rgba(21, 32, 40, 0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        padding: 34px;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(135deg, rgba(255, 250, 243, 0.96), rgba(249, 243, 233, 0.92));
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: -8%;
+        bottom: -70%;
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle, rgba(15, 118, 110, 0.16), transparent 62%);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        background: rgba(21, 32, 40, 0.06);
+        color: var(--muted);
+        font-size: 0.86rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 18px 0 12px;
+        max-width: 980px;
+        font-size: clamp(2.6rem, 4vw, 4.8rem);
+        line-height: 0.96;
+        letter-spacing: -0.04em;
+      }
+
+      .hero p,
+      .section p.kicker {
+        max-width: 900px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      button,
+      .ghost-link {
+        appearance: none;
+        border: none;
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      button.primary {
+        background: var(--teal);
+        color: white;
+      }
+
+      button.secondary,
+      .ghost-link {
+        background: rgba(21, 32, 40, 0.06);
+        color: var(--ink);
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.72;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 28px;
+      }
+
+      .metric {
+        padding: 20px 18px;
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.68);
+        border: 1px solid rgba(21, 32, 40, 0.08);
+      }
+
+      .metric .value {
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+        letter-spacing: -0.05em;
+      }
+
+      .metric .label {
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .section {
+        margin-top: 24px;
+        padding: 28px;
+        border-radius: var(--radius-xl);
+        background: var(--panel);
+      }
+
+      .section h2 {
+        margin: 0 0 10px;
+        font-size: 1.55rem;
+        letter-spacing: -0.03em;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--line);
+        background: var(--panel-strong);
+        padding: 20px;
+      }
+
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 1.12rem;
+      }
+
+      .card p,
+      .card li,
+      .card span {
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 0.8rem;
+        white-space: nowrap;
+      }
+
+      .badge.teal { background: var(--teal-soft); color: var(--teal); }
+      .badge.amber { background: var(--amber-soft); color: var(--amber); }
+      .badge.blue { background: var(--blue-soft); color: var(--blue); }
+      .badge.rose { background: var(--rose-soft); color: var(--rose); }
+
+      .artifact-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+
+      thead th {
+        text-align: left;
+        font-size: 0.82rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 12px 14px;
+        background: rgba(21, 32, 40, 0.04);
+      }
+
+      tbody td {
+        padding: 14px;
+        border-top: 1px solid var(--line);
+        vertical-align: top;
+        line-height: 1.55;
+      }
+
+      .stack {
+        display: grid;
+        gap: 16px;
+      }
+
+      form {
+        display: grid;
+        gap: 12px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(21, 32, 40, 0.12);
+        background: rgba(255, 255, 255, 0.82);
+        color: var(--ink);
+        font: inherit;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      pre {
+        margin: 0;
+        padding: 16px;
+        border-radius: var(--radius-md);
+        background: #171f26;
+        color: #e6eef5;
+        overflow: auto;
+        font-size: 0.84rem;
+        line-height: 1.5;
+      }
+
+      .graph-visual-card {
+        margin-top: 18px;
+      }
+
+      .graph-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+
+      .graph-toolbar h3 {
+        margin: 0 0 6px;
+      }
+
+      .graph-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: end;
+      }
+
+      .graph-select {
+        min-width: 220px;
+      }
+
+      .graph-meta {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .graph-meta strong {
+        color: var(--ink);
+      }
+
+      .graph-shell {
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background:
+          radial-gradient(circle at top left, rgba(15, 118, 110, 0.06), transparent 24%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 243, 235, 0.92));
+        overflow: hidden;
+      }
+
+      .graph-wrap {
+        overflow: auto;
+        padding: 10px;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 14px 0;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.84rem;
+        color: var(--muted);
+      }
+
+      .legend-swatch {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .graph-empty {
+        padding: 28px 18px;
+        color: var(--muted);
+      }
+
+      #bomGraphSvg {
+        width: 1240px;
+        display: block;
+      }
+
+      .graph-edge {
+        fill: none;
+        stroke: rgba(21, 32, 40, 0.18);
+        stroke-width: 2;
+        transition: stroke 140ms ease, stroke-width 140ms ease, opacity 140ms ease;
+      }
+
+      .graph-edge.graph-edge-blocked {
+        stroke: rgba(190, 18, 60, 0.72);
+        stroke-width: 2.8;
+        stroke-dasharray: 7 5;
+      }
+
+      .graph-edge.graph-edge-highlight {
+        stroke: rgba(15, 118, 110, 0.96);
+        stroke-width: 4.6;
+      }
+
+      .graph-edge.graph-edge-highlight.graph-edge-blocked {
+        stroke: rgba(190, 18, 60, 0.96);
+        stroke-width: 4.8;
+      }
+
+      .graph-node-label {
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 11px;
+        fill: #11202a;
+      }
+
+      .graph-node-subtext {
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 10px;
+        fill: #5f6c74;
+      }
+
+      .graph-node {
+        cursor: pointer;
+      }
+
+      .graph-node rect {
+        transition: transform 140ms ease, stroke-width 140ms ease, filter 140ms ease;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .graph-node:hover rect {
+        transform: translateY(-1px);
+        filter: drop-shadow(0 10px 18px rgba(21, 32, 40, 0.12));
+      }
+
+      .graph-node.graph-node-selected rect {
+        stroke-width: 4;
+        filter: drop-shadow(0 14px 24px rgba(15, 118, 110, 0.18));
+      }
+
+      .graph-node.graph-node-blocked rect {
+        stroke: #be123c;
+        fill: #ffe4e6;
+      }
+
+      .graph-node.graph-node-selected.graph-node-blocked rect {
+        filter: drop-shadow(0 14px 24px rgba(190, 18, 60, 0.18));
+      }
+
+      .graph-hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: rgba(21, 32, 40, 0.05);
+        font-size: 0.82rem;
+      }
+
+      .graph-tooltip {
+        position: fixed;
+        z-index: 20;
+        display: none;
+        max-width: 280px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(21, 32, 40, 0.12);
+        background: rgba(23, 31, 38, 0.96);
+        color: #edf5fb;
+        box-shadow: 0 20px 40px rgba(15, 23, 31, 0.24);
+        pointer-events: none;
+        font-size: 0.82rem;
+        line-height: 1.5;
+      }
+
+      .graph-tooltip strong {
+        color: #ffffff;
+      }
+
+      .small {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border-radius: var(--radius-md);
+        background: rgba(21, 32, 40, 0.05);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      @media (max-width: 1160px) {
+        .metrics,
+        .grid-2,
+        .grid-3,
+        .artifact-grid,
+        .split {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100vw - 22px, 100%);
+          padding-top: 20px;
+        }
+
+        .hero,
+        .section {
+          padding: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <span class="eyebrow">Halal Operations Workbench / live local frontend</span>
+        <h1>Inspect, seed, and operate the halal compliance layer from one page.</h1>
+        <p>
+          This workbench is wired to the local Malaysia Agent Ops HTTP API. It can seed the F&amp;B
+          pilot, render current artifact state, and invoke the main halal workflow endpoints without
+          leaving the browser.
+        </p>
+        <div class="hero-actions">
+          <button class="primary" id="seedPilotButton">Seed F&amp;B Pilot Dataset</button>
+          <button class="secondary" id="refreshButton">Refresh Dashboard</button>
+          <a class="ghost-link" href="/app/project-status">Open Project Status</a>
+          <a class="ghost-link" href="/app/halal-attack-plan">Open Halal Attack Plan</a>
+        </div>
+        <div class="metrics" id="summaryMetrics">
+          <article class="metric"><div class="value">-</div><div class="label">Supplier registry total</div></article>
+          <article class="metric"><div class="value">-</div><div class="label">Renewals due</div></article>
+          <article class="metric"><div class="value">-</div><div class="label">Workflows ready</div></article>
+          <article class="metric"><div class="value">-</div><div class="label">Open audit queries</div></article>
+          <article class="metric"><div class="value">-</div><div class="label">Export dossiers</div></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Pilot Profile</h2>
+        <p class="kicker">The current demo target is a medium-sized F&amp;B manufacturer exporting instant curry paste.</p>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Pilot Summary</h3>
+            <div id="pilotSummary" class="small">Loading pilot profile…</div>
+          </article>
+          <article class="card">
+            <h3>Latest Seeded IDs</h3>
+            <div id="latestSeededIds" class="small">No pilot run yet.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Artifact Dashboard</h2>
+        <p class="kicker">This is the current halal state machine across registry, traceability, evidence, workflow, audit, and export.</p>
+        <div class="artifact-grid">
+          <article class="card">
+            <h3>Supplier Registry</h3>
+            <div id="suppliersTable"></div>
+          </article>
+          <article class="card">
+            <h3>Renewal Watchlist</h3>
+            <div id="renewalsTable"></div>
+          </article>
+          <article class="card">
+            <h3>BOM Graphs</h3>
+            <div id="bomGraphsTable"></div>
+          </article>
+          <article class="card">
+            <h3>Checklist Runs</h3>
+            <div id="checklistsTable"></div>
+          </article>
+          <article class="card">
+            <h3>Workflows</h3>
+            <div id="workflowsTable"></div>
+          </article>
+          <article class="card">
+            <h3>Audit Queries</h3>
+            <div id="queriesTable"></div>
+          </article>
+          <article class="card">
+            <h3>Evidence Packs</h3>
+            <div id="packsTable"></div>
+          </article>
+          <article class="card">
+            <h3>Export Dossiers</h3>
+            <div id="dossiersTable"></div>
+          </article>
+        </div>
+        <article class="card graph-visual-card">
+          <div class="graph-toolbar">
+            <div>
+              <h3>BOM Dependency Graph</h3>
+              <p class="small">A real visual graph of applicant, product, ingredients, suppliers, and certificate dependencies.</p>
+            </div>
+            <div class="graph-controls">
+              <label class="graph-select">Filter
+                <select id="graphFilterSelect">
+                  <option value="latest_successful" selected>Latest successful</option>
+                  <option value="latest">Latest graph</option>
+                  <option value="all">All graphs</option>
+                  <option value="blocked_only">Blocked only</option>
+                </select>
+              </label>
+              <label class="graph-select">Choose graph
+                <select id="bomGraphSelect"></select>
+              </label>
+            </div>
+          </div>
+          <div id="bomGraphMeta" class="graph-meta small">Loading graph…</div>
+          <div class="graph-hint">Click any supplier, ingredient, or certificate node to highlight its dependency path.</div>
+          <div class="graph-shell">
+            <div class="legend">
+              <span class="legend-item"><span class="legend-swatch" style="background:#dbeafe;"></span>Applicant</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#bfdbfe;"></span>Product</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#fef3c7;"></span>Ingredient</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#d1fae5;"></span>Supplier</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#ede9fe;"></span>Certificate</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#ffe4e6;"></span>Blocked / expired</span>
+            </div>
+            <div class="graph-wrap">
+              <svg id="bomGraphSvg" viewBox="0 0 1240 420" preserveAspectRatio="xMinYMin meet"></svg>
+            </div>
+            <div id="graphTooltip" class="graph-tooltip"></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>Action Studio</h2>
+        <p class="kicker">Use the actual halal endpoints from the browser. Each form posts to the live local API and prints the response below.</p>
+        <div class="grid-3">
+          <article class="card">
+            <h3>Supplier Registry</h3>
+            <form id="supplierForm">
+              <label>Supplier TIN
+                <input name="supplier_tin" value="C1234567810" />
+              </label>
+              <label>Supplier Name
+                <input name="supplier_name" value="Seri Rasa Spice Industries Sdn Bhd" />
+              </label>
+              <div class="split">
+                <label>Certificate Ref
+                  <input name="certificate_ref" value="JAKIM-PILOT-1001" />
+                </label>
+                <label>Certificate Status
+                  <select name="certificate_status">
+                    <option value="active" selected>active</option>
+                    <option value="expired">expired</option>
+                    <option value="unknown">unknown</option>
+                  </select>
+                </label>
+              </div>
+              <label>Expiry Date
+                <input name="expiry_date" value="2026-10-15" />
+              </label>
+              <div class="form-actions">
+                <button class="primary" type="submit">Upsert Supplier</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h3>BOM Graph</h3>
+            <form id="bomForm">
+              <label>Applicant Name
+                <input name="applicant_name" value="Barakah Foods Manufacturing Sdn Bhd" />
+              </label>
+              <label>Product Name
+                <input name="product_name" value="Instant curry paste" />
+              </label>
+              <label>BOM JSON
+                <textarea name="bom_json">[
+  {"ingredient":"Spice blend","supplier_tin":"C1234567810","supplier_name":"Seri Rasa Spice Industries Sdn Bhd"},
+  {"ingredient":"Coconut milk powder","supplier_tin":"C1234567811","supplier_name":"Santan Nusantara Ingredients Sdn Bhd"},
+  {"ingredient":"Retort pouch packaging","supplier_tin":"C1234567801","supplier_name":"ACME TRADING SDN BHD"}
+]</textarea>
+              </label>
+              <div class="form-actions">
+                <button class="primary" type="submit">Generate BOM Graph</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h3>Checklist</h3>
+            <form id="checklistForm">
+              <label>Applicant Name
+                <input name="applicant_name" value="Barakah Foods Manufacturing Sdn Bhd" />
+              </label>
+              <div class="split">
+                <label>Framework
+                  <select name="framework">
+                    <option value="HAS" selected>HAS</option>
+                    <option value="IHCS">IHCS</option>
+                  </select>
+                </label>
+                <label>Company Size
+                  <select name="company_size">
+                    <option value="medium" selected>medium</option>
+                    <option value="small">small</option>
+                    <option value="micro">micro</option>
+                  </select>
+                </label>
+              </div>
+              <label>Completed Controls (comma separated)
+                <textarea name="completed_controls">halal_policy,halal_committee,ingredient_register,supplier_certificate_control,traceability_log,internal_audit_program,corrective_action_register,staff_training</textarea>
+              </label>
+              <div class="form-actions">
+                <button class="primary" type="submit">Evaluate Checklist</button>
+              </div>
+            </form>
+          </article>
+        </div>
+
+        <div class="grid-3" style="margin-top: 18px;">
+          <article class="card">
+            <h3>Create Audit Query</h3>
+            <form id="auditCreateForm">
+              <label>Workflow ID
+                <input name="workflow_id" id="auditCreateWorkflowId" />
+              </label>
+              <label>Query Title
+                <input name="query_title" value="Upload latest coconut ingredient declaration" />
+              </label>
+              <label>Query Text
+                <textarea name="query_text">Provide the refreshed ingredient declaration and renewal acknowledgement for coconut milk powder.</textarea>
+              </label>
+              <label>Requested Documents (comma separated)
+                <input name="requested_documents" value="coconut_ingredient_declaration,renewal_acknowledgement_letter" />
+              </label>
+              <div class="form-actions">
+                <button class="primary" type="submit">Create Query</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h3>Respond To Query</h3>
+            <form id="auditRespondForm">
+              <label>Query ID
+                <input name="query_id" id="auditRespondQueryId" />
+              </label>
+              <label>Response Summary
+                <textarea name="response_summary">Updated coconut ingredient declaration and renewal acknowledgement provided.</textarea>
+              </label>
+              <label>Attachments (comma separated)
+                <input name="attachments" value="coconut_ingredient_declaration_v2.pdf,renewal_acknowledgement_letter.pdf" />
+              </label>
+              <div class="form-actions">
+                <button class="primary" type="submit">Respond Query</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h3>Export Dossier</h3>
+            <form id="dossierForm">
+              <label>Workflow ID
+                <input name="workflow_id" id="dossierWorkflowId" />
+              </label>
+              <label>Applicant Name
+                <input name="applicant_name" value="Barakah Foods Manufacturing Sdn Bhd" />
+              </label>
+              <label>Product Name
+                <input name="product_name" value="Instant curry paste" />
+              </label>
+              <label>Target Markets (comma separated)
+                <input name="target_markets" value="United Arab Emirates,Indonesia,Singapore" />
+              </label>
+              <label>Supporting Documents (comma separated)
+                <input name="supporting_documents" value="business_registration,product_specification,ingredient_declarations,halal_policy,traceability_log" />
+              </label>
+              <div class="form-actions">
+                <button class="primary" type="submit">Generate Dossier</button>
+              </div>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Response Log</h2>
+        <p class="kicker">Latest API response from the workbench.</p>
+        <pre id="responseLog">Waiting for action…</pre>
+        <div class="footer-note">
+          Serve this page from the local app server at <code>/app/halal-ops</code>. The page is designed for the
+          built-in API contract and expects the server to be running on the same origin.
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const state = {
+        latestSeed: null,
+        snapshot: null,
+        selectedGraphId: null,
+        selectedGraphFilter: "latest_successful",
+        selectedPathNodeId: null,
+      };
+
+      async function api(path, payload = {}) {
+        const response = await fetch(path, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        return response.json();
+      }
+
+      function formatJson(value) {
+        return JSON.stringify(value, null, 2);
+      }
+
+      function renderTable(containerId, columns, rows, emptyText = "No records yet.") {
+        const container = document.getElementById(containerId);
+        if (!rows || rows.length === 0) {
+          container.innerHTML = `<p class="small">${emptyText}</p>`;
+          return;
+        }
+        const header = columns.map((column) => `<th>${column.label}</th>`).join("");
+        const body = rows.map((row) => {
+          const cells = columns.map((column) => `<td>${column.render(row)}</td>`).join("");
+          return `<tr>${cells}</tr>`;
+        }).join("");
+        container.innerHTML = `<table><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
+      }
+
+      function badgeClass(status) {
+        const value = String(status || "").toLowerCase();
+        if (value.includes("ready") || value === "active" || value === "resolved" || value === "shared") return "teal";
+        if (value.includes("blocked") || value === "expired" || value === "open") return value === "open" ? "amber" : "rose";
+        return "blue";
+      }
+
+      function badge(status) {
+        return `<span class="badge ${badgeClass(status)}">${status || "-"}</span>`;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function truncate(value, max = 24) {
+        const text = String(value ?? "");
+        return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+      }
+
+      function graphNodeTheme(node, options = {}) {
+        const { blocked = false } = options;
+        const type = node.type || "unknown";
+        const base = {
+          applicant: { fill: "#dbeafe", stroke: "#1d4ed8" },
+          product: { fill: "#bfdbfe", stroke: "#2563eb" },
+          ingredient: { fill: "#fef3c7", stroke: "#d97706" },
+          supplier: { fill: "#d1fae5", stroke: "#0f766e" },
+          certificate: { fill: "#ede9fe", stroke: "#7c3aed" },
+          unknown: { fill: "#e5e7eb", stroke: "#6b7280" },
+        }[type] || { fill: "#e5e7eb", stroke: "#6b7280" };
+        if (blocked || (node.status || "").toLowerCase() === "expired") {
+          return { fill: "#ffe4e6", stroke: "#be123c" };
+        }
+        if ((node.risk_level || "").toLowerCase() === "high") {
+          return { fill: "#ffe4e6", stroke: "#be123c" };
+        }
+        return base;
+      }
+
+      function edgeKey(edge) {
+        return `${edge.source}=>${edge.target}`;
+      }
+
+      function buildGraphIndexes(graph) {
+        const nodeById = new Map((graph.nodes || []).map((node) => [node.id, node]));
+        const outgoing = new Map();
+        const incoming = new Map();
+        const edgeByKey = new Map();
+
+        (graph.edges || []).forEach((edge) => {
+          const keyed = { ...edge, key: edgeKey(edge) };
+          edgeByKey.set(keyed.key, keyed);
+          if (!outgoing.has(keyed.source)) outgoing.set(keyed.source, []);
+          if (!incoming.has(keyed.target)) incoming.set(keyed.target, []);
+          outgoing.get(keyed.source).push(keyed);
+          incoming.get(keyed.target).push(keyed);
+        });
+
+        return { nodeById, outgoing, incoming, edgeByKey };
+      }
+
+      function filterGraphs(graphs, mode) {
+        if (!graphs || graphs.length === 0) return [];
+        if (mode === "latest") return [graphs[0]];
+        if (mode === "latest_successful") {
+          const latestSuccessful = graphs.find((graph) => String(graph.workflow_status || "").toLowerCase() === "ready");
+          return latestSuccessful ? [latestSuccessful] : [graphs[0]];
+        }
+        if (mode === "blocked_only") {
+          return graphs.filter((graph) =>
+            String(graph.workflow_status || "").toLowerCase().includes("blocked")
+            || (graph.issues || []).length > 0
+          );
+        }
+        return graphs;
+      }
+
+      function computeBlockedElements(graph, indexes) {
+        const blockedNodeIds = new Set();
+        const blockedEdgeKeys = new Set();
+        const issueIngredients = new Set((graph.issues || []).map((item) => String(item.ingredient)));
+
+        (graph.nodes || []).forEach((node) => {
+          if (node.type === "ingredient" && issueIngredients.has(String(node.label))) {
+            blockedNodeIds.add(node.id);
+            (indexes.incoming.get(node.id) || []).forEach((edge) => blockedEdgeKeys.add(edge.key));
+            (indexes.outgoing.get(node.id) || []).forEach((edge) => {
+              blockedEdgeKeys.add(edge.key);
+              blockedNodeIds.add(edge.target);
+              (indexes.outgoing.get(edge.target) || []).forEach((nextEdge) => {
+                blockedEdgeKeys.add(nextEdge.key);
+                blockedNodeIds.add(nextEdge.target);
+              });
+            });
+          }
+
+          if (node.type === "certificate" && String(node.status || "").toLowerCase() !== "active") {
+            blockedNodeIds.add(node.id);
+            (indexes.incoming.get(node.id) || []).forEach((edge) => {
+              blockedEdgeKeys.add(edge.key);
+              blockedNodeIds.add(edge.source);
+              (indexes.incoming.get(edge.source) || []).forEach((prevEdge) => {
+                blockedEdgeKeys.add(prevEdge.key);
+                blockedNodeIds.add(prevEdge.source);
+              });
+            });
+          }
+
+          if (node.type === "supplier" && String(node.risk_level || "").toLowerCase() === "high") {
+            blockedNodeIds.add(node.id);
+            (indexes.incoming.get(node.id) || []).forEach((edge) => blockedEdgeKeys.add(edge.key));
+            (indexes.outgoing.get(node.id) || []).forEach((edge) => {
+              blockedEdgeKeys.add(edge.key);
+              blockedNodeIds.add(edge.target);
+            });
+          }
+        });
+
+        return { blockedNodeIds, blockedEdgeKeys };
+      }
+
+      function collectPathSelection(graph, indexes, nodeId) {
+        if (!nodeId || !indexes.nodeById.has(nodeId)) {
+          return { selectedNodeIds: new Set(), selectedEdgeKeys: new Set() };
+        }
+
+        const selectedNodeIds = new Set([nodeId]);
+        const selectedEdgeKeys = new Set();
+
+        const walk = (direction) => {
+          const queue = [nodeId];
+          const seen = new Set([nodeId]);
+          while (queue.length) {
+            const current = queue.shift();
+            const edges = direction === "up" ? (indexes.incoming.get(current) || []) : (indexes.outgoing.get(current) || []);
+            edges.forEach((edge) => {
+              selectedEdgeKeys.add(edge.key);
+              const nextNodeId = direction === "up" ? edge.source : edge.target;
+              if (!seen.has(nextNodeId)) {
+                seen.add(nextNodeId);
+                selectedNodeIds.add(nextNodeId);
+                queue.push(nextNodeId);
+              }
+            });
+          }
+        };
+
+        walk("up");
+        walk("down");
+
+        return { selectedNodeIds, selectedEdgeKeys };
+      }
+
+      function tooltipForNode(node, graph, indexes) {
+        const incoming = indexes.incoming.get(node.id) || [];
+        const outgoing = indexes.outgoing.get(node.id) || [];
+        const issue = (graph.issues || []).find((item) => String(item.ingredient) === String(node.label));
+        if (node.type === "supplier") {
+          const certificateEdge = outgoing.find((edge) => indexes.nodeById.get(edge.target)?.type === "certificate");
+          const certificate = certificateEdge ? indexes.nodeById.get(certificateEdge.target) : null;
+          return `
+            <strong>${escapeHtml(node.label)}</strong><br />
+            Supplier node<br />
+            Risk: ${escapeHtml(node.risk_level || "low")}<br />
+            Certificate: ${escapeHtml(certificate?.label || "not linked")}<br />
+            Status: ${escapeHtml(certificate?.status || "unknown")}
+          `;
+        }
+        if (node.type === "ingredient") {
+          const supplierEdge = outgoing.find((edge) => indexes.nodeById.get(edge.target)?.type === "supplier");
+          const supplier = supplierEdge ? indexes.nodeById.get(supplierEdge.target) : null;
+          return `
+            <strong>${escapeHtml(node.label)}</strong><br />
+            Ingredient node<br />
+            Supplier: ${escapeHtml(supplier?.label || "not linked")}<br />
+            State: ${issue ? "blocked" : "clear"}
+          `;
+        }
+        if (node.type === "certificate") {
+          return `
+            <strong>${escapeHtml(node.label)}</strong><br />
+            Certificate node<br />
+            Status: ${escapeHtml(node.status || "unknown")}<br />
+            Expiry: ${escapeHtml(node.expiry_date || "not set")}
+          `;
+        }
+        if (node.type === "product") {
+          return `
+            <strong>${escapeHtml(node.label)}</strong><br />
+            Product node<br />
+            Ingredients linked: ${outgoing.length}
+          `;
+        }
+        return `
+          <strong>${escapeHtml(node.label)}</strong><br />
+          ${escapeHtml(node.type || "node")}
+        `;
+      }
+
+      function tooltipForEdge(edge, indexes) {
+        const source = indexes.nodeById.get(edge.source);
+        const target = indexes.nodeById.get(edge.target);
+        return `
+          <strong>${escapeHtml(edge.relationship)}</strong><br />
+          ${escapeHtml(source?.label || edge.source)} → ${escapeHtml(target?.label || edge.target)}
+        `;
+      }
+
+      function showTooltip(html, event) {
+        const tooltip = document.getElementById("graphTooltip");
+        tooltip.innerHTML = html;
+        tooltip.style.display = "block";
+        moveTooltip(event);
+      }
+
+      function moveTooltip(event) {
+        const tooltip = document.getElementById("graphTooltip");
+        if (tooltip.style.display !== "block") return;
+        const offset = 16;
+        const maxLeft = window.innerWidth - tooltip.offsetWidth - 12;
+        const maxTop = window.innerHeight - tooltip.offsetHeight - 12;
+        const left = Math.min(maxLeft, event.clientX + offset);
+        const top = Math.min(maxTop, event.clientY + offset);
+        tooltip.style.left = `${Math.max(12, left)}px`;
+        tooltip.style.top = `${Math.max(12, top)}px`;
+      }
+
+      function hideTooltip() {
+        const tooltip = document.getElementById("graphTooltip");
+        tooltip.style.display = "none";
+      }
+
+      function renderBomGraphInspector(graphs) {
+        const filterSelect = document.getElementById("graphFilterSelect");
+        const graphSelect = document.getElementById("bomGraphSelect");
+        const meta = document.getElementById("bomGraphMeta");
+        const svg = document.getElementById("bomGraphSvg");
+
+        filterSelect.value = state.selectedGraphFilter;
+        const filteredGraphs = filterGraphs(graphs || [], state.selectedGraphFilter);
+
+        if (!graphs || graphs.length === 0) {
+          graphSelect.innerHTML = "";
+          meta.innerHTML = '<span class="small">No BOM graphs available yet.</span>';
+          svg.setAttribute("viewBox", "0 0 1240 180");
+          svg.innerHTML = '<text x="24" y="80" class="graph-node-subtext">No graph data available.</text>';
+          return;
+        }
+
+        if (filteredGraphs.length === 0) {
+          graphSelect.innerHTML = "";
+          meta.innerHTML = '<span class="small">No graphs match the current filter.</span>';
+          svg.setAttribute("viewBox", "0 0 1240 180");
+          svg.innerHTML = '<text x="24" y="80" class="graph-node-subtext">Try a different graph filter.</text>';
+          return;
+        }
+
+        if (!state.selectedGraphId || !filteredGraphs.some((graph) => graph.id === state.selectedGraphId)) {
+          state.selectedGraphId = filteredGraphs[0].id;
+          state.selectedPathNodeId = null;
+        }
+
+        graphSelect.innerHTML = filteredGraphs.map((graph) => `
+          <option value="${graph.id}">${escapeHtml(graph.product_name)} · ${graph.id.slice(0, 8)} · ${graph.updated_at}</option>
+        `).join("");
+        graphSelect.value = state.selectedGraphId;
+
+        const graph = filteredGraphs.find((item) => item.id === state.selectedGraphId) || filteredGraphs[0];
+        state.selectedGraphId = graph.id;
+
+        const indexes = buildGraphIndexes(graph);
+        if (state.selectedPathNodeId && !indexes.nodeById.has(state.selectedPathNodeId)) {
+          state.selectedPathNodeId = null;
+        }
+
+        const { blockedNodeIds, blockedEdgeKeys } = computeBlockedElements(graph, indexes);
+        const { selectedNodeIds, selectedEdgeKeys } = collectPathSelection(graph, indexes, state.selectedPathNodeId);
+        const summary = graph.summary || {};
+        const issues = graph.issues || [];
+        const selectedNode = state.selectedPathNodeId ? indexes.nodeById.get(state.selectedPathNodeId) : null;
+
+        meta.innerHTML = `
+          <div><strong>Selected graph:</strong> <span class="small">${graph.id}</span></div>
+          <div><strong>Summary:</strong> <span class="small">ingredients ${summary.ingredients ?? "-"}, suppliers ${summary.suppliers ?? "-"}, active certs ${summary.active_certificates ?? "-"}, high-risk ${summary.high_risk_suppliers ?? "-"}</span></div>
+          <div><strong>Issues:</strong> <span class="small">${issues.length ? issues.map((item) => `${item.ingredient}: ${item.issue}`).join("; ") : "none"}</span></div>
+          <div><strong>Selection:</strong> <span class="small">${selectedNode ? `${selectedNode.label} path highlighted` : "none. Click a node or empty graph space to change."}</span></div>
+        `;
+
+        const columns = [
+          { type: "applicant", title: "Applicant", x: 30 },
+          { type: "product", title: "Product", x: 260 },
+          { type: "ingredient", title: "Ingredients", x: 500 },
+          { type: "supplier", title: "Suppliers", x: 760 },
+          { type: "certificate", title: "Certificates", x: 1020 },
+        ];
+        const nodeWidth = 180;
+        const nodeHeight = 56;
+        const topPad = 58;
+        const bottomPad = 28;
+        const minHeight = 360;
+        const grouped = {
+          applicant: [],
+          product: [],
+          ingredient: [],
+          supplier: [],
+          certificate: [],
+        };
+
+        (graph.nodes || []).forEach((node) => {
+          if (!grouped[node.type]) grouped[node.type] = [];
+          grouped[node.type].push(node);
+        });
+
+        const maxCount = Math.max(...columns.map((column) => grouped[column.type].length || 0), 1);
+        const graphHeight = Math.max(minHeight, topPad + bottomPad + maxCount * 86);
+        svg.setAttribute("viewBox", `0 0 1240 ${graphHeight}`);
+
+        const positions = {};
+        const parts = [`<rect x="0" y="0" width="1240" height="${graphHeight}" fill="transparent" data-clear-selection="true"></rect>`];
+
+        columns.forEach((column) => {
+          const nodes = grouped[column.type] || [];
+          const totalHeight = nodes.length ? (nodes.length * nodeHeight) + ((nodes.length - 1) * 28) : 0;
+          const startY = nodes.length ? ((graphHeight - totalHeight) / 2) : (graphHeight / 2);
+          parts.push(`<text x="${column.x}" y="28" class="graph-node-subtext">${column.title.toUpperCase()}</text>`);
+          nodes.forEach((node, index) => {
+            const x = column.x;
+            const y = startY + (index * (nodeHeight + 28));
+            positions[node.id] = { x, y, node };
+          });
+        });
+
+        (graph.edges || []).forEach((edge) => {
+          const source = positions[edge.source];
+          const target = positions[edge.target];
+          if (!source || !target) return;
+          const sx = source.x + nodeWidth;
+          const sy = source.y + (nodeHeight / 2);
+          const tx = target.x;
+          const ty = target.y + (nodeHeight / 2);
+          const c1x = sx + 56;
+          const c2x = tx - 56;
+          const key = edgeKey(edge);
+          const classes = [
+            "graph-edge",
+            blockedEdgeKeys.has(key) ? "graph-edge-blocked" : "",
+            selectedEdgeKeys.has(key) ? "graph-edge-highlight" : "",
+          ].filter(Boolean).join(" ");
+          parts.push(`<path class="${classes}" data-edge-key="${key}" d="M ${sx} ${sy} C ${c1x} ${sy}, ${c2x} ${ty}, ${tx} ${ty}" />`);
+        });
+
+        Object.values(positions).forEach(({ x, y, node }) => {
+          const isBlocked = blockedNodeIds.has(node.id);
+          const isSelected = selectedNodeIds.has(node.id);
+          const theme = graphNodeTheme(node, { blocked: isBlocked });
+          const subtext = node.type === "certificate"
+            ? `${node.status || "unknown"}${node.expiry_date ? ` · ${node.expiry_date}` : ""}`
+            : node.type === "supplier"
+              ? `${node.risk_level || "low"} risk`
+              : node.type;
+          const classes = [
+            "graph-node",
+            isBlocked ? "graph-node-blocked" : "",
+            isSelected ? "graph-node-selected" : "",
+          ].filter(Boolean).join(" ");
+          parts.push(`
+            <g class="${classes}" data-node-id="${node.id}">
+              <rect x="${x}" y="${y}" width="${nodeWidth}" height="${nodeHeight}" rx="16" fill="${theme.fill}" stroke="${theme.stroke}" stroke-width="2" />
+              <text x="${x + 12}" y="${y + 22}" class="graph-node-label">${escapeHtml(truncate(node.label, 26))}</text>
+              <text x="${x + 12}" y="${y + 40}" class="graph-node-subtext">${escapeHtml(truncate(subtext, 30))}</text>
+            </g>
+          `);
+        });
+
+        svg.innerHTML = parts.join("");
+
+        svg.querySelectorAll("[data-node-id]").forEach((element) => {
+          const nodeId = element.getAttribute("data-node-id");
+          const node = indexes.nodeById.get(nodeId);
+          element.addEventListener("click", (event) => {
+            event.stopPropagation();
+            state.selectedPathNodeId = state.selectedPathNodeId === nodeId ? null : nodeId;
+            renderBomGraphInspector(graphs);
+          });
+          element.addEventListener("mouseenter", (event) => showTooltip(tooltipForNode(node, graph, indexes), event));
+          element.addEventListener("mousemove", moveTooltip);
+          element.addEventListener("mouseleave", hideTooltip);
+        });
+
+        svg.querySelectorAll("[data-edge-key]").forEach((element) => {
+          const key = element.getAttribute("data-edge-key");
+          const edge = indexes.edgeByKey.get(key);
+          element.addEventListener("mouseenter", (event) => showTooltip(tooltipForEdge(edge, indexes), event));
+          element.addEventListener("mousemove", moveTooltip);
+          element.addEventListener("mouseleave", hideTooltip);
+        });
+
+        svg.querySelector("[data-clear-selection=\"true\"]")?.addEventListener("click", () => {
+          state.selectedPathNodeId = null;
+          renderBomGraphInspector(graphs);
+        });
+      }
+
+      function updateSeededIds(seedData) {
+        const target = document.getElementById("latestSeededIds");
+        if (!seedData) {
+          target.innerHTML = '<span class="small">No pilot run yet.</span>';
+          return;
+        }
+        target.innerHTML = `
+          <div class="stack">
+            <div><strong>Workflow</strong><br /><span class="small">${seedData.workflow_id}</span></div>
+            <div><strong>Query</strong><br /><span class="small">${seedData.query_id}</span></div>
+            <div><strong>Dossier</strong><br /><span class="small">${seedData.dossier_id}</span></div>
+            <div><strong>Pack</strong><br /><span class="small">${seedData.pack_id}</span></div>
+          </div>
+        `;
+        document.getElementById("auditCreateWorkflowId").value = seedData.workflow_id || "";
+        document.getElementById("dossierWorkflowId").value = seedData.workflow_id || "";
+        document.getElementById("auditRespondQueryId").value = seedData.query_id || "";
+      }
+
+      function renderSnapshot(snapshot) {
+        state.snapshot = snapshot;
+        const summary = snapshot.summary;
+        const metrics = [
+          { value: summary.supplier_registry_total, label: "Supplier registry total" },
+          { value: summary.renewals_due_within_window, label: "Renewals due" },
+          { value: summary.workflows_ready_for_submission, label: "Workflows ready" },
+          { value: summary.open_audit_queries, label: "Open audit queries" },
+          { value: summary.export_dossiers_total, label: "Export dossiers" },
+        ];
+        document.getElementById("summaryMetrics").innerHTML = metrics.map((metric) => `
+          <article class="metric">
+            <div class="value">${metric.value}</div>
+            <div class="label">${metric.label}</div>
+          </article>
+        `).join("");
+
+        const pilot = snapshot.pilot_profile;
+        document.getElementById("pilotSummary").innerHTML = `
+          <div class="stack">
+            <div><strong>Applicant</strong><br /><span class="small">${pilot.applicant.name}</span></div>
+            <div><strong>Product</strong><br /><span class="small">${pilot.applicant.product_name} (${pilot.applicant.product_sku})</span></div>
+            <div><strong>Framework</strong><br /><span class="small">${pilot.applicant.framework} / ${pilot.applicant.scheme}</span></div>
+            <div><strong>Target markets</strong><br /><span class="small">${pilot.applicant.target_markets.join(", ")}</span></div>
+          </div>
+        `;
+
+        const recent = snapshot.recent_artifacts;
+        renderTable("suppliersTable", [
+          { label: "Supplier", render: (row) => `<strong>${row.supplier_name}</strong><br /><span class="small">${row.supplier_tin || "-"}</span>` },
+          { label: "Certificate", render: (row) => `${row.certificate_ref || "-"}<br />${badge(row.certificate_status)}` },
+          { label: "Expiry", render: (row) => row.expiry_date || "-" },
+        ], recent.suppliers, "Supplier registry is empty.");
+
+        renderTable("renewalsTable", [
+          { label: "Supplier", render: (row) => `<strong>${row.supplier_name}</strong>` },
+          { label: "Days To Expiry", render: (row) => row.days_to_expiry },
+          { label: "Risk", render: (row) => badge(row.risk_level) },
+        ], recent.renewals, "No renewals inside the selected window.");
+
+        renderTable("bomGraphsTable", [
+          { label: "Graph", render: (row) => `<strong>${row.product_name}</strong><br /><span class="small">${row.id}</span>` },
+          {
+            label: "Traceability Summary",
+            render: (row) => {
+              const summary = row.summary || {};
+              return `
+                <span class="small">
+                  ingredients: ${summary.ingredients ?? "-"}<br />
+                  suppliers: ${summary.suppliers ?? "-"}<br />
+                  active certs: ${summary.active_certificates ?? "-"}<br />
+                  high risk: ${summary.high_risk_suppliers ?? "-"}
+                </span>
+              `;
+            },
+          },
+          { label: "Status", render: (row) => badge(row.workflow_status) },
+        ], recent.bom_graphs, "No BOM graphs yet.");
+
+        renderTable("checklistsTable", [
+          { label: "Checklist", render: (row) => `<strong>${row.framework}</strong><br /><span class="small">${row.id}</span>` },
+          { label: "Score", render: (row) => `${row.score ?? "-"} / 100` },
+          {
+            label: "Missing Controls",
+            render: (row) => row.missing_controls && row.missing_controls.length
+              ? `<span class="small">${row.missing_controls.join(", ")}</span>`
+              : `<span class="small">none</span>`,
+          },
+          { label: "Status", render: (row) => badge(row.workflow_status) },
+        ], recent.checklists, "No checklist runs yet.");
+
+        renderTable("workflowsTable", [
+          { label: "Workflow", render: (row) => `<strong>${row.product_name}</strong><br /><span class="small">${row.id}</span>` },
+          { label: "Stage", render: (row) => row.current_stage },
+          { label: "Status", render: (row) => badge(row.workflow_status) },
+        ], recent.workflows, "No workflows yet.");
+
+        renderTable("queriesTable", [
+          { label: "Query", render: (row) => `<strong>${row.query_title}</strong><br /><span class="small">${row.id}</span>` },
+          { label: "Severity", render: (row) => badge(row.severity) },
+          { label: "Status", render: (row) => badge(row.workflow_status) },
+        ], recent.audit_queries, "No audit queries yet.");
+
+        renderTable("packsTable", [
+          { label: "Product", render: (row) => `<strong>${row.product_name}</strong><br /><span class="small">${row.id}</span>` },
+          { label: "Status", render: (row) => badge(row.workflow_status) },
+          { label: "Gaps", render: (row) => `${row.missing_documents.length} docs / ${row.supplier_gaps.length} suppliers` },
+        ], recent.evidence_packs, "No evidence packs yet.");
+
+        renderTable("dossiersTable", [
+          { label: "Product", render: (row) => `<strong>${row.product_name}</strong><br /><span class="small">${row.id}</span>` },
+          { label: "Markets", render: (row) => row.target_markets.join(", ") },
+          { label: "Status", render: (row) => badge(row.workflow_status) },
+        ], recent.export_dossiers, "No export dossiers yet.");
+
+        renderBomGraphInspector(recent.bom_graphs);
+      }
+
+      async function refreshSnapshot() {
+        const result = await api("/v1/halal/dashboard/snapshot", { limit: 20 });
+        logResponse(result);
+        if (result.status === "success") {
+          renderSnapshot(result.data);
+        }
+      }
+
+      async function seedPilot() {
+        const button = document.getElementById("seedPilotButton");
+        button.disabled = true;
+        button.textContent = "Seeding…";
+        try {
+          const result = await api("/v1/halal/pilot/seed-fnb", {});
+          logResponse(result);
+          if (result.status === "success") {
+            state.latestSeed = result.data;
+            updateSeededIds(result.data);
+            renderSnapshot(result.data.snapshot);
+          }
+        } finally {
+          button.disabled = false;
+          button.textContent = "Seed F&B Pilot Dataset";
+        }
+      }
+
+      function csvList(value) {
+        return String(value || "")
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean);
+      }
+
+      function logResponse(payload) {
+        document.getElementById("responseLog").textContent = formatJson(payload);
+      }
+
+      function bindForms() {
+        document.getElementById("supplierForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const payload = Object.fromEntries(data.entries());
+          const result = await api("/v1/halal/suppliers/upsert", payload);
+          logResponse(result);
+          await refreshSnapshot();
+        });
+
+        document.getElementById("bomForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const payload = Object.fromEntries(data.entries());
+          payload.bom = JSON.parse(payload.bom_json);
+          delete payload.bom_json;
+          const result = await api("/v1/halal/bom/graph/generate", payload);
+          logResponse(result);
+          await refreshSnapshot();
+        });
+
+        document.getElementById("checklistForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const payload = Object.fromEntries(data.entries());
+          payload.completed_controls = csvList(payload.completed_controls);
+          const result = await api("/v1/halal/checklists/evaluate", payload);
+          logResponse(result);
+          await refreshSnapshot();
+        });
+
+        document.getElementById("auditCreateForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const payload = Object.fromEntries(data.entries());
+          payload.requested_documents = csvList(payload.requested_documents);
+          const result = await api("/v1/halal/audits/create-query", payload);
+          logResponse(result);
+          if (result.resource_id) {
+            document.getElementById("auditRespondQueryId").value = result.resource_id;
+          }
+          await refreshSnapshot();
+        });
+
+        document.getElementById("auditRespondForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const payload = Object.fromEntries(data.entries());
+          payload.attachments = csvList(payload.attachments);
+          const result = await api("/v1/halal/audits/respond-query", payload);
+          logResponse(result);
+          await refreshSnapshot();
+        });
+
+        document.getElementById("dossierForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const payload = Object.fromEntries(data.entries());
+          payload.target_markets = csvList(payload.target_markets);
+          payload.supporting_documents = csvList(payload.supporting_documents);
+          const result = await api("/v1/halal/export-dossier/generate", payload);
+          logResponse(result);
+          await refreshSnapshot();
+        });
+      }
+
+      document.getElementById("seedPilotButton").addEventListener("click", seedPilot);
+      document.getElementById("refreshButton").addEventListener("click", refreshSnapshot);
+      document.getElementById("graphFilterSelect").addEventListener("change", (event) => {
+        state.selectedGraphFilter = event.currentTarget.value;
+        state.selectedGraphId = null;
+        state.selectedPathNodeId = null;
+        if (state.snapshot) {
+          renderBomGraphInspector(state.snapshot.recent_artifacts.bom_graphs || []);
+        }
+      });
+      document.getElementById("bomGraphSelect").addEventListener("change", (event) => {
+        state.selectedGraphId = event.currentTarget.value;
+        state.selectedPathNodeId = null;
+        if (state.snapshot) {
+          renderBomGraphInspector(state.snapshot.recent_artifacts.bom_graphs || []);
+        }
+      });
+      bindForms();
+      refreshSnapshot();
+    </script>
+  </body>
+</html>

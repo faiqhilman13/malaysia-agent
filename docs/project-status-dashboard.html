@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Malaysia Agent Ops - Project Status Dashboard</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --panel: rgba(255, 252, 247, 0.88);
+        --panel-strong: #fffaf2;
+        --ink: #152028;
+        --muted: #5d6b73;
+        --line: rgba(21, 32, 40, 0.12);
+        --teal: #0f766e;
+        --teal-soft: rgba(15, 118, 110, 0.12);
+        --amber: #b45309;
+        --amber-soft: rgba(180, 83, 9, 0.12);
+        --rose: #be123c;
+        --rose-soft: rgba(190, 18, 60, 0.12);
+        --blue: #1d4ed8;
+        --blue-soft: rgba(29, 78, 216, 0.12);
+        --shadow: 0 24px 60px rgba(31, 38, 45, 0.12);
+        --radius-xl: 28px;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(29, 78, 216, 0.08), transparent 28%),
+          radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 26%),
+          linear-gradient(180deg, #f8f3ea 0%, #f4efe6 45%, #efe8dc 100%);
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(21, 32, 40, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(21, 32, 40, 0.035) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 88%);
+      }
+
+      .page {
+        width: min(1320px, calc(100vw - 48px));
+        margin: 0 auto;
+        padding: 40px 0 72px;
+      }
+
+      .hero,
+      .section {
+        border: 1px solid rgba(21, 32, 40, 0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        position: relative;
+        padding: 34px;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(135deg, rgba(255, 250, 242, 0.96), rgba(250, 244, 234, 0.92));
+        overflow: hidden;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -10% -70% auto;
+        width: 460px;
+        height: 460px;
+        background: radial-gradient(circle, rgba(15, 118, 110, 0.16), transparent 62%);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        background: rgba(21, 32, 40, 0.06);
+        color: var(--muted);
+        font-size: 0.86rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 20px 0 12px;
+        max-width: 980px;
+        font-size: clamp(2.5rem, 4vw, 4.8rem);
+        line-height: 0.96;
+        letter-spacing: -0.04em;
+      }
+
+      .hero p,
+      .section p.kicker {
+        max-width: 820px;
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-size: 0.92rem;
+        background: rgba(21, 32, 40, 0.06);
+      }
+
+      .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .dot.live { background: var(--teal); }
+      .dot.poc { background: var(--amber); }
+      .dot.future { background: var(--rose); }
+      .dot.ready { background: var(--blue); }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 28px;
+      }
+
+      .metric {
+        padding: 22px 20px 18px;
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.66);
+        border: 1px solid rgba(21, 32, 40, 0.08);
+      }
+
+      .metric .value {
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: clamp(1.8rem, 2.4vw, 2.8rem);
+        letter-spacing: -0.05em;
+      }
+
+      .metric .label {
+        margin-top: 10px;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .section {
+        margin-top: 28px;
+        padding: 28px;
+        border-radius: var(--radius-xl);
+        background: var(--panel);
+      }
+
+      .section h2 {
+        margin: 0 0 10px;
+        font-size: 1.65rem;
+        letter-spacing: -0.03em;
+      }
+
+      .architecture-grid,
+      .docs-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .diagram-card,
+      .notes-card,
+      .doc-card {
+        border-radius: var(--radius-lg);
+        background: var(--panel-strong);
+        border: 1px solid var(--line);
+        padding: 22px;
+      }
+
+      .notes-card ul,
+      .doc-card ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .vertical-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .vertical-card,
+      .snapshot-card,
+      .milestone {
+        padding: 22px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(253, 250, 245, 0.95));
+      }
+
+      .vertical-card h3,
+      .snapshot-card h3,
+      .milestone h3 {
+        margin: 14px 0 10px;
+        font-size: 1.28rem;
+      }
+
+      .vertical-card p,
+      .snapshot-card p,
+      .milestone p,
+      .snapshot-card li {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .mini-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 0.84rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .strip {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px dashed rgba(21, 32, 40, 0.18);
+      }
+
+      .strip strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.92rem;
+      }
+
+      .strip span {
+        display: block;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .snapshot-grid,
+      .milestones {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+      }
+
+      thead th {
+        text-align: left;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        padding: 14px 14px;
+        background: rgba(21, 32, 40, 0.05);
+      }
+
+      tbody td {
+        vertical-align: top;
+        padding: 16px 14px;
+        border-top: 1px solid rgba(21, 32, 40, 0.08);
+        line-height: 1.6;
+      }
+
+      tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.42);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 0.8rem;
+        white-space: nowrap;
+      }
+
+      .badge.teal { background: var(--teal-soft); color: var(--teal); }
+      .badge.amber { background: var(--amber-soft); color: var(--amber); }
+      .badge.rose { background: var(--rose-soft); color: var(--rose); }
+      .badge.blue { background: var(--blue-soft); color: var(--blue); }
+
+      .footer-note {
+        margin-top: 24px;
+        padding: 18px 20px;
+        border-radius: var(--radius-md);
+        background: rgba(21, 32, 40, 0.05);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+
+      @media (max-width: 1120px) {
+        .metrics,
+        .milestones,
+        .vertical-grid,
+        .architecture-grid,
+        .docs-grid,
+        .snapshot-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100vw - 24px, 100%);
+          padding-top: 22px;
+        }
+
+        .hero,
+        .section {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <span class="eyebrow">Malaysia Agent Ops / status snapshot / updated 2026-03-24</span>
+        <h1>Local pilot platform live, official rails wired, halal vertical now has a usable operator workbench.</h1>
+        <p>
+          The project has moved past a backend-only POC. It now has a stateful workflow engine,
+          documented provider adapters for real Malaysia rails, a seeded F&amp;B halal pilot dataset,
+          and a browser workbench at <strong>/app/halal-ops</strong> that sits directly on top of the
+          local API contract.
+        </p>
+        <div class="pill-row">
+          <span class="status-pill"><span class="dot poc"></span>Overall state: local pilot platform</span>
+          <span class="status-pill"><span class="dot ready"></span>Official rails coded: MyInvois + CIDB</span>
+          <span class="status-pill"><span class="dot live"></span>Richest local vertical: Halal compliance ops</span>
+          <span class="status-pill"><span class="dot future"></span>Still gated: PayNet, MyDigital ID, healthcare</span>
+        </div>
+        <div class="metrics">
+          <article class="metric">
+            <div class="value">39</div>
+            <div class="label">Action contracts exposed through CLI/API</div>
+          </article>
+          <article class="metric">
+            <div class="value">11/11</div>
+            <div class="label">Automated tests passing in the local workspace</div>
+          </article>
+          <article class="metric">
+            <div class="value">2</div>
+            <div class="label">Official provider families wired to documented endpoints</div>
+          </article>
+          <article class="metric">
+            <div class="value">1</div>
+            <div class="label">Seeded F&amp;B halal pilot running in the local demo database</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Architecture Status</h2>
+        <p class="kicker">
+          The system now has four layers: agent entrypoints, action contracts, durable workflow state,
+          and presentation surfaces. The browser layer is new and is served by the same local server as
+          the API so the workbench can call live endpoints without extra glue.
+        </p>
+        <div class="architecture-grid">
+          <div class="diagram-card">
+            <svg viewBox="0 0 960 480" aria-label="Malaysia Agent Ops architecture diagram">
+              <defs>
+                <linearGradient id="panelA" x1="0%" x2="100%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="100%" stop-color="#f4efe6" />
+                </linearGradient>
+                <linearGradient id="panelB" x1="0%" x2="100%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#effdf9" />
+                  <stop offset="100%" stop-color="#e2f7f3" />
+                </linearGradient>
+                <linearGradient id="panelC" x1="0%" x2="100%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#eff4ff" />
+                  <stop offset="100%" stop-color="#e6ecff" />
+                </linearGradient>
+              </defs>
+
+              <rect x="22" y="32" width="170" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
+              <text x="48" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">ENTRYPOINTS</text>
+              <text x="48" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">CLI / API / App</text>
+
+              <rect x="234" y="32" width="182" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
+              <text x="262" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">CONTRACT</text>
+              <text x="262" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">39 actions</text>
+
+              <rect x="458" y="32" width="192" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
+              <text x="486" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">WORKFLOW</text>
+              <text x="486" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">State engine</text>
+
+              <rect x="692" y="32" width="246" height="92" rx="24" fill="url(#panelA)" stroke="rgba(21,32,40,0.12)" />
+              <text x="720" y="70" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#5d6b73">STORE + STATIC</text>
+              <text x="720" y="98" font-size="26" font-family="Iowan Old Style, serif" fill="#152028">SQLite + served HTML</text>
+
+              <rect x="70" y="206" width="348" height="218" rx="28" fill="url(#panelB)" stroke="rgba(15,118,110,0.18)" />
+              <text x="100" y="248" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#0f766e">SANDBOX + LOCAL PILOT</text>
+              <text x="100" y="286" font-size="30" font-family="Iowan Old Style, serif" fill="#152028">Runnable today</text>
+              <text x="100" y="324" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Finance-ops workflow sandbox</text>
+              <text x="100" y="352" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Trade document validation</text>
+              <text x="100" y="380" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Halal supplier/BOM/checklist/workflow</text>
+              <text x="100" y="408" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Seeded F&amp;B pilot with export dossier</text>
+
+              <rect x="468" y="206" width="412" height="218" rx="28" fill="url(#panelC)" stroke="rgba(29,78,216,0.18)" />
+              <text x="498" y="248" font-size="18" font-family="SFMono-Regular, Menlo, monospace" fill="#1d4ed8">REAL PROVIDERS + FRONTEND</text>
+              <text x="498" y="286" font-size="30" font-family="Iowan Old Style, serif" fill="#152028">Deployment shape is visible</text>
+              <text x="498" y="324" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">MyInvois login / TIN / submit / poll / cancel</text>
+              <text x="498" y="352" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">CIDB states / labour / materials / machinery</text>
+              <text x="498" y="380" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Static HTML served at /app/halal-ops</text>
+              <text x="498" y="408" font-size="20" font-family="Iowan Old Style, serif" fill="#5d6b73">Live execution still gated by credentials / approvals</text>
+
+              <path d="M192 78 H234" stroke="#152028" stroke-width="2.4" stroke-linecap="round" />
+              <path d="M416 78 H458" stroke="#152028" stroke-width="2.4" stroke-linecap="round" />
+              <path d="M650 78 H692" stroke="#152028" stroke-width="2.4" stroke-linecap="round" />
+              <path d="M554 124 V178" stroke="#152028" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 8" />
+              <path d="M244 178 H732" stroke="#152028" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 10" />
+              <path d="M244 178 V206" stroke="#152028" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 10" />
+              <path d="M732 178 V206" stroke="#152028" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 10" />
+            </svg>
+          </div>
+          <aside class="notes-card">
+            <h3 style="margin-top: 0; font-size: 1.15rem;">Dependency reality</h3>
+            <ul>
+              <li><strong>Core engine</strong>: strong enough for demos, pilot shaping, and vertical workflow experimentation.</li>
+              <li><strong>MyInvois</strong>: live code path exists, but needs sandbox or production credentials plus compliant payloads.</li>
+              <li><strong>CIDB</strong>: live code path exists, but needs bearer token access.</li>
+              <li><strong>Halal</strong>: strongest local workflow model, but official MYeHALAL or MyHALALINGREDIENTS write access is still relationship-gated.</li>
+              <li><strong>Frontend</strong>: local-only operator surface, not deployed multi-user SaaS yet.</li>
+              <li><strong>Healthcare</strong>: still roadmap only. No clinical integration code yet.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Vertical Board</h2>
+        <p class="kicker">
+          Each card reflects the latest state after the halal expansion and frontend work. This is a
+          code-and-demo view, not a sales deck view.
+        </p>
+        <div class="vertical-grid">
+          <article class="vertical-card">
+            <span class="mini-status"><span class="dot ready"></span>Tax / Invoicing / MyInvois</span>
+            <h3>Most credible real-rail integration path</h3>
+            <p>The finance-ops workflow is stable locally and the official MyInvois adapter already targets documented endpoints.</p>
+            <div class="strip">
+              <strong>Runs now</strong>
+              <span>Entity verification, invoice submit/status/cancel, provider login and TIN validation shapes.</span>
+            </div>
+            <div class="strip">
+              <strong>Blocks live pilot</strong>
+              <span>Sandbox or production credentials and a payload that fully matches the MyInvois schema.</span>
+            </div>
+          </article>
+
+          <article class="vertical-card">
+            <span class="mini-status"><span class="dot poc"></span>Payments / Reconciliation</span>
+            <h3>Good internal workflow, no real settlement yet</h3>
+            <p>The exception and reconciliation logic is useful, but it still terminates in a sandbox-shaped payment request instead of PayNet or bank callbacks.</p>
+            <div class="strip">
+              <strong>Runs now</strong>
+              <span>DuitNow-shaped request objects, matched/mismatch paths, exception resolution.</span>
+            </div>
+            <div class="strip">
+              <strong>Blocks live pilot</strong>
+              <span>PayNet onboarding, credentials, and a webhook-driven settlement loop.</span>
+            </div>
+          </article>
+
+          <article class="vertical-card">
+            <span class="mini-status"><span class="dot ready"></span>Construction / CIDB N3C</span>
+            <h3>Best low-friction official read-only rail</h3>
+            <p>This is the easiest “real API” win because the current integration is data retrieval, not sensitive write-side compliance.</p>
+            <div class="strip">
+              <strong>Runs now</strong>
+              <span>States, labour rates, building material prices, machinery rates.</span>
+            </div>
+            <div class="strip">
+              <strong>Blocks live pilot</strong>
+              <span>Bearer token / account access only.</span>
+            </div>
+          </article>
+
+          <article class="vertical-card">
+            <span class="mini-status"><span class="dot poc"></span>Trade / Logistics</span>
+            <h3>Document-readiness wedge only</h3>
+            <p>The trade module still focuses on document-pack validation and submission readiness rather than live customs or NSW integration.</p>
+            <div class="strip">
+              <strong>Runs now</strong>
+              <span>K1/K2/permit document validation and missing-document detection.</span>
+            </div>
+            <div class="strip">
+              <strong>Blocks live pilot</strong>
+              <span>DagangNet / customs access, permit flows, and more granular HS-code logic.</span>
+            </div>
+          </article>
+
+          <article class="vertical-card">
+            <span class="mini-status"><span class="dot live"></span>Halal Compliance Ops</span>
+            <h3>Richest local product layer in the repo</h3>
+            <p>The halal vertical now includes registry, BOM graphing, evidence packs, renewals, MHMS workflow tracking, HAS/IHCS evaluation, audit handling, sharing, export dossier generation, and a browser workbench.</p>
+            <div class="strip">
+              <strong>Runs now</strong>
+              <span>Seeded F&amp;B pilot, operator workbench, artifact snapshot endpoint, workflow and dossier generation.</span>
+            </div>
+            <div class="strip">
+              <strong>Blocks live pilot</strong>
+              <span>Regulator/process clarity, design partners, and sanctioned MYeHALAL or MyHALALINGREDIENTS integration.</span>
+            </div>
+          </article>
+
+          <article class="vertical-card">
+            <span class="mini-status"><span class="dot future"></span>Healthcare DRG</span>
+            <h3>Still a strategic thesis, not a coded module</h3>
+            <p>The opportunity remains strong, but no clinical extraction, ICD mapping, or grouper workflow has been implemented in this repo yet.</p>
+            <div class="strip">
+              <strong>Runs now</strong>
+              <span>Nothing beyond roadmap and market positioning.</span>
+            </div>
+            <div class="strip">
+              <strong>Blocks live pilot</strong>
+              <span>Hospital access, privacy/compliance design, and DRG-specific clinical workflow modeling.</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Current Demo Workspace Snapshot</h2>
+        <p class="kicker">
+          These values reflect the local demo state after running the seeded halal F&amp;B pilot on
+          March 24, 2026.
+        </p>
+        <div class="snapshot-grid">
+          <article class="snapshot-card">
+            <span class="badge teal">Supplier Registry</span>
+            <h3>4 suppliers tracked</h3>
+            <p>All four current registry entries are marked active. Two renewals fall inside the configured watch window, including one expired official record and one upcoming pilot renewal.</p>
+          </article>
+          <article class="snapshot-card">
+            <span class="badge blue">Workflow State</span>
+            <h3>4 workflows ready for submission</h3>
+            <p>The local demo database now contains four ready-for-submission F&amp;B workflows, four resolved audit queries, four document shares, and four ready export dossiers from repeated seeded runs.</p>
+          </article>
+          <article class="snapshot-card">
+            <span class="badge amber">Evidence Reality</span>
+            <h3>4 evidence packs on record</h3>
+            <p>Three evidence packs are ready and one earlier run remains blocked. That is useful because the workspace now shows both a broken state and corrected runs using the same vertical flow.</p>
+          </article>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Artifact</th>
+                <th>Current local count</th>
+                <th>Latest state</th>
+                <th>What it proves</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Supplier registry</td>
+                <td>4</td>
+                <td><span class="badge teal">active local model</span></td>
+                <td>The registry and renewal layer now has persistent state instead of ad hoc lookup only.</td>
+              </tr>
+              <tr>
+                <td>BOM graphs</td>
+                <td>5</td>
+                <td><span class="badge teal">ready</span></td>
+                <td>The traceability graph is working and can represent ingredient-to-supplier-to-certificate dependencies.</td>
+              </tr>
+              <tr>
+                <td>MHMS workflow records</td>
+                <td>4</td>
+                <td><span class="badge blue">ready_for_submission</span></td>
+                <td>The workflow engine can carry a halal application through internal stages.</td>
+              </tr>
+              <tr>
+                <td>Audit queries</td>
+                <td>4</td>
+                <td><span class="badge teal">resolved</span></td>
+                <td>The query-response workspace is persistent, not just a generated message.</td>
+              </tr>
+              <tr>
+                <td>Export dossiers</td>
+                <td>4</td>
+                <td><span class="badge teal">ready</span></td>
+                <td>The same artifact graph can feed downstream export/commercial packaging.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Operator Surfaces</h2>
+        <p class="kicker">
+          The repo now includes user-facing HTML surfaces, not just README prose and CLI commands.
+        </p>
+        <div class="docs-grid">
+          <div class="doc-card">
+            <h3 style="margin-top: 0;">Served app routes</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Route</th>
+                  <th>Surface</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="/app/halal-ops">/app/halal-ops</a></td>
+                  <td>Interactive workbench</td>
+                  <td>Seed pilot data, inspect dashboard snapshot, and invoke key halal endpoints from the browser.</td>
+                </tr>
+                <tr>
+                  <td><a href="/app/project-status">/app/project-status</a></td>
+                  <td>Status dashboard</td>
+                  <td>Visual summary of the full repo state, verticals, and dependencies.</td>
+                </tr>
+                <tr>
+                  <td><a href="/app/halal-attack-plan">/app/halal-attack-plan</a></td>
+                  <td>Strategy deck</td>
+                  <td>Explains the halal attack plan, stakeholder map, and product wedge.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <aside class="doc-card">
+            <h3 style="margin-top: 0;">Why this matters</h3>
+            <ul>
+              <li>The repo can now be demoed visually without narrating CLI output line by line.</li>
+              <li>The frontend is thin by design and sits directly on the action contract.</li>
+              <li>The browser workbench gives a clear path to an internal operator console or customer pilot UI.</li>
+              <li>The dashboard snapshot endpoint creates a single source of truth for the current halal artifact state.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Dependency Map</h2>
+        <p class="kicker">
+          The codebase is no longer blocked by architecture. The remaining blockers are almost entirely external.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th>What is already done</th>
+              <th>What still needs to happen</th>
+              <th>Who owns that dependency</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>MyInvois</td>
+              <td>Real adapter and provider routes are coded.</td>
+              <td>Portal registration, credentials, and end-to-end payload validation.</td>
+              <td>You / your company + LHDN portal access</td>
+            </tr>
+            <tr>
+              <td>CIDB</td>
+              <td>Real adapter and dataset fetchers are coded.</td>
+              <td>Bearer token / account access.</td>
+              <td>You / CIDB access owner</td>
+            </tr>
+            <tr>
+              <td>Halal</td>
+              <td>Local compliance ops layer, pilot data, and frontend workbench are coded.</td>
+              <td>Design partners, domain expert validation, and official process/integration clarity.</td>
+              <td>You + JAKIM / MAIN/JAIN / HDC / pilot partners</td>
+            </tr>
+            <tr>
+              <td>PayNet</td>
+              <td>Sandbox-shaped request flow only.</td>
+              <td>Real onboarding, webhook loop, and settlement adapter.</td>
+              <td>You / your company + PayNet / bank partners</td>
+            </tr>
+            <tr>
+              <td>Healthcare</td>
+              <td>Strategy only.</td>
+              <td>Full bounded-context implementation and clinical partner access.</td>
+              <td>Future team / domain lead</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>Immediate Next Moves</h2>
+        <p class="kicker">
+          The highest-leverage next step is to move one or two of these modules from “demo-real” to
+          “partner-real.”
+        </p>
+        <div class="milestones">
+          <article class="milestone">
+            <span class="badge blue">Best near-term</span>
+            <h3>Exercise MyInvois sandbox for real</h3>
+            <p>Once credentials exist, use the current provider routes to prove login, TIN validation, and one real document submission in sandbox.</p>
+          </article>
+          <article class="milestone">
+            <span class="badge teal">Best commercial</span>
+            <h3>Use the halal workbench in partner interviews</h3>
+            <p>Show the seeded F&amp;B pilot to manufacturers, OEMs, and HDC-aligned stakeholders. Replace the demo data with one real partner dataset.</p>
+          </article>
+          <article class="milestone">
+            <span class="badge amber">Best product follow-up</span>
+            <h3>Add auth and multi-user tenancy</h3>
+            <p>The current frontend is deliberately thin and local. The next productization step is user/session handling, role-based views, and durable artifact browsing.</p>
+          </article>
+        </div>
+
+        <div class="footer-note">
+          Bottom line: this repo is still a POC in deployment terms, but it is no longer only a scaffold. It now contains a
+          credible local pilot stack: real provider seams for Malaysia APIs, a deep halal workflow model, a seeded sector-specific
+          dataset, and a working browser surface for operator demos.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
