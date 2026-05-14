@@ -7,541 +7,342 @@
     <style>
       :root {
         --paper: oklch(96.5% 0.012 87);
-        --paper-2: oklch(92.5% 0.018 88);
         --sheet: oklch(98.5% 0.006 90);
-        --ink: oklch(22% 0.025 246);
-        --muted: oklch(47% 0.03 246);
+        --ink: oklch(20% 0.024 246);
+        --muted: oklch(45% 0.03 246);
         --line: oklch(82% 0.02 83);
         --green: oklch(42% 0.115 165);
         --blue: oklch(45% 0.12 250);
         --amber: oklch(55% 0.11 76);
         --red: oklch(45% 0.15 22);
-        --shadow: 0 18px 44px rgba(58, 45, 28, 0.13);
+        --shadow: 0 24px 70px rgba(51, 42, 24, 0.18);
       }
-      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      * { box-sizing: border-box; }
       html, body {
         width: 1920px;
         height: 1080px;
+        margin: 0;
         overflow: hidden;
         background: var(--paper);
         color: var(--ink);
         font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
-        font-kerning: normal;
       }
+
       [data-composition-id="main"] {
         position: relative;
         width: 1920px;
         height: 1080px;
         overflow: hidden;
-        background:
-          linear-gradient(90deg, rgba(111, 92, 58, 0.055) 1px, transparent 1px),
-          linear-gradient(rgba(111, 92, 58, 0.045) 1px, transparent 1px),
-          linear-gradient(180deg, var(--paper), var(--paper-2));
-        background-size: 72px 72px, 72px 72px, 100% 100%;
+        background: var(--paper);
       }
-      .grid {
-        position: absolute;
-        inset: 0;
-        background:
-          linear-gradient(112deg, transparent 0 58%, rgba(255, 255, 255, 0.45) 58% 70%, transparent 70%),
-          linear-gradient(180deg, rgba(255,255,255,0.45), transparent 48%);
-        opacity: 0.55;
-      }
+
       .scene {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        padding: 78px 112px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 24px;
-      }
-      .scene > * { position: relative; z-index: 2; }
-      .eyebrow {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 18px;
-        letter-spacing: 0.10em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 14px;
-      }
-      h1, h2 {
-        font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
-        font-weight: 800;
-        letter-spacing: 0;
-        line-height: 0.94;
-        color: var(--ink);
-      }
-      h1 { font-size: 102px; max-width: 1050px; }
-      h2 { font-size: 64px; max-width: 920px; }
-      p {
-        font-size: 28px;
-        line-height: 1.42;
-        max-width: 870px;
-        color: var(--muted);
-        margin-top: 24px;
-      }
-      .split {
-        display: grid;
-        grid-template-columns: 0.82fr 1.18fr;
-        gap: 82px;
-        align-items: center;
-        width: 100%;
-      }
-      .wide-split {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 52px;
-        align-items: center;
-      }
-      .document-stage {
-        position: relative;
-        min-height: 660px;
-      }
-      .paper {
-        position: absolute;
-        width: 650px;
-        min-height: 590px;
-        padding: 34px 38px;
-        border-radius: 3px;
-        background:
-          linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,255,255,0.22)),
-          var(--sheet);
-        color: var(--ink);
-        box-shadow: var(--shadow);
-        border: 1px solid var(--line);
         overflow: hidden;
       }
-      .paper::before {
-        content: "";
+
+      .asset {
+        position: absolute;
+        inset: -34px;
+        width: calc(100% + 68px);
+        height: calc(100% + 68px);
+        object-fit: cover;
+        filter: saturate(0.94) contrast(1.02);
+        transform-origin: center;
+      }
+
+      .veil {
         position: absolute;
         inset: 0;
-        pointer-events: none;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent 0 41px,
-          rgba(92, 76, 48, 0.035) 41px 42px
-        );
+        background:
+          linear-gradient(90deg, rgba(247, 244, 236, 0.96) 0%, rgba(247, 244, 236, 0.82) 35%, rgba(247, 244, 236, 0.28) 68%, rgba(247, 244, 236, 0.12) 100%),
+          linear-gradient(180deg, rgba(255,255,255,0.18), rgba(85, 70, 42, 0.08));
       }
-      .paper > * { position: relative; z-index: 1; }
-      .paper.back-a { transform: translate(34px, 34px) rotate(1.4deg); opacity: 0.36; }
-      .paper.back-b { transform: translate(68px, 68px) rotate(2.8deg); opacity: 0.18; }
-      .paper.main { transform: translate(0, 0) rotate(-0.45deg); }
-      .paper.tax-paper { width: 720px; min-height: 540px; }
-      .wide-split > .paper {
-        position: relative;
-        width: 100%;
-        transform: none;
+
+      .right-veil {
+        background:
+          linear-gradient(270deg, rgba(247, 244, 236, 0.96) 0%, rgba(247, 244, 236, 0.78) 38%, rgba(247, 244, 236, 0.22) 70%, rgba(247, 244, 236, 0.08) 100%),
+          linear-gradient(180deg, rgba(255,255,255,0.15), rgba(85, 70, 42, 0.08));
       }
-      .doc-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        margin-bottom: 26px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid var(--line);
+
+      .center-veil {
+        background:
+          radial-gradient(circle at 50% 52%, rgba(247,244,236,0.92) 0%, rgba(247,244,236,0.82) 30%, rgba(247,244,236,0.24) 64%, rgba(247,244,236,0.08) 100%);
       }
-      .doc-title {
-        font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
-        font-size: 28px;
-        font-weight: 800;
-        line-height: 1.08;
-        letter-spacing: -0.015em;
+
+      .panel {
+        position: absolute;
+        top: 118px;
+        left: 112px;
+        width: 760px;
+        min-height: 420px;
+        padding: 44px 48px;
+        border: 1px solid color-mix(in oklch, var(--line), white 18%);
+        border-radius: 4px;
+        background: color-mix(in oklch, var(--sheet), transparent 4%);
+        box-shadow: var(--shadow);
       }
-      .stamp {
-        border-radius: 3px;
-        padding: 9px 12px;
+
+      .panel.right {
+        left: auto;
+        right: 112px;
+      }
+
+      .panel.center {
+        top: 128px;
+        left: 50%;
+        width: 860px;
+        min-height: 0;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin-bottom: 18px;
         font-family: "JetBrains Mono", monospace;
-        font-size: 16px;
+        font-size: 17px;
         font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        color: var(--muted);
       }
-      .stamp.pass { color: var(--green); border: 1px solid color-mix(in oklch, var(--green), transparent 45%); background: color-mix(in oklch, var(--green), transparent 91%); }
-      .stamp.fail { color: var(--red); border: 1px solid color-mix(in oklch, var(--red), transparent 45%); background: color-mix(in oklch, var(--red), transparent 91%); }
-      .stamp.blocked { color: var(--amber); border: 1px solid color-mix(in oklch, var(--amber), transparent 45%); background: color-mix(in oklch, var(--amber), transparent 89%); }
-      .meta-grid {
+
+      h1, h2 {
+        margin: 0;
+        color: var(--ink);
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 0.95;
+      }
+
+      h1 {
+        max-width: 660px;
+        font-size: 88px;
+      }
+
+      h2 {
+        max-width: 680px;
+        font-size: 66px;
+      }
+
+      .center h2 {
+        max-width: none;
+        font-size: 72px;
+      }
+
+      p {
+        max-width: 610px;
+        margin: 28px 0 0;
+        color: var(--muted);
+        font-size: 27px;
+        line-height: 1.36;
+      }
+
+      .center p {
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 34px;
+      }
+
+      .chip {
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: color-mix(in oklch, var(--sheet), white 25%);
+        color: var(--ink);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .chip.green { color: var(--green); }
+      .chip.blue { color: var(--blue); }
+      .chip.amber { color: var(--amber); }
+      .chip.red { color: var(--red); }
+
+      .caption-strip {
+        position: absolute;
+        left: 112px;
+        right: 112px;
+        bottom: 78px;
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 1px;
-        margin: 18px 0 28px;
         border: 1px solid var(--line);
         background: var(--line);
+        box-shadow: var(--shadow);
       }
-      .metric {
-        border: 0;
-        border-radius: 0;
-        padding: 16px 14px;
-        background: color-mix(in oklch, var(--sheet), white 34%);
+
+      .caption-cell {
+        min-height: 112px;
+        padding: 22px 24px;
+        background: color-mix(in oklch, var(--sheet), white 20%);
       }
-      .metric b {
+
+      .caption-cell strong {
         display: block;
-        color: var(--green);
-        font-size: 30px;
-        line-height: 1;
-        font-variant-numeric: tabular-nums;
+        margin-bottom: 9px;
+        font-size: 22px;
+        line-height: 1.08;
       }
-      .metric span {
+
+      .caption-cell span {
         display: block;
-        margin-top: 8px;
         color: var(--muted);
-        font-size: 14px;
-        line-height: 1.2;
-      }
-      .table {
-        display: grid;
-        border: 1px solid var(--line);
-        border-radius: 2px;
-        overflow: hidden;
-        background: var(--sheet);
-      }
-      .row {
-        display: grid;
-        grid-template-columns: 120px 1fr 110px;
-        min-height: 45px;
-        border-bottom: 1px solid var(--line);
-        align-items: center;
-      }
-      .row:last-child { border-bottom: 0; }
-      .cell {
-        padding: 10px 13px;
         font-size: 17px;
-        line-height: 1.18;
-        color: var(--ink);
-      }
-      .row.head .cell {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--muted);
-        background: color-mix(in oklch, var(--paper-2), white 36%);
-      }
-      .status-pass { color: var(--green); font-weight: 800; }
-      .status-fail { color: var(--red); font-weight: 800; }
-      .status-blocked { color: var(--amber); font-weight: 800; }
-      .fix-list {
-        display: grid;
-        gap: 10px;
-        margin-top: 8px;
-      }
-      .fix {
-        border: 1px solid color-mix(in oklch, var(--red), transparent 68%);
-        background: color-mix(in oklch, var(--red), white 91%);
-        color: color-mix(in oklch, var(--red), black 18%);
-        padding: 15px 16px;
-        border-radius: 3px;
-        font-size: 19px;
         line-height: 1.25;
       }
-      .artifact-label {
+
+      .progress {
         position: absolute;
-        left: 34px;
-        bottom: 24px;
-        font-family: "JetBrains Mono", monospace;
-        color: var(--muted);
-        font-size: 14px;
+        left: 112px;
+        bottom: 46px;
+        width: 1696px;
+        height: 4px;
+        background: rgba(58, 45, 28, 0.16);
       }
-      .code-card {
-        background: color-mix(in oklch, var(--ink), black 16%);
-        border: 1px solid color-mix(in oklch, var(--ink), transparent 70%);
-        border-radius: 3px;
-        padding: 28px 30px;
-        box-shadow: var(--shadow);
-      }
-      pre {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 21px;
-        line-height: 1.42;
-        color: oklch(91% 0.025 240);
-        white-space: pre-wrap;
-      }
-      .flow {
-        display: flex;
-        gap: 16px;
-        flex-wrap: wrap;
-        margin-top: 22px;
-      }
-      .step {
-        width: 206px;
-        min-height: 120px;
-        border: 1px solid rgba(248,250,252,0.16);
-        background: rgba(248,250,252,0.07);
-        border-radius: 8px;
-        padding: 20px;
-        font-size: 22px;
-        line-height: 1.16;
-      }
-      .step em {
+
+      .progress span {
         display: block;
-        font-family: "JetBrains Mono", monospace;
-        font-style: normal;
-        color: #b8860b;
-        font-size: 18px;
-        margin-bottom: 10px;
+        width: 100%;
+        height: 100%;
+        transform: scaleX(0);
+        transform-origin: left center;
+        background: var(--ink);
       }
-      .badge {
-        display: inline-flex;
-        width: max-content;
-        padding: 11px 14px;
-        border-radius: 3px;
-        background: color-mix(in oklch, var(--amber), white 88%);
-        border: 1px solid color-mix(in oklch, var(--amber), transparent 55%);
-        color: color-mix(in oklch, var(--amber), black 28%);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 17px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-top: 26px;
-      }
-      .cards {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1px;
-        border: 1px solid var(--line);
-        background: var(--line);
-        box-shadow: var(--shadow);
-      }
-      .card {
-        min-height: 154px;
-        border: 0;
-        background: color-mix(in oklch, var(--sheet), white 24%);
-        border-radius: 0;
-        padding: 26px;
-        box-shadow: none;
-      }
-      .card strong {
-        display: block;
-        font-size: 23px;
-        margin-bottom: 12px;
-        color: var(--ink);
-      }
-      .card span {
-        display: block;
-        font-size: 19px;
-        line-height: 1.3;
-        color: var(--muted);
-      }
-      .halal strong { color: var(--green); }
-      .tax strong { color: var(--blue); }
-      .audit strong { color: var(--amber); }
-      .warn strong { color: var(--red); }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="109" data-width="1920" data-height="1080">
-      <div class="grid" data-layout-ignore></div>
-      <audio id="narration" class="clip" data-start="0" data-duration="108.65" data-track-index="2" src="narration.wav" data-volume="1"></audio>
-
-      <div id="s1" class="clip scene" data-start="0" data-duration="10" data-track-index="1">
-        <div class="split">
-          <div>
-            <div class="eyebrow">Malaysia Agent Ops</div>
-            <h1>Paperwork that agents can actually run.</h1>
-            <p>For halal and tax workflows where folders, screenshots, and portal notes are too fragile.</p>
-          </div>
-          <div class="document-stage">
-            <div class="paper back-b"></div>
-            <div class="paper back-a"></div>
-            <div class="paper main">
-              <div class="doc-header">
-                <div class="doc-title">Operations Evidence Pack</div>
-                <div class="stamp blocked">draft</div>
-              </div>
-              <div class="table">
-                <div class="row head"><div class="cell">Area</div><div class="cell">Artifact</div><div class="cell">State</div></div>
-                <div class="row"><div class="cell">Halal</div><div class="cell">Dossier pre-check</div><div class="cell status-pass">ready</div></div>
-                <div class="row"><div class="cell">Tax</div><div class="cell">Invoice run</div><div class="cell status-pass">paid</div></div>
-                <div class="row"><div class="cell">Audit</div><div class="cell">Source-tagged reports</div><div class="cell status-pass">kept</div></div>
-              </div>
-              <div class="artifact-label">reports/* + examples/*</div>
-            </div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="72" data-width="1920" data-height="1080">
+      <div id="s1" class="clip scene" data-start="0" data-duration="12" data-track-index="1">
+        <img class="asset" src="assets/ops-desk-overview.png" alt="" data-layout-ignore />
+        <div class="veil"></div>
+        <div class="panel">
+          <div class="eyebrow">Malaysia Agent Ops</div>
+          <h1>One evidence layer for halal and tax work.</h1>
+          <p>Not a chatbot wrapper. A CLI-oriented operations layer that turns messy paperwork into inspectable runs.</p>
+          <div class="chips">
+            <div class="chip green">halal.precheck</div>
+            <div class="chip blue">tax.run</div>
+            <div class="chip amber">approvals</div>
           </div>
         </div>
       </div>
 
-      <div id="s2" class="clip scene" data-start="10" data-duration="17" data-track-index="1">
-        <div class="split">
-          <div>
-            <div class="eyebrow">Halal pre-check</div>
-            <h2>A passing dossier is visible before submission.</h2>
-            <p>The applicant can see exactly which evidence classes are covered, and the reviewer gets a cleaner file to inspect.</p>
-          </div>
-          <div class="document-stage">
-            <div class="paper back-a"></div>
-            <div class="paper main halal-doc">
-              <div class="doc-header">
-                <div class="doc-title">Applicant Halal Precheck Report</div>
-                <div class="stamp pass">pass</div>
-              </div>
-              <div class="meta-grid">
-                <div class="metric"><b>12</b><span>requirements passed</span></div>
-                <div class="metric"><b>0</b><span>requirements failed</span></div>
-                <div class="metric"><b>2</b><span>OCR documents checked</span></div>
-              </div>
-              <div class="table">
-                <div class="row head"><div class="cell">Status</div><div class="cell">Requirement</div><div class="cell">Source</div></div>
-                <div class="row"><div class="cell status-pass">pass</div><div class="cell">Company registration</div><div class="cell">S1</div></div>
-                <div class="row"><div class="cell status-pass">pass</div><div class="cell">PBT licence or support letter</div><div class="cell">S2</div></div>
-                <div class="row"><div class="cell status-pass">pass</div><div class="cell">Ingredient list and supplier details</div><div class="cell">S1</div></div>
-                <div class="row"><div class="cell status-pass">pass</div><div class="cell">Process flow and packaging label</div><div class="cell">S1</div></div>
-              </div>
-              <div class="artifact-label">reports/barakah/applicant-report.md</div>
-            </div>
+      <div id="s2" class="clip scene" data-start="12" data-duration="12" data-track-index="1">
+        <img class="asset" src="assets/halal-dossier-precheck.png" alt="" data-layout-ignore />
+        <div class="veil right-veil"></div>
+        <div class="panel right">
+          <div class="eyebrow">Halal dossier pre-check</div>
+          <h2>Applicants see what is ready before submission.</h2>
+          <p>Business records, licences, ingredients, supplier evidence, process flow, packaging, and expiry dates are checked as a structured dossier.</p>
+          <div class="chips">
+            <div class="chip green">passing evidence</div>
+            <div class="chip green">reviewer-ready</div>
           </div>
         </div>
       </div>
 
-      <div id="s3" class="clip scene" data-start="27" data-duration="15" data-track-index="1">
-        <div class="wide-split">
-          <div class="document-stage">
-            <div class="paper main">
-              <div class="doc-header">
-                <div class="doc-title">OCR Metadata Verification</div>
-                <div class="stamp pass">match</div>
-              </div>
-              <div class="table">
-                <div class="row head"><div class="cell">Field</div><div class="cell">Observed from scan</div><div class="cell">Confidence</div></div>
-                <div class="row"><div class="cell">supplier</div><div class="cell">Supplier A Sdn Bhd</div><div class="cell status-pass">0.94</div></div>
-                <div class="row"><div class="cell">cert no</div><div class="cell">JAKIM-2025-001</div><div class="cell status-pass">0.91</div></div>
-                <div class="row"><div class="cell">issuer</div><div class="cell">JAKIM</div><div class="cell status-pass">0.88</div></div>
-                <div class="row"><div class="cell">expiry</div><div class="cell">2026-12-31</div><div class="cell status-pass">0.87</div></div>
-              </div>
-              <div class="artifact-label">local GLM-OCR compatible metadata checks</div>
-            </div>
-          </div>
-          <div>
-            <div class="eyebrow">Scanned evidence</div>
-            <h2>Text from the certificate is compared to declared metadata.</h2>
-            <p>This catches mismatched suppliers, wrong certificate numbers, expiry problems, and low-confidence OCR before submission.</p>
+      <div id="s3" class="clip scene" data-start="24" data-duration="12" data-track-index="1">
+        <img class="asset" src="assets/ocr-metadata-verification.png" alt="" data-layout-ignore />
+        <div class="veil"></div>
+        <div class="panel">
+          <div class="eyebrow">Local OCR verification</div>
+          <h2>The scan has to match the claim.</h2>
+          <p>Supplier names, certificate numbers, issuing bodies, expiry dates, and confidence scores become explicit metadata checks.</p>
+          <div class="chips">
+            <div class="chip green">GLM-OCR ready</div>
+            <div class="chip amber">metadata verified</div>
           </div>
         </div>
       </div>
 
-      <div id="s4" class="clip scene" data-start="42" data-duration="15" data-track-index="1">
-        <div class="split">
-          <div>
-            <div class="eyebrow">Failing dossier</div>
-            <h2>A weak file becomes a fix list.</h2>
-            <p>The point is not to pretend everything is fine. The point is to surface the problem early.</p>
-          </div>
-          <div class="document-stage">
-            <div class="paper main">
-              <div class="doc-header">
-                <div class="doc-title">Fix Before Submission</div>
-                <div class="stamp fail">failed</div>
-              </div>
-              <div class="fix-list">
-                <div class="fix">Supplier B halal certificate expired before the dossier date.</div>
-                <div class="fix">Ingredient supplier evidence is incomplete for one critical raw material.</div>
-                <div class="fix">OCR confidence is below reviewer threshold on a certificate field.</div>
-              </div>
-              <div class="artifact-label">reports/barakah-failing/applicant-report.md</div>
-            </div>
+      <div id="s4" class="clip scene" data-start="36" data-duration="12" data-track-index="1">
+        <img class="asset" src="assets/tax-execution-workflow.png" alt="" data-layout-ignore />
+        <div class="veil right-veil"></div>
+        <div class="panel right">
+          <div class="eyebrow">Tax execution</div>
+          <h2>The invoice flow is treated like an operation.</h2>
+          <p>Submit, check status, create payment request, ingest payment event, and settle the invoice with an audit trail.</p>
+          <div class="chips">
+            <div class="chip blue">invoices.submit</div>
+            <div class="chip blue">payments.ingest_event</div>
           </div>
         </div>
       </div>
 
-      <div id="s5" class="clip scene" data-start="57" data-duration="18" data-track-index="1">
-        <div class="wide-split">
-          <div class="code-card">
-            <pre>{
-  "invoice_number": "INV-TAX-DEMO-001",
-  "supplier_tin": "C1234567801",
-  "buyer_tin": "C1234567802",
-  "currency": "MYR",
-  "total_amount": 150.00
-}</pre>
-          </div>
-          <div class="paper tax-paper">
-            <div class="doc-header">
-              <div class="doc-title">Tax Execution Summary</div>
-              <div class="stamp pass">paid</div>
-            </div>
-            <div class="table">
-              <div class="row head"><div class="cell">Step</div><div class="cell">Action</div><div class="cell">Status</div></div>
-              <div class="row"><div class="cell">1</div><div class="cell">invoices.submit</div><div class="cell status-pass">success</div></div>
-              <div class="row"><div class="cell">2</div><div class="cell">invoices.status</div><div class="cell status-pass">success</div></div>
-              <div class="row"><div class="cell">3</div><div class="cell">payments.create_request</div><div class="cell status-pass">success</div></div>
-              <div class="row"><div class="cell">4</div><div class="cell">payments.ingest_event</div><div class="cell status-pass">matched</div></div>
-            </div>
-            <div class="artifact-label">reports/tax/sandbox-happy-path/summary.md</div>
+      <div id="s5" class="clip scene" data-start="48" data-duration="12" data-track-index="1">
+        <img class="asset" src="assets/governance-guardrails.png" alt="" data-layout-ignore />
+        <div class="veil"></div>
+        <div class="panel">
+          <div class="eyebrow">Guardrails</div>
+          <h2>Real provider actions stop before live risk.</h2>
+          <p>No credentials, no explicit approval, no fake government submission. The system blocks honestly and explains why.</p>
+          <div class="chips">
+            <div class="chip red">blocked safely</div>
+            <div class="chip amber">human approval</div>
           </div>
         </div>
       </div>
 
-      <div id="s6" class="clip scene" data-start="75" data-duration="16" data-track-index="1">
-        <div class="split">
-          <div>
-            <div class="eyebrow">Real-provider guardrail</div>
-            <h2>Live MyInvois work stops before risk.</h2>
-            <p>No credentials, no explicit approval, no fake government submission. The tool says what is blocked and why.</p>
-            <div class="badge">approval gate required</div>
-          </div>
-          <div class="document-stage">
-            <div class="paper main">
-              <div class="doc-header">
-                <div class="doc-title">Real Provider Attempt</div>
-                <div class="stamp blocked">blocked</div>
-              </div>
-              <div class="table">
-                <div class="row head"><div class="cell">Check</div><div class="cell">Reason</div><div class="cell">State</div></div>
-                <div class="row"><div class="cell">auth</div><div class="cell">Missing live credentials</div><div class="cell status-blocked">blocked</div></div>
-                <div class="row"><div class="cell">approval</div><div class="cell">Human approval required</div><div class="cell status-blocked">blocked</div></div>
-                <div class="row"><div class="cell">submit</div><div class="cell">No live submission performed</div><div class="cell status-pass">safe</div></div>
-              </div>
-              <div class="artifact-label">reports/tax/real-provider-blocked/summary.md</div>
-            </div>
-          </div>
+      <div id="s6" class="clip scene" data-start="60" data-duration="12" data-track-index="1">
+        <img class="asset" src="assets/ops-desk-final.png" alt="" data-layout-ignore />
+        <div class="veil center-veil"></div>
+        <div class="panel center">
+          <div class="eyebrow">Plain-English version</div>
+          <h2>It helps people prepare, run, and inspect regulated Malaysian workflows.</h2>
+          <p>Applicants, consultants, reviewers, and finance operators get cleaner evidence, safer execution, and artifacts they can actually audit.</p>
+        </div>
+        <div class="caption-strip">
+          <div class="caption-cell"><strong>Cleaner dossiers</strong><span>Pre-check evidence before anyone submits a weak file.</span></div>
+          <div class="caption-cell"><strong>OCR-backed proof</strong><span>Compare scanned documents with declared metadata.</span></div>
+          <div class="caption-cell"><strong>Tax workflow runs</strong><span>Exercise invoice and payment states in a sandbox flow.</span></div>
+          <div class="caption-cell"><strong>Human control</strong><span>Block sensitive external actions until approved.</span></div>
         </div>
       </div>
 
-      <div id="s7" class="clip scene" data-start="91" data-duration="18" data-track-index="1">
-        <div class="split">
-          <div>
-            <div class="eyebrow">In plain English</div>
-            <h2>An execution and evidence layer for halal and Malaysian tax operations.</h2>
-            <p>Agents run the workflow. People inspect the artifacts, approve sensitive steps, and fix the real gaps.</p>
-          </div>
-          <div class="cards">
-            <div class="card halal"><strong>Cleaner halal dossiers</strong><span>Applicant and reviewer-ready reports.</span></div>
-            <div class="card tax"><strong>Safer tax workflows</strong><span>Sandbox execution with clear live-provider gates.</span></div>
-            <div class="card audit"><strong>Inspectable proof</strong><span>Markdown, JSON, HTML, MP4, and frame artifacts.</span></div>
-            <div class="card warn"><strong>Human control</strong><span>Approvals before sensitive external actions.</span></div>
-          </div>
-        </div>
-      </div>
+      <div class="progress" data-layout-ignore><span></span></div>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
-      const scenes = ["#s1", "#s2", "#s3", "#s4", "#s5", "#s6", "#s7"];
-      const animateIfPresent = (selector, vars, at) => {
+      const scenes = ["#s1", "#s2", "#s3", "#s4", "#s5", "#s6"];
+      const fromIfPresent = (selector, vars, at) => {
         const targets = document.querySelectorAll(selector);
         if (targets.length > 0) tl.from(targets, vars, at);
       };
+
       scenes.forEach((scene) => {
         const node = document.querySelector(scene);
         const start = Number(node.dataset.start);
         const duration = Number(node.dataset.duration);
-        animateIfPresent(`${scene} .eyebrow`, { y: 26, opacity: 0, duration: 0.5, ease: "power3.out" }, start + 0.15);
-        animateIfPresent(`${scene} h1, ${scene} h2`, { y: 42, opacity: 0, duration: 0.65, ease: "power3.out" }, start + 0.3);
-        animateIfPresent(`${scene} p, ${scene} .badge`, { y: 26, opacity: 0, duration: 0.5, ease: "power2.out" }, start + 0.72);
-        animateIfPresent(`${scene} .paper.back-b`, { x: 120, y: 80, opacity: 0, rotation: 12, duration: 0.7, ease: "power3.out" }, start + 0.42);
-        animateIfPresent(`${scene} .paper.back-a`, { x: 70, y: 50, opacity: 0, rotation: 8, duration: 0.7, ease: "power3.out" }, start + 0.5);
-        animateIfPresent(`${scene} .paper.main, ${scene} .paper.tax-paper`, { y: 56, opacity: 0, scale: 0.96, duration: 0.72, ease: "power3.out" }, start + 0.58);
-        animateIfPresent(`${scene} .code-card`, { y: 44, opacity: 0, scale: 0.97, duration: 0.62, ease: "power3.out" }, start + 0.5);
-        animateIfPresent(`${scene} .metric`, { y: 22, opacity: 0, stagger: 0.08, duration: 0.42, ease: "power2.out" }, start + 1.0);
-        animateIfPresent(`${scene} .row`, { x: -20, opacity: 0, stagger: 0.055, duration: 0.36, ease: "power2.out" }, start + 1.1);
-        animateIfPresent(`${scene} .fix`, { x: -24, opacity: 0, stagger: 0.13, duration: 0.44, ease: "power2.out" }, start + 1.05);
-        animateIfPresent(`${scene} .card`, { y: 34, opacity: 0, stagger: 0.08, duration: 0.45, ease: "power2.out" }, start + 0.75);
+        fromIfPresent(`${scene} .asset`, { scale: 1.08, opacity: 0, duration: 0.9, ease: "power2.out" }, start);
+        fromIfPresent(`${scene} .veil`, { opacity: 0, duration: 0.6, ease: "power2.out" }, start + 0.1);
+        fromIfPresent(`${scene} .panel`, { y: 36, opacity: 0, duration: 0.65, ease: "power3.out" }, start + 0.35);
+        fromIfPresent(`${scene} .eyebrow`, { y: 16, opacity: 0, duration: 0.35, ease: "power2.out" }, start + 0.55);
+        fromIfPresent(`${scene} h1, ${scene} h2`, { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, start + 0.7);
+        fromIfPresent(`${scene} p`, { y: 20, opacity: 0, duration: 0.45, ease: "power2.out" }, start + 0.95);
+        fromIfPresent(`${scene} .chip`, { y: 14, opacity: 0, stagger: 0.06, duration: 0.32, ease: "power2.out" }, start + 1.25);
+        fromIfPresent(`${scene} .caption-cell`, { y: 26, opacity: 0, stagger: 0.08, duration: 0.4, ease: "power2.out" }, start + 1.05);
+        tl.to(`${scene} .asset`, { scale: 1.015, duration, ease: "none" }, start);
         tl.to(scene, { opacity: 0, duration: 0.45, ease: "power2.in" }, start + duration - 0.5);
+        tl.set(scene, { opacity: 0, visibility: "hidden" }, start + duration);
       });
+
+      tl.to(".progress span", { scaleX: 1, duration: 72, ease: "none" }, 0);
       window.__timelines["main"] = tl;
     </script>
   </body>

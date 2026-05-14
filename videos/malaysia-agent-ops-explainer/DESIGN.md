@@ -8,6 +8,12 @@ Regulatory evidence film, not SaaS pitch deck. The frame should feel like a comp
 
 A halal consultant, finance operator, or reviewer is scanning a dossier on a 27-inch monitor in a normal office. The room is bright enough for paperwork, so the canvas should be light, quiet, and legible rather than dark and cinematic.
 
+## Asset-Led Video Direction
+
+Use generated bitmap scenes as the primary visual carrier. Each scene should be understandable without narration: a full-bleed operations image, a paper-toned overlay panel, and short labels that explain what the workflow does.
+
+All generated images must avoid embedded text, official logos, government seals, or fake portal screenshots. HyperFrames owns all readable text, captions, labels, and timing.
+
 ## Colors
 
 - Paper `oklch(96.5% 0.012 87)` -- primary background
