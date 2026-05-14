@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0f172a;
+        color: #f8fafc;
+        font-family: Inter, Arial, system-ui, sans-serif;
+      }
+      [data-composition-id="main"] {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(29,78,216,0.22), transparent 42%),
+          radial-gradient(circle at 78% 18%, rgba(184,134,11,0.22), transparent 28%),
+          #0f172a;
+      }
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(248,250,252,0.055) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(248,250,252,0.055) 1px, transparent 1px);
+        background-size: 64px 64px;
+        opacity: 0.5;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 96px 128px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 34px;
+      }
+      .eyebrow {
+        font-family: SFMono-Regular, Menlo, monospace;
+        font-size: 24px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #b8860b;
+      }
+      h1, h2 {
+        font-family: Georgia, serif;
+        letter-spacing: 0;
+        line-height: 0.98;
+      }
+      h1 { font-size: 118px; max-width: 1260px; }
+      h2 { font-size: 82px; max-width: 1280px; }
+      p {
+        font-size: 36px;
+        line-height: 1.35;
+        max-width: 1080px;
+        color: #cbd5e1;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 76px;
+        align-items: center;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+      .card {
+        min-height: 180px;
+        border: 1px solid rgba(248,250,252,0.16);
+        background: rgba(15,23,42,0.74);
+        border-radius: 8px;
+        padding: 28px;
+        box-shadow: 0 20px 70px rgba(0,0,0,0.22);
+      }
+      .card strong {
+        display: block;
+        font-size: 30px;
+        margin-bottom: 12px;
+      }
+      .card span {
+        display: block;
+        font-size: 24px;
+        line-height: 1.3;
+        color: #cbd5e1;
+      }
+      .halal { border-top: 5px solid #047857; }
+      .tax { border-top: 5px solid #1d4ed8; }
+      .audit { border-top: 5px solid #b8860b; }
+      .warn { border-top: 5px solid #be123c; }
+      .flow {
+        display: flex;
+        gap: 18px;
+        align-items: stretch;
+        flex-wrap: wrap;
+        max-width: 1360px;
+      }
+      .step {
+        width: 242px;
+        min-height: 132px;
+        border: 1px solid rgba(248,250,252,0.16);
+        background: rgba(248,250,252,0.06);
+        border-radius: 8px;
+        padding: 22px;
+        font-size: 25px;
+        line-height: 1.18;
+      }
+      .step em {
+        display: block;
+        font-family: SFMono-Regular, Menlo, monospace;
+        font-style: normal;
+        color: #b8860b;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .caption {
+        position: absolute;
+        left: 128px;
+        bottom: 76px;
+        max-width: 1300px;
+        font-size: 30px;
+        line-height: 1.28;
+        color: #f8fafc;
+      }
+      .badge {
+        display: inline-flex;
+        width: max-content;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: rgba(184,134,11,0.18);
+        border: 1px solid rgba(184,134,11,0.45);
+        color: #fde68a;
+        font-family: SFMono-Regular, Menlo, monospace;
+        font-size: 22px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .scene > * { position: relative; z-index: 2; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="77" data-width="1920" data-height="1080">
+      <div class="grid" data-layout-ignore></div>
+      <audio id="narration" class="clip" data-start="0" data-duration="76.64" data-track-index="2" src="narration.wav" data-volume="1"></audio>
+
+      <div id="s1" class="clip scene" data-start="0" data-duration="9" data-track-index="1">
+        <div class="eyebrow">Malaysia Agent Ops</div>
+        <h1>Business workflows, made agent-ready.</h1>
+        <p>For Malaysian operations where scattered PDFs, portals, and manual approvals are not good enough.</p>
+      </div>
+
+      <div id="s2" class="clip scene" data-start="9" data-duration="11" data-track-index="1">
+        <div class="split">
+          <div>
+            <div class="eyebrow">What it does first</div>
+            <h2>Halal evidence becomes a structured dossier.</h2>
+            <p>Applicants and consultants can see what is ready, missing, expired, or mismatched before official submission.</p>
+          </div>
+          <div class="cards">
+            <div class="card halal"><strong>Company docs</strong><span>Registration, profile, local licences.</span></div>
+            <div class="card halal"><strong>Product evidence</strong><span>Ingredients, process flow, labels, packaging.</span></div>
+            <div class="card halal"><strong>Supplier certs</strong><span>Certificate metadata, expiry dates, OCR checks.</span></div>
+            <div class="card audit"><strong>Reports</strong><span>Applicant fixes and reviewer trust summaries.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="s3" class="clip scene" data-start="20" data-duration="10" data-track-index="1">
+        <div class="eyebrow">Important boundary</div>
+        <h2>It does not replace JAKIM.</h2>
+        <p>It does not decide what is halal. It prepares cleaner evidence and shows humans exactly what needs attention.</p>
+        <div class="badge">pre-check, not certification</div>
+      </div>
+
+      <div id="s4" class="clip scene" data-start="30" data-duration="12" data-track-index="1">
+        <div class="eyebrow">Tax and e-invoicing</div>
+        <h2>It can run an invoice workflow until paid or blocked.</h2>
+        <div class="flow">
+          <div class="step tax"><em>01</em>Submit invoice</div>
+          <div class="step tax"><em>02</em>Poll status</div>
+          <div class="step tax"><em>03</em>Create payment request</div>
+          <div class="step tax"><em>04</em>Ingest payment event</div>
+          <div class="step tax"><em>05</em>Mark paid or raise exception</div>
+        </div>
+      </div>
+
+      <div id="s5" class="clip scene" data-start="42" data-duration="11" data-track-index="1">
+        <div class="eyebrow">Safety gate</div>
+        <h2>Real MyInvois submissions stop before risk.</h2>
+        <p>Without credentials, compliant payloads, and explicit approval, the system blocks honestly and says what is needed next.</p>
+        <div class="badge">no fake live submission</div>
+      </div>
+
+      <div id="s6" class="clip scene" data-start="53" data-duration="12" data-track-index="1">
+        <div class="split">
+          <div>
+            <div class="eyebrow">In plain English</div>
+            <h2>It is an evidence and execution layer.</h2>
+            <p>Agents can run the workflow. People inspect the audit trail, approve sensitive actions, and fix real gaps.</p>
+          </div>
+          <div class="cards">
+            <div class="card halal"><strong>Halal</strong><span>Prepare and pre-check dossiers.</span></div>
+            <div class="card tax"><strong>Tax</strong><span>Run e-invoice execution paths.</span></div>
+            <div class="card audit"><strong>Audit</strong><span>Keep source-tagged reports.</span></div>
+            <div class="card warn"><strong>Guardrails</strong><span>Block before risky live actions.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="s7" class="clip scene" data-start="65" data-duration="12" data-track-index="1">
+        <div class="eyebrow">Malaysia Agent Ops</div>
+        <h2>Cleaner dossiers. Safer workflows. Inspectable proof.</h2>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const scenes = ["#s1", "#s2", "#s3", "#s4", "#s5", "#s6", "#s7"];
+      const animateIfPresent = (selector, vars, at) => {
+        const targets = document.querySelectorAll(selector);
+        if (targets.length > 0) tl.from(targets, vars, at);
+      };
+      scenes.forEach((scene) => {
+        const node = document.querySelector(scene);
+        const start = Number(node.dataset.start);
+        const duration = Number(node.dataset.duration);
+        animateIfPresent(`${scene} .eyebrow`, { y: 28, opacity: 0, duration: 0.55, ease: "power3.out" }, start + 0.15);
+        animateIfPresent(`${scene} h1, ${scene} h2`, { y: 46, opacity: 0, duration: 0.7, ease: "power3.out" }, start + 0.35);
+        animateIfPresent(`${scene} p, ${scene} .badge`, { y: 32, opacity: 0, duration: 0.55, ease: "power2.out" }, start + 0.75);
+        animateIfPresent(`${scene} .card, ${scene} .step`, { y: 36, opacity: 0, stagger: 0.07, duration: 0.48, ease: "power2.out" }, start + 0.55);
+        tl.to(scene, { opacity: 0, duration: 0.45, ease: "power2.in" }, start + duration - 0.5);
+      });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
