@@ -1,13 +1,17 @@
-Malaysia Agent Ops is a tool for Malaysian business workflows that are too important to run from scattered folders, emails, and portal screenshots.
+Malaysia Agent Ops is a practical tool for Malaysian business paperwork that cannot live safely in scattered folders and screenshots.
 
-The first focus is halal certification preparation. A business can turn its evidence into a structured dossier, then check whether key documents are present before official submission.
+Start with halal. A manufacturer or restaurant collects documents, and the tool turns them into a structured dossier before official submission.
 
-For example, the tool can check company documents, premise evidence, ingredient lists, supplier halal certificates, process flow charts, packaging labels, and expiry dates.
+This is what a passing pre-check looks like. Company registration, PBT licence, product details, ingredient list, supplier halal certificates, process flow, packaging label, and expiry dates are all present.
 
-It does not replace JAKIM, and it does not decide what is halal. It helps applicants, consultants, and reviewers see what is ready, what is missing, and what needs human attention.
+The OCR checks are there too. The declared supplier name, certificate number, issuing body, and expiry date are compared against what the scanned certificate actually says.
 
-The second focus is Malaysian tax and e-invoicing. The tool can run a local invoice workflow from submission, to status polling, to payment request, to payment event, until the invoice is paid or blocked.
+And when something fails, the report should be blunt. An expired certificate, missing supplier evidence, or low-confidence OCR result becomes a fix list before anyone wastes time submitting a weak file.
 
-For real MyInvois submissions, it stops at approval and credential gates. That is intentional. The system should never pretend a live government submission happened.
+It does not replace JAKIM, and it does not decide what is halal. It gives applicants, consultants, and reviewers a cleaner evidence trail.
 
-In plain English, Malaysia Agent Ops is an execution and evidence layer. It helps agents and operators prepare cleaner halal dossiers, run safer e-invoice workflows, and produce audit trails people can inspect.
+The tax side works the same way. The tool takes an invoice payload, submits it in a sandbox flow, checks status, creates a payment request, ingests the payment event, and marks the invoice paid.
+
+For real MyInvois work, it stops before live risk. No credentials, no explicit approval, no fake government submission.
+
+So in plain English, this is an execution and evidence layer for halal and Malaysian tax operations: cleaner dossiers, safer workflows, and proof people can inspect.
