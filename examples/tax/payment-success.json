@@ -1,0 +1,7 @@
+{
+  "event_type": "payment_received",
+  "payment_status": "succeeded",
+  "amount": 150.0,
+  "currency": "MYR",
+  "external_reference": "BANKREF-TAX-DEMO-001"
+}

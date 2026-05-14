@@ -1,6 +1,6 @@
 ---
 name: "malaysia-agent-ops"
-description: "Operate the local malaysia-agent-ops application through its CLI, HTTP API, and MCP surfaces. Use when an agent needs to run Malaysia-specific business workflows like halal dossier prechecks, MyInvois invoice submission, payment request creation, payment event ingestion, approval handling, or autonomous run-until-blocked execution inside /Users/faiqhilman/Projects/malaysia-agent-ops."
+description: "Operate the local malaysia-agent-ops application through its CLI, HTTP API, and MCP surfaces. Use when an agent needs to run Malaysia-specific business workflows like halal dossier prechecks, tax/e-invoice execution demos, MyInvois invoice submission, payment request creation, payment event ingestion, approval handling, or autonomous run-until-blocked execution inside /Users/faiqhilman/Projects/malaysia-agent-ops."
 ---
 
 # Malaysia Agent Ops

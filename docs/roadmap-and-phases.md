@@ -28,7 +28,7 @@ As of `2026-03-24`, the repo has these implemented platform primitives:
   - `/app/halal-ops`
   - `/app/project-status`
   - `/app/halal-attack-plan`
-- `16/16` automated tests passing in [test_end_to_end.py](/Users/faiqhilman/Projects/malaysia-agent-ops/tests/test_end_to_end.py)
+- `22/22` automated tests passing in [test_end_to_end.py](/Users/faiqhilman/Projects/malaysia-agent-ops/tests/test_end_to_end.py)
 - shared execution surfaces:
   - CLI via [manage.py](/Users/faiqhilman/Projects/malaysia-agent-ops/manage.py)
   - HTTP API via [server.py](/Users/faiqhilman/Projects/malaysia-agent-ops/src/malaysia_agent_ops/server.py)
@@ -194,8 +194,9 @@ Operational:
 | P0 local invoice lifecycle | Complete | validate, submit, status, cancel in sandbox state machine | none | `test_phase1_end_to_end_flow` |
 | P1 low-level MyInvois adapter | Complete | login, TIN validation, document submit/poll/cancel request shaping | none for mocked tests | `test_provider_myinvois_login_with_mocked_remote`, `test_myinvois_submit_documents_uses_official_path` |
 | P2 high-level delegation through `invoices.*` | Partial | `invoices.submit/status/cancel` can route to provider-backed execution | credentials and compliant payloads | `test_approval_gate_blocks_then_allows_real_invoice_submission` plus live sandbox smoke tests |
-| P3 live sandbox workflow | Next | complete one full MyInvois sandbox invoice lifecycle via `invoices.*` | sandbox credentials | manual live tests below |
-| P4 production-hardening | Planned | retries, provider-specific error mapping, document-type selection, idempotency | production access | live pilot with design partner |
+| P3 local execution credibility pack | Complete | `tax run` produces sandbox happy-path and real-provider blocked summaries | none | tax execution CLI/report tests |
+| P4 live sandbox workflow | Next | complete one full MyInvois sandbox invoice lifecycle via `invoices.*` | sandbox credentials | manual live tests below |
+| P5 production-hardening | Planned | retries, provider-specific error mapping, document-type selection, idempotency | production access | live pilot with design partner |
 
 ### Tests to run now
 

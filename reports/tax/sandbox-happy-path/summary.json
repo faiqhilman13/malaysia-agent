@@ -1,0 +1,86 @@
+{
+  "schema_version": "tax-execution.v0",
+  "generated_at": "2026-05-14T02:09:50+00:00",
+  "execution_mode": "sandbox",
+  "invoice_path": "examples/tax/sandbox-happy-path.invoice.json",
+  "invoice": {
+    "invoice_number": "INV-TAX-DEMO-001",
+    "issue_date": "2026-05-14",
+    "supplier_tin": "C1234567801",
+    "buyer_tin": "C1234567802",
+    "currency": "MYR",
+    "total_amount": 150.0,
+    "line_item_count": 2
+  },
+  "payment_event": {
+    "event_type": "payment_received",
+    "payment_status": "succeeded",
+    "amount": 150.0,
+    "currency": "MYR",
+    "external_reference": "BANKREF-TAX-DEMO-001"
+  },
+  "overall_status": "pass",
+  "workflow_status": "completed",
+  "blocking_reason": null,
+  "next_action": null,
+  "run_id": "9eae7d15-b438-4e53-a1be-7abb319d35cf",
+  "steps_executed": 4,
+  "submission_id": "53d90f94-50a2-4853-8800-9ffec66b137b",
+  "payment_request_id": "5e33451f-d3e3-424f-99b9-4e7a9172f99a",
+  "final_invoice_status": "paid",
+  "final_payment_status": "matched",
+  "exceptions": [],
+  "final_response": {
+    "status": "success",
+    "next_action": null,
+    "blocking_reason": null,
+    "source_system": "paynet_duitnow_sandbox",
+    "resource_id": "5e33451f-d3e3-424f-99b9-4e7a9172f99a",
+    "timestamp": "2026-05-14T02:09:50+00:00",
+    "data": {
+      "event_id": "a0447788-c2f4-465f-abf0-a8bc14fb92e7",
+      "request_id": "5e33451f-d3e3-424f-99b9-4e7a9172f99a",
+      "workflow_status": "matched",
+      "received_amount": 150.0,
+      "external_reference": "BANKREF-TAX-DEMO-001"
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "action": "invoices.submit",
+      "status": "success",
+      "next_action": "invoices.status",
+      "blocking_reason": null,
+      "resource_id": "53d90f94-50a2-4853-8800-9ffec66b137b"
+    },
+    {
+      "step": 2,
+      "action": "invoices.status",
+      "status": "success",
+      "next_action": "payments.create_request",
+      "blocking_reason": null,
+      "resource_id": "53d90f94-50a2-4853-8800-9ffec66b137b"
+    },
+    {
+      "step": 3,
+      "action": "payments.create_request",
+      "status": "success",
+      "next_action": "payments.ingest_event",
+      "blocking_reason": null,
+      "resource_id": "5e33451f-d3e3-424f-99b9-4e7a9172f99a"
+    },
+    {
+      "step": 4,
+      "action": "payments.ingest_event",
+      "status": "success",
+      "next_action": null,
+      "blocking_reason": null,
+      "resource_id": "5e33451f-d3e3-424f-99b9-4e7a9172f99a"
+    }
+  ],
+  "notes": [
+    "Sandbox execution used local deterministic MyInvois-shaped and DuitNow-shaped workflow state.",
+    "No live MyInvois submission was performed."
+  ]
+}

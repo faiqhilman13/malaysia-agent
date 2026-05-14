@@ -160,6 +160,10 @@ Important nuance:
 
 - the high-level `invoices.*` flow can delegate to the real MyInvois path
 - live execution still depends on valid credentials and compliant document payloads
+- the local tax execution credibility pack now demonstrates:
+  - sandbox invoice-to-payment completion
+  - real-provider submission blocking at the approval gate
+  - JSON and Markdown audit summaries that explicitly state no live submission occurred
 
 ### 4.3 Halal track
 
@@ -410,7 +414,7 @@ Outcome:
 
 Status:
 
-- next priority
+- next priority after the local execution credibility pack
 
 Required dependencies:
 
@@ -420,6 +424,18 @@ Required dependencies:
 Outcome:
 
 - one full sandbox submission through the high-level business contract
+
+### Phase A1.5: local tax execution credibility pack
+
+Status:
+
+- complete for local use
+
+Outcome:
+
+- `tax run` can execute a sandbox invoice workflow to paid state
+- `tax run --real-provider` stops at approval/credential gates instead of pretending live execution occurred
+- summary artifacts are produced as JSON and Markdown for audit review
 
 ### Phase A3: production-grade finance operations layer
 

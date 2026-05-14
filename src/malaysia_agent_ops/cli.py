@@ -11,6 +11,7 @@ from .halal_precheck import HalalPrecheckError, run_halal_precheck
 from .mcp_server import serve_mcp
 from .server import serve
 from .service import InputError, NotFoundError, OperationsService
+from .tax_execution import TaxExecutionError, run_tax_execution
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -45,6 +46,16 @@ def build_parser() -> argparse.ArgumentParser:
     precheck_run.add_argument("--ocr-dir", help="Optional directory of OCR verification JSON files.")
     precheck_run.add_argument("--requirements", help="Optional requirements JSON file.")
     precheck_run.add_argument("--pretty", action="store_true", help="Pretty-print the CLI summary JSON.")
+
+    tax_parser = subparsers.add_parser("tax", help="Run tax and e-invoicing operator workflows.")
+    tax_subparsers = tax_parser.add_subparsers(dest="tax_command", required=True)
+    tax_run = tax_subparsers.add_parser("run", help="Execute an invoice workflow and write audit summaries.")
+    tax_run.add_argument("--file", required=True, dest="invoice_file", help="Path to an invoice JSON file.")
+    tax_run.add_argument("--payment-event", help="Path to a payment event JSON file for sandbox completion.")
+    tax_run.add_argument("--out-dir", required=True, help="Directory for summary.json and summary.md.")
+    tax_run.add_argument("--real-provider", action="store_true", help="Attempt the real-provider path until it blocks.")
+    tax_run.add_argument("--db-path", help="Optional SQLite database path.")
+    tax_run.add_argument("--pretty", action="store_true", help="Pretty-print the CLI summary JSON.")
 
     return parser
 
@@ -106,6 +117,27 @@ def main(argv: list[str] | None = None) -> int:
                 pretty=args.pretty,
             )
             return 0
+        if args.command == "tax" and args.tax_command == "run":
+            settings = get_settings(db_path=Path(args.db_path).resolve() if getattr(args, "db_path", None) else None)
+            result = run_tax_execution(
+                settings=settings,
+                invoice_path=Path(args.invoice_file),
+                payment_event_path=Path(args.payment_event) if args.payment_event else None,
+                out_dir=Path(args.out_dir),
+                real_provider=bool(args.real_provider),
+            )
+            emit(
+                {
+                    "status": "success",
+                    "overall_status": result["overall_status"],
+                    "workflow_status": result.get("workflow_status"),
+                    "blocking_reason": result.get("blocking_reason"),
+                    "out_dir": args.out_dir,
+                    "files": ["summary.json", "summary.md"],
+                },
+                pretty=args.pretty,
+            )
+            return 0
 
         settings = get_settings(db_path=Path(args.db_path).resolve() if getattr(args, "db_path", None) else None)
         payload = load_payload(args)
@@ -113,6 +145,6 @@ def main(argv: list[str] | None = None) -> int:
         response = service.invoke(args.action, payload)
         emit(response, pretty=args.pretty)
         return 0
-    except (InputError, NotFoundError, HalalPrecheckError, json.JSONDecodeError) as exc:
+    except (InputError, NotFoundError, HalalPrecheckError, TaxExecutionError, json.JSONDecodeError) as exc:
         emit({"error": str(exc)}, pretty=True)
         return 1

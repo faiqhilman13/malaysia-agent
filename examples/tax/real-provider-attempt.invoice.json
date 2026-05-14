@@ -1,0 +1,15 @@
+{
+  "invoice_number": "INV-TAX-REAL-BLOCK-001",
+  "issue_date": "2026-05-14",
+  "supplier_tin": "C1234567801",
+  "buyer_tin": "C1234567802",
+  "currency": "MYR",
+  "line_items": [
+    {
+      "description": "Real-provider safety gate demo",
+      "quantity": 1,
+      "unit_price": 120.0
+    }
+  ],
+  "total_amount": 120.0
+}

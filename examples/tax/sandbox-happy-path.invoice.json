@@ -1,0 +1,20 @@
+{
+  "invoice_number": "INV-TAX-DEMO-001",
+  "issue_date": "2026-05-14",
+  "supplier_tin": "C1234567801",
+  "buyer_tin": "C1234567802",
+  "currency": "MYR",
+  "line_items": [
+    {
+      "description": "Halal compliance workflow subscription",
+      "quantity": 1,
+      "unit_price": 120.0
+    },
+    {
+      "description": "Implementation support",
+      "quantity": 1,
+      "unit_price": 30.0
+    }
+  ],
+  "total_amount": 150.0
+}

@@ -21,6 +21,7 @@ from malaysia_agent_ops.mcp_server import McpStdioServer
 from malaysia_agent_ops.providers import CIDBClient, MyInvoisClient
 from malaysia_agent_ops.server import ROUTES
 from malaysia_agent_ops.service import OperationsService
+from malaysia_agent_ops.tax_execution import run_tax_execution
 
 
 class OperationsServiceTests(unittest.TestCase):
@@ -361,6 +362,41 @@ class OperationsServiceTests(unittest.TestCase):
 
             precheck = json.loads((out_dir / "precheck.json").read_text())
             self.assertEqual(precheck["summary"]["overall_status"], "pass")
+
+    def test_tax_execution_sandbox_happy_path_writes_summary(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            settings = get_settings(project_root=temp_path, db_path=temp_path / "tax.db")
+            out_dir = temp_path / "reports"
+            result = run_tax_execution(
+                settings=settings,
+                invoice_path=PROJECT_ROOT / "examples/tax/sandbox-happy-path.invoice.json",
+                payment_event_path=PROJECT_ROOT / "examples/tax/payment-success.json",
+                out_dir=out_dir,
+            )
+
+            self.assertEqual(result["overall_status"], "pass")
+            self.assertEqual(result["workflow_status"], "completed")
+            self.assertEqual(result["final_invoice_status"], "paid")
+            self.assertEqual(result["final_payment_status"], "matched")
+            self.assertTrue((out_dir / "summary.json").exists())
+            self.assertTrue((out_dir / "summary.md").exists())
+
+    def test_tax_execution_real_provider_blocks_without_live_submission(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            settings = get_settings(project_root=temp_path, db_path=temp_path / "tax.db")
+            result = run_tax_execution(
+                settings=settings,
+                invoice_path=PROJECT_ROOT / "examples/tax/real-provider-attempt.invoice.json",
+                out_dir=temp_path / "reports",
+                real_provider=True,
+            )
+
+            self.assertEqual(result["overall_status"], "blocked_honestly")
+            self.assertEqual(result["blocking_reason"], "awaiting_human_approval")
+            self.assertEqual(result["next_action"], "approvals.approve")
+            self.assertIn("No live MyInvois submission was performed.", result["notes"])
 
     def test_halal_bom_and_registry_block_on_non_active_supplier(self) -> None:
         supplier = self.service.halal_suppliers_upsert({"supplier_tin": "C1234567805"})

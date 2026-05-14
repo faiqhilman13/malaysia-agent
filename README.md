@@ -73,6 +73,8 @@ The package is intentionally dependency-free so it runs in this environment with
 - [Halal ground truth register](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-ground-truth-register.md)
 - [Halal precheck PRD](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-precheck-prd.md)
 - [Halal precheck demo guide](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-precheck-demo-guide.md)
+- [Tax execution PRD](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/tax-execution-prd.md)
+- [Tax execution demo guide](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/tax-execution-demo-guide.md)
 - [Project status dashboard](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/project-status-dashboard.html)
 - [Halal vertical attack plan](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-vertical-attack-plan.html)
 - [Halal operations workbench](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-ops-workbench.html)
@@ -232,6 +234,26 @@ python3 manage.py halal precheck run \
   --file examples/seri-melaka-restaurant.dossier.json \
   --ocr-dir examples/ocr/seri-melaka \
   --out-dir reports/seri-melaka \
+  --pretty
+```
+
+Run a tax/e-invoice sandbox execution demo:
+
+```bash
+python3 manage.py tax run \
+  --file examples/tax/sandbox-happy-path.invoice.json \
+  --payment-event examples/tax/payment-success.json \
+  --out-dir reports/tax/sandbox-happy-path \
+  --pretty
+```
+
+Run a real-provider safety-gate demo:
+
+```bash
+python3 manage.py tax run \
+  --file examples/tax/real-provider-attempt.invoice.json \
+  --real-provider \
+  --out-dir reports/tax/real-provider-blocked \
   --pretty
 ```
 
@@ -456,7 +478,7 @@ python3 manage.py action providers.cidb.building_material_price --json '{
 
 ## Tests
 
-Current automated status in this workspace: `20/20` passing.
+Current automated status in this workspace: `22/22` passing.
 
 ```bash
 cd /Users/faiqhilman/Projects/malaysia-agent-ops
