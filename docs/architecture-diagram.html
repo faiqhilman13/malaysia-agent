@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malaysia Agent Ops Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020617;
+      min-height: 100vh;
+      padding: 2rem;
+      color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 2rem;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pulse-dot {
+      width: 12px;
+      height: 12px;
+      background: #22d3ee;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 0.875rem;
+      margin-left: 1.75rem;
+    }
+
+    .diagram-container {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 1rem;
+      border: 1px solid #1e293b;
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 900px;
+      display: block;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 0.75rem;
+      border: 1px solid #1e293b;
+      padding: 1.25rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .card-dot.cyan { background: #22d3ee; }
+    .card-dot.emerald { background: #34d399; }
+    .card-dot.violet { background: #a78bfa; }
+    .card-dot.amber { background: #fbbf24; }
+    .card-dot.rose { background: #fb7185; }
+
+    .card h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .card ul {
+      list-style: none;
+      color: #94a3b8;
+      font-size: 0.75rem;
+    }
+
+    .card li {
+      margin-bottom: 0.375rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #475569;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-row">
+        <div class="pulse-dot"></div>
+        <h1>Malaysia Agent Ops Architecture</h1>
+      </div>
+      <p class="subtitle">Execution middleware for AI agents on Malaysian business rails — halal dossier pre-checks, e-invoicing, payments, and compliance</p>
+    </div>
+
+    <!-- Main Diagram -->
+    <div class="diagram-container">
+      <svg viewBox="0 0 1100 820">
+        <!-- Definitions -->
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+          </marker>
+          <marker id="arrowhead-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee" />
+          </marker>
+          <marker id="arrowhead-rose" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#fb7185" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Background Grid -->
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- ============================================
+             ARROWS (drawn first for z-order)
+             ============================================ -->
+
+        <!-- AI Agents → Entry Points -->
+        <line x1="155" y1="100" x2="248" y2="100" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead-cyan)"/>
+        <text x="200" y="93" fill="#94a3b8" font-size="8" text-anchor="middle">JSON</text>
+
+        <line x1="155" y1="165" x2="248" y2="165" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead-cyan)"/>
+        <text x="200" y="158" fill="#94a3b8" font-size="8" text-anchor="middle">HTTP</text>
+
+        <line x1="155" y1="230" x2="248" y2="230" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead-cyan)"/>
+        <text x="200" y="223" fill="#94a3b8" font-size="8" text-anchor="middle">stdio</text>
+
+        <line x1="155" y1="295" x2="248" y2="295" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead-cyan)"/>
+        <text x="200" y="288" fill="#94a3b8" font-size="8" text-anchor="middle">skill</text>
+
+        <!-- Entry Points → Service Layer -->
+        <line x1="395" y1="100" x2="468" y2="100" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="395" y1="165" x2="468" y2="165" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="395" y1="230" x2="468" y2="230" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="395" y1="295" x2="468" y2="295" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Service Layer → SQLite -->
+        <line x1="610" y1="240" x2="680" y2="240" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="648" y="233" fill="#94a3b8" font-size="8" text-anchor="middle">state</text>
+
+        <!-- Service Layer → Action Contract -->
+        <line x1="540" y1="320" x2="540" y2="358" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="555" y="342" fill="#94a3b8" font-size="8">invoke</text>
+
+        <!-- Action Contract → Workflow Engine -->
+        <line x1="540" y1="450" x2="540" y2="478" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Workflow Engine → Provider Adapters -->
+        <line x1="475" y1="568" x2="475" y2="598" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="540" y1="568" x2="540" y2="598" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="605" y1="568" x2="605" y2="598" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Provider Adapters → External Systems -->
+        <line x1="475" y1="660" x2="475" y2="698" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="540" y1="660" x2="540" y2="698" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="605" y1="660" x2="605" y2="698" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Halal Workbench → Service Layer -->
+        <path d="M 830 230 L 750 230 Q 730 230 730 210 L 730 197 L 612 197" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#arrowhead-cyan)"/>
+        <text x="770" y="223" fill="#94a3b8" font-size="8">API</text>
+
+        <!-- ============================================
+             AI AGENTS (left column)
+             ============================================ -->
+        <rect x="30" y="75" width="120" height="250" rx="8" fill="rgba(8, 51, 68, 0.15)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="90" y="93" fill="#22d3ee" font-size="9" font-weight="600" text-anchor="middle">AI AGENTS</text>
+
+        <rect x="42" y="105" width="96" height="36" rx="4" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.2"/>
+        <text x="90" y="122" fill="white" font-size="10" font-weight="600" text-anchor="middle">Agent</text>
+        <text x="90" y="134" fill="#94a3b8" font-size="8" text-anchor="middle">LangChain</text>
+
+        <rect x="42" y="152" width="96" height="36" rx="4" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.2"/>
+        <text x="90" y="169" fill="white" font-size="10" font-weight="600" text-anchor="middle">HTTP Client</text>
+        <text x="90" y="181" fill="#94a3b8" font-size="8" text-anchor="middle">REST / JSON</text>
+
+        <rect x="42" y="217" width="96" height="36" rx="4" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.2"/>
+        <text x="90" y="234" fill="white" font-size="10" font-weight="600" text-anchor="middle">MCP Client</text>
+        <text x="90" y="246" fill="#94a3b8" font-size="8" text-anchor="middle">Claude / Cursor</text>
+
+        <rect x="42" y="282" width="96" height="36" rx="4" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.2"/>
+        <text x="90" y="299" fill="white" font-size="10" font-weight="600" text-anchor="middle">Skill</text>
+        <text x="90" y="311" fill="#94a3b8" font-size="8" text-anchor="middle">Repo-local</text>
+
+        <!-- ============================================
+             ENTRY POINTS (second column)
+             ============================================ -->
+        <rect x="250" y="75" width="140" height="250" rx="8" fill="rgba(6, 78, 59, 0.1)" stroke="#34d399" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="320" y="93" fill="#34d399" font-size="9" font-weight="600" text-anchor="middle">ENTRY POINTS</text>
+
+        <!-- CLI -->
+        <rect x="262" y="105" width="116" height="36" rx="4" fill="#0f172a"/>
+        <rect x="262" y="105" width="116" height="36" rx="4" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.2"/>
+        <text x="320" y="122" fill="white" font-size="10" font-weight="600" text-anchor="middle">CLI</text>
+        <text x="320" y="134" fill="#94a3b8" font-size="8" text-anchor="middle">manage.py action</text>
+
+        <!-- HTTP Server -->
+        <rect x="262" y="152" width="116" height="36" rx="4" fill="#0f172a"/>
+        <rect x="262" y="152" width="116" height="36" rx="4" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.2"/>
+        <text x="320" y="169" fill="white" font-size="10" font-weight="600" text-anchor="middle">HTTP Server</text>
+        <text x="320" y="181" fill="#94a3b8" font-size="8" text-anchor="middle">:8080 /v1/*</text>
+
+        <!-- MCP Server -->
+        <rect x="262" y="217" width="116" height="36" rx="4" fill="#0f172a"/>
+        <rect x="262" y="217" width="116" height="36" rx="4" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.2"/>
+        <text x="320" y="234" fill="white" font-size="10" font-weight="600" text-anchor="middle">MCP Server</text>
+        <text x="320" y="246" fill="#94a3b8" font-size="8" text-anchor="middle">stdio JSON-RPC</text>
+
+        <!-- Skill -->
+        <rect x="262" y="282" width="116" height="36" rx="4" fill="#0f172a"/>
+        <rect x="262" y="282" width="116" height="36" rx="4" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.2"/>
+        <text x="320" y="299" fill="white" font-size="10" font-weight="600" text-anchor="middle">Agent Skill</text>
+        <text x="320" y="311" fill="#94a3b8" font-size="8" text-anchor="middle">SKILL.md</text>
+
+        <!-- ============================================
+             SERVICE LAYER (center)
+             ============================================ -->
+        <rect x="470" y="75" width="140" height="250" rx="8" fill="rgba(6, 78, 59, 0.1)" stroke="#34d399" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="540" y="93" fill="#34d399" font-size="9" font-weight="600" text-anchor="middle">SERVICE LAYER</text>
+
+        <!-- OperationsService -->
+        <rect x="482" y="105" width="116" height="80" rx="4" fill="#0f172a"/>
+        <rect x="482" y="105" width="116" height="80" rx="4" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.2"/>
+        <text x="540" y="125" fill="white" font-size="10" font-weight="600" text-anchor="middle">Operations</text>
+        <text x="540" y="140" fill="white" font-size="10" font-weight="600" text-anchor="middle">Service</text>
+        <text x="540" y="158" fill="#94a3b8" font-size="8" text-anchor="middle">service.py</text>
+        <text x="540" y="172" fill="#34d399" font-size="8" text-anchor="middle">45 actions</text>
+
+        <!-- Settings -->
+        <rect x="482" y="200" width="116" height="50" rx="4" fill="#0f172a"/>
+        <rect x="482" y="200" width="116" height="50" rx="4" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.2"/>
+        <text x="540" y="222" fill="white" font-size="10" font-weight="600" text-anchor="middle">Settings</text>
+        <text x="540" y="238" fill="#94a3b8" font-size="8" text-anchor="middle">config.py</text>
+
+        <!-- Fixtures -->
+        <rect x="482" y="265" width="116" height="50" rx="4" fill="#0f172a"/>
+        <rect x="482" y="265" width="116" height="50" rx="4" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.2"/>
+        <text x="540" y="287" fill="white" font-size="10" font-weight="600" text-anchor="middle">Fixtures</text>
+        <text x="540" y="303" fill="#94a3b8" font-size="8" text-anchor="middle">MY business data</text>
+
+        <!-- ============================================
+             SQLite Database
+             ============================================ -->
+        <rect x="690" y="180" width="130" height="110" rx="6" fill="#0f172a"/>
+        <rect x="690" y="180" width="130" height="110" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="755" y="205" fill="white" font-size="11" font-weight="600" text-anchor="middle">SQLite</text>
+        <text x="755" y="222" fill="#94a3b8" font-size="8" text-anchor="middle">myops.db</text>
+        <line x1="704" y1="232" x2="806" y2="232" stroke="#a78bfa" stroke-width="0.5" opacity="0.4"/>
+        <text x="755" y="248" fill="#94a3b8" font-size="8" text-anchor="middle">invoices</text>
+        <text x="755" y="262" fill="#94a3b8" font-size="8" text-anchor="middle">payments</text>
+        <text x="755" y="276" fill="#94a3b8" font-size="8" text-anchor="middle">approvals / exceptions</text>
+
+        <!-- ============================================
+             HALAL WORKBENCH (right side)
+             ============================================ -->
+        <rect x="830" y="180" width="150" height="120" rx="8" fill="rgba(8, 51, 68, 0.15)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="905" y="198" fill="#22d3ee" font-size="9" font-weight="600" text-anchor="middle">FRONTEND</text>
+
+        <rect x="842" y="208" width="126" height="80" rx="4" fill="#0f172a"/>
+        <rect x="842" y="208" width="126" height="80" rx="4" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.2"/>
+        <text x="905" y="228" fill="white" font-size="10" font-weight="600" text-anchor="middle">Halal Ops</text>
+        <text x="905" y="243" fill="white" font-size="10" font-weight="600" text-anchor="middle">Workbench</text>
+        <text x="905" y="262" fill="#94a3b8" font-size="8" text-anchor="middle">HTML dashboard</text>
+        <text x="905" y="278" fill="#22d3ee" font-size="8" text-anchor="middle">/app/halal-ops</text>
+
+        <!-- ============================================
+             THREE-LAYER ARCHITECTURE (bottom section)
+             ============================================ -->
+
+        <!-- Layer boundary -->
+        <rect x="170" y="345" width="740" height="330" rx="12" fill="rgba(30, 41, 59, 0.15)" stroke="#475569" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="185" y="362" fill="#94a3b8" font-size="9" font-weight="600">THREE-LAYER ARCHITECTURE</text>
+
+        <!-- Layer 1: Action Contract -->
+        <rect x="195" y="375" width="690" height="70" rx="6" fill="#0f172a"/>
+        <rect x="195" y="375" width="690" height="70" rx="6" fill="rgba(6, 78, 59, 0.3)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="220" y="395" fill="#34d399" font-size="9" font-weight="600">LAYER 1</text>
+        <text x="540" y="395" fill="white" font-size="12" font-weight="700" text-anchor="middle">Action Contract</text>
+        <text x="540" y="412" fill="#94a3b8" font-size="9" text-anchor="middle">Uniform request/response envelope — status, next_action, blocking_reason, data</text>
+        <text x="540" y="430" fill="#64748b" font-size="8" text-anchor="middle">invoices.*  |  payments.*  |  entities.*  |  workflows.*  |  approvals.*  |  exceptions.*  |  trade.*  |  halal.*  |  providers.*</text>
+
+        <!-- Layer 2: Workflow Orchestration -->
+        <rect x="195" y="465" width="690" height="95" rx="6" fill="#0f172a"/>
+        <rect x="195" y="465" width="690" height="95" rx="6" fill="rgba(251, 146, 60, 0.15)" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="220" y="485" fill="#fb923c" font-size="9" font-weight="600">LAYER 2</text>
+        <text x="540" y="485" fill="white" font-size="12" font-weight="700" text-anchor="middle">Workflow Orchestration</text>
+        <text x="540" y="505" fill="#94a3b8" font-size="9" text-anchor="middle">Stateful lifecycle management — autonomous runner, status transitions, approvals, exception handling</text>
+
+        <!-- Lifecycle flow -->
+        <text x="280" y="530" fill="#fb923c" font-size="8" text-anchor="middle">submitted</text>
+        <line x1="310" y1="527" x2="345" y2="527" stroke="#fb923c" stroke-width="1" marker-end="url(#arrowhead)"/>
+        <text x="380" y="530" fill="#fb923c" font-size="8" text-anchor="middle">validated</text>
+        <line x1="412" y1="527" x2="447" y2="527" stroke="#fb923c" stroke-width="1" marker-end="url(#arrowhead)"/>
+        <text x="495" y="530" fill="#fb923c" font-size="8" text-anchor="middle">payment_req</text>
+        <line x1="535" y1="527" x2="570" y2="527" stroke="#fb923c" stroke-width="1" marker-end="url(#arrowhead)"/>
+        <text x="600" y="530" fill="#fb923c" font-size="8" text-anchor="middle">paid</text>
+
+        <text x="540" y="548" fill="#64748b" font-size="8" text-anchor="middle">Workflow states: running → completed | blocked | awaiting_external_event | awaiting_human_approval | failed</text>
+
+        <!-- Layer 3: Provider Adapters -->
+        <rect x="195" y="580" width="690" height="80" rx="6" fill="#0f172a"/>
+        <rect x="195" y="580" width="690" height="80" rx="6" fill="rgba(120, 53, 15, 0.15)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="220" y="600" fill="#fbbf24" font-size="9" font-weight="600">LAYER 3</text>
+        <text x="540" y="600" fill="white" font-size="12" font-weight="700" text-anchor="middle">Provider Adapters</text>
+
+        <!-- MyInvois adapter -->
+        <rect x="215" y="612" width="170" height="38" rx="4" fill="#0f172a"/>
+        <rect x="215" y="612" width="170" height="38" rx="4" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="300" y="630" fill="white" font-size="10" font-weight="600" text-anchor="middle">MyInvois</text>
+        <text x="300" y="643" fill="#94a3b8" font-size="8" text-anchor="middle">LHDN e-invoicing</text>
+
+        <!-- CIDB adapter -->
+        <rect x="400" y="612" width="170" height="38" rx="4" fill="#0f172a"/>
+        <rect x="400" y="612" width="170" height="38" rx="4" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="485" y="630" fill="white" font-size="10" font-weight="600" text-anchor="middle">CIDB N3C</text>
+        <text x="485" y="643" fill="#94a3b8" font-size="8" text-anchor="middle">Construction data</text>
+
+        <!-- Sandbox / Planned adapters -->
+        <rect x="585" y="612" width="280" height="38" rx="4" fill="#0f172a"/>
+        <rect x="585" y="612" width="280" height="38" rx="4" fill="rgba(120, 53, 15, 0.2)" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="725" y="630" fill="#fbbf24" font-size="10" font-weight="600" text-anchor="middle">Planned</text>
+        <text x="725" y="643" fill="#94a3b8" font-size="8" text-anchor="middle">PayNet · DuitNow · MyDigital ID · DagangNet</text>
+
+        <!-- ============================================
+             EXTERNAL SYSTEMS (bottom)
+             ============================================ -->
+        <rect x="170" y="705" width="740" height="60" rx="8" fill="rgba(30, 41, 59, 0.15)" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="185" y="722" fill="#94a3b8" font-size="9" font-weight="600">MALAYSIAN GOVERNMENT &amp; FINANCIAL RAILS</text>
+
+        <rect x="220" y="730" width="120" height="26" rx="4" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1"/>
+        <text x="280" y="747" fill="white" font-size="9" font-weight="600" text-anchor="middle">MyInvois / LHDN</text>
+
+        <rect x="360" y="730" width="120" height="26" rx="4" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1"/>
+        <text x="420" y="747" fill="white" font-size="9" font-weight="600" text-anchor="middle">CIDB N3C</text>
+
+        <rect x="500" y="730" width="120" height="26" rx="4" fill="rgba(30, 41, 59, 0.3)" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="560" y="747" fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle">PayNet / DuitNow</text>
+
+        <rect x="640" y="730" width="120" height="26" rx="4" fill="rgba(30, 41, 59, 0.3)" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="700" y="747" fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle">DagangNet</text>
+
+        <!-- ============================================
+             DUAL MODE INDICATOR
+             ============================================ -->
+        <rect x="870" y="370" width="170" height="60" rx="6" fill="#0f172a"/>
+        <rect x="870" y="370" width="170" height="60" rx="6" fill="rgba(136, 19, 55, 0.2)" stroke="#fb7185" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="955" y="392" fill="#fb7185" font-size="9" font-weight="600" text-anchor="middle">DUAL MODE</text>
+        <text x="955" y="408" fill="#94a3b8" font-size="8" text-anchor="middle">Sandbox (deterministic)</text>
+        <text x="955" y="421" fill="#94a3b8" font-size="8" text-anchor="middle">Live (real APIs)</text>
+
+        <!-- ============================================
+             LEGEND (outside all boundaries)
+             ============================================ -->
+        <text x="870" y="460" fill="white" font-size="10" font-weight="600">Legend</text>
+
+        <rect x="870" y="472" width="16" height="10" rx="2" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1"/>
+        <text x="892" y="480" fill="#94a3b8" font-size="8">Client / Frontend</text>
+
+        <rect x="870" y="490" width="16" height="10" rx="2" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1"/>
+        <text x="892" y="498" fill="#94a3b8" font-size="8">Backend Service</text>
+
+        <rect x="870" y="508" width="16" height="10" rx="2" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="892" y="516" fill="#94a3b8" font-size="8">Database</text>
+
+        <rect x="870" y="526" width="16" height="10" rx="2" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="892" y="534" fill="#94a3b8" font-size="8">Provider / External</text>
+
+        <rect x="870" y="544" width="16" height="10" rx="2" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1"/>
+        <text x="892" y="552" fill="#94a3b8" font-size="8">Orchestration</text>
+
+        <line x1="870" y1="566" x2="886" y2="566" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <text x="892" y="569" fill="#94a3b8" font-size="8">Dual Mode</text>
+
+        <line x1="870" y1="584" x2="886" y2="584" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="892" y="587" fill="#94a3b8" font-size="8">Planned / Dashed</text>
+
+      </svg>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot emerald"></div>
+          <h3>Agent Entry Points</h3>
+        </div>
+        <ul>
+          <li>&#8226; CLI — manage.py action &lt;action&gt; --json</li>
+          <li>&#8226; HTTP API — ThreadingHTTPServer :8080 /v1/*</li>
+          <li>&#8226; MCP Server — stdio JSON-RPC for Claude/Cursor</li>
+          <li>&#8226; Repo-local Skill — SKILL.md agent contract</li>
+          <li>&#8226; Static Frontend — Halal Ops Workbench</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot amber"></div>
+          <h3>Provider Adapters</h3>
+        </div>
+        <ul>
+          <li>&#8226; MyInvois (LHDN) — auth, TIN, submit, status, cancel</li>
+          <li>&#8226; CIDB N3C — experimental adapter surface, outside current core scope</li>
+          <li>&#8226; PayNet / DuitNow — planned payment settlement</li>
+          <li>&#8226; MyDigital ID — planned delegated authority</li>
+          <li>&#8226; DagangNet / NSW — planned trade logistics</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>Design Principles</h3>
+        </div>
+        <ul>
+          <li>&#8226; Python stdlib only — zero external dependencies</li>
+          <li>&#8226; SQLite for durable state — no external DB</li>
+          <li>&#8226; Sandbox / Live dual mode — deterministic testing</li>
+          <li>&#8226; Agent-first responses — status + next_action + data</li>
+          <li>&#8226; 45 action contracts across 9 domains</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="footer">
+      Malaysia Agent Ops v0.1.0 &middot; Three-layer middleware: Action Contract → Workflow Orchestration → Provider Adapters
+    </p>
+  </div>
+</body>
+</html>

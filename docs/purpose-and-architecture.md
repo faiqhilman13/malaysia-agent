@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Malaysia Agent Ops is an execution middleware platform purpose-built for AI agents operating within Malaysian business workflows. It provides a standardised, machine-readable interface that connects autonomous software agents to Malaysia's official regulatory, financial, and operational systems -- starting with e-invoicing (MyInvois) and construction market data (CIDB), with a clear expansion path into payments, digital identity, trade logistics, halal compliance, and healthcare.
+Malaysia Agent Ops is an execution middleware platform purpose-built for AI agents operating within Malaysian business workflows. The current core product direction is narrow: halal dossier operations and internal pre-checks for the Malaysian halal industry, plus tax/e-invoicing workflows through LHDN MyInvois. The platform exposes those workflows through a standardised, machine-readable interface while preserving expansion seams for payments, identity, trade logistics, and other Malaysian rails.
 
 The platform does not replace ERPs, government portals, or licensed financial institutions. It sits between them and the next generation of AI-powered business software, translating agent intent into compliant, auditable actions on Malaysian rails.
 
@@ -12,7 +12,7 @@ The platform does not replace ERPs, government portals, or licensed financial in
 
 ### Malaysia's digital infrastructure is growing -- but it was built for humans, not agents
 
-Malaysia has made significant strides in national digitalisation. The MyInvois e-invoicing mandate, DuitNow real-time payments, MyDigital ID, and CIDB's construction data APIs all represent genuine progress. However, every one of these systems was designed around human operators navigating web portals, downloading PDFs, and copying data between screens.
+Malaysia has made significant strides in national digitalisation. The MyInvois e-invoicing mandate, DuitNow real-time payments, MyDigital ID, MYeHALAL, and MyHALALINGREDIENTS all represent genuine progress. However, these systems still leave many operators dealing with human-heavy evidence preparation, document review, portal workflows, and exception handling.
 
 At the same time, businesses across Southeast Asia are rapidly adopting AI agents to automate finance operations, procurement, compliance tracking, and supply chain management. These agents can reason, plan, and execute -- but only if there is a clean programmatic surface to act against.
 
@@ -24,9 +24,9 @@ The gap is specific and measurable:
 
 - **Payments**: DuitNow enables real-time bank transfers and payment requests, but creating and reconciling these programmatically requires navigating bank-specific onboarding, callback infrastructure, and amount-matching logic that no existing middleware abstracts for agent use.
 
-- **Market data**: Construction firms and procurement teams need current pricing for labour, materials, and equipment. CIDB publishes this data, but accessing it requires manual portal navigation or bespoke integrations that are not designed for automated consumption.
+- **Halal compliance operations**: applicants, consultants, manufacturers, and food premises need to assemble company documents, premise evidence, product or menu details, ingredients, supplier certificates, process evidence, and renewal/audit trails before official submission or review.
 
-- **Compliance**: Halal certification, trade document validation, and business registry verification all involve querying fragmented government systems with inconsistent interfaces. An agent that needs to verify a supplier's halal status or validate a trade document pack has no unified API to call.
+- **Compliance generally**: Halal certification, trade document validation, and business registry verification all involve fragmented evidence and inconsistent interfaces. An agent that needs to prepare a halal dossier or validate a trade document pack has no unified execution surface to call.
 
 ### The cost of this gap
 
@@ -37,7 +37,7 @@ This forces businesses into one of two positions:
 1. **Manual handoffs** -- Agents prepare work, humans execute it. This eliminates most of the efficiency gains that justify agent adoption in the first place.
 2. **Custom integrations** -- Each business builds its own connectors to each government system. This is expensive, fragile, and duplicates effort across the entire market.
 
-Malaysia Agent Ops eliminates this gap by providing a single, stable, agent-optimised execution layer across Malaysia's key operational systems.
+Malaysia Agent Ops addresses this gap by providing a stable, agent-optimised execution layer for the workflows currently in scope: halal dossier pre-checks and Malaysian tax/e-invoicing.
 
 ---
 
@@ -50,7 +50,7 @@ Malaysia Agent Ops is a JSON-first API and command-line interface that exposes M
 1. **Resolve and verify** Malaysian business entities -- TIN validation, business registry lookups, taxpayer verification.
 2. **Submit and manage** e-invoices through MyInvois-compliant workflows -- validation, submission, status polling, cancellation.
 3. **Create and progress** payment requests through event-driven settlement shaped for DuitNow and Malaysian banking rails.
-4. **Query live market data** from CIDB -- labour wages, building material prices, machinery rates by state and year.
+4. **Prepare and pre-check** halal dossiers using source-tagged requirement rules, declared metadata, optional OCR verification outputs, and applicant/reviewer reports.
 5. **Track and resolve exceptions** -- mismatches, blocked workflows, and compliance issues surface as structured data that agents can act on.
 
 Every action returns a consistent response envelope containing a status, the next recommended action, any blocking reason, and the relevant data payload. This means an agent can chain operations without custom parsing logic per endpoint -- it reads the response, understands whether it can proceed, and knows exactly what to do next.
@@ -76,12 +76,12 @@ Every action returns a consistent response envelope containing a status, the nex
 
 **Regional beachhead**: Malaysia's regulatory infrastructure is among the most advanced in ASEAN. A platform proven here has a natural expansion path into Indonesia, Thailand, Vietnam, and the Philippines as those markets digitalise.
 
-**Construction and procurement data**: CIDB's public APIs offer an underserved data access opportunity. Construction firms, procurement platforms, and market intelligence tools need structured, programmatic access to pricing data that currently requires manual lookups.
+**Halal workflow digitisation**: JAKIM's SPHM e-Cert and MyHALALINGREDIENTS direction validates the industry shift toward more structured halal operations. The opportunity is to help applicants and consultants prepare cleaner evidence packages before official submission.
 
 ### Target customers
 
 - **Accounting and finance software vendors** building AI features that need to submit invoices, create payments, ingest settlement events, and reconcile transactions against Malaysian systems.
-- **Procurement and construction platforms** that need real-time Malaysian market pricing data for automated quoting, cost estimation, and supplier evaluation.
+- **Halal consultants, food manufacturers, restaurants, OEMs, and exporters** that need to prepare evidence, detect gaps, manage supplier certificates, and produce clearer pre-check reports.
 - **Enterprise AI teams** deploying agents for finance operations, compliance monitoring, and supply chain management in Malaysian subsidiaries.
 - **System integrators and consultancies** building automation solutions for Malaysian businesses that need reliable government system connectivity.
 
@@ -117,7 +117,9 @@ If a payment reconciliation finds an amount mismatch, the system creates a struc
 The bottom layer connects to external systems. Each provider adapter handles authentication, payload translation, and the specifics of a particular Malaysian API. The platform currently supports:
 
 - **MyInvois** (LHDN e-invoicing) -- authentication, TIN validation, document submission, status polling, cancellation.
-- **CIDB N3C** (construction market data) -- state lookups, labour wage rates, building material prices, machinery/equipment rates.
+- **Halal precheck rules** -- source-grounded dossier requirement checks, optional OCR verification input, and applicant/reviewer report generation.
+
+CIDB provider actions exist in the codebase as an experimental adapter surface, but they are not part of the current core product positioning.
 
 The adapter layer runs in two modes:
 
@@ -147,7 +149,7 @@ This three-layer architecture is the platform's core structural advantage:
 - Sandbox environment with deterministic Malaysian business fixtures for end-to-end testing.
 - High-level invoice actions that can delegate to real MyInvois flows when credentials and compliant documents are provided.
 - Live MyInvois integration -- authentication, TIN validation, document submission, status retrieval, and cancellation against LHDN's official rails.
-- Live CIDB N3C integration -- state lookups, labour wages, building material prices, and machinery rates from official APIs.
+- Halal precheck CLI for source-grounded dossier validation, optional OCR verification JSON, and JSON/Markdown/HTML report output.
 - CLI, HTTP API, stdio MCP server, and repo-local agent skill exposing the same business contract through different agent entrypoints.
 - Halal operator workbench and seeded F&B pilot dataset on top of the same local API contract.
 
@@ -158,18 +160,18 @@ This three-layer architecture is the platform's core structural advantage:
 | Phase 0 | Contract and sandbox core | Complete |
 | Phase 1 | Autonomous runner, approvals, event-driven payments, MCP | Complete |
 | Phase 2 | MyInvois high-level execution through `invoices.*` | Partial |
-| Phase 3 | CIDB read-only live retrieval | Partial |
-| Phase 4 | PayNet and DuitNow real settlement rails | Planned |
-| Phase 5 | MyDigital ID and delegated authority | Planned |
-| Phase 6 | Trade and logistics live execution (DagangNet / NSW) | Planned |
-| Phase 7 | Halal regulator-side integration | Planned |
-| Phase 8 | Healthcare revenue cycle (DRG, ICD-10) | Later stage |
+| Phase 3 | Halal dossier precheck reports | Complete for local V0 |
+| Phase 4 | GLM-OCR local extraction command | Planned |
+| Phase 5 | PayNet and DuitNow real settlement rails | Planned |
+| Phase 6 | MyDigital ID and delegated authority | Planned |
+| Phase 7 | Trade and logistics live execution (DagangNet / NSW) | Planned |
+| Phase 8 | Halal regulator-side integration | Planned |
 
 ### Commercial milestones
 
-- **Milestone A**: 5 design partners -- at least 2 in finance/accounting software, at least 1 in procurement/construction.
-- **Milestone B**: Full MyInvois sandbox workflow demonstrated; live CIDB retrieval workflow demonstrated.
-- **Milestone C**: First production-connected customer workflow with a measured reduction of at least 50% in manual finance-ops or market-data lookup effort.
+- **Milestone A**: source-grounded halal precheck demo that catches both passing and failing dossiers for manufacturer and food-premise workflows.
+- **Milestone B**: full MyInvois sandbox workflow demonstrated through the high-level contract.
+- **Milestone C**: first production-connected halal or finance workflow with a measured reduction in manual evidence preparation, exception handling, or finance-ops effort.
 
 ---
 
@@ -179,7 +181,7 @@ Malaysia Agent Ops occupies a distinct position in the market:
 
 - **vs. ERP vendors adding AI features**: ERPs are building AI into their existing products, but their integrations are proprietary and locked to their platform. Malaysia Agent Ops is platform-agnostic middleware that any agent or software can use.
 - **vs. generic API aggregators**: General-purpose API platforms do not understand Malaysian regulatory workflows, status transitions, or exception handling patterns. This platform is purpose-built for Malaysia's specific systems.
-- **vs. custom in-house integrations**: Every business building its own MyInvois or CIDB connector is duplicating effort. Malaysia Agent Ops centralises that work into a shared, maintained layer.
+- **vs. custom in-house integrations**: Every business building its own MyInvois connector or halal evidence workflow is duplicating effort. Malaysia Agent Ops centralises that work into a shared, maintained layer.
 
 ---
 
@@ -196,6 +198,6 @@ Malaysia Agent Ops occupies a distinct position in the market:
 
 Malaysia Agent Ops solves a specific, timely problem: Malaysia's government and financial systems are digitalising rapidly, but the programmatic execution layer that AI agents need to operate within those systems does not yet exist.
 
-This platform fills that gap. It provides a stable, machine-readable interface to Malaysian business operations -- starting with e-invoicing and construction market data, expanding into payments, identity, trade, and compliance. The architecture is deliberately layered to keep the action contract stable while adapters connect to new Malaysian rails as they become available.
+This platform fills that gap. It provides a stable, machine-readable interface to Malaysian business operations -- starting with halal dossier pre-checks and e-invoicing, with expansion paths into payments, identity, trade, and other compliance workflows. The architecture is deliberately layered to keep the action contract stable while adapters connect to new Malaysian rails as they become available.
 
 The commercial opportunity is driven by two converging forces: Malaysia's regulatory mandates creating demand for programmatic access, and the global acceleration of AI agent adoption creating demand for country-specific execution infrastructure. Malaysia Agent Ops sits at the intersection of both.

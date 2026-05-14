@@ -42,7 +42,8 @@ Cross-vertical capabilities that are already real in the codebase:
 - approval store with approve/reject loop
 - event-driven payment ingestion
 - exception creation and resolution
-- real-provider adapter seams for MyInvois and CIDB
+- real-provider adapter seams for MyInvois
+- experimental provider adapter seams for CIDB, retained outside the core product direction
 - persistent halal artifact graph and operator workbench
 
 Cross-vertical capabilities that still need external rails:
@@ -351,11 +352,11 @@ Exit criteria for the next phase:
 - one real callback can be replayed through the webhook route
 - one live provider event settles an invoice without manual reconcile
 
-## Vertical 3: Construction And CIDB N3C
+## Archived Adapter Track: Construction And CIDB N3C
 
 ### Goal
 
-Use CIDB as the lowest-friction official Malaysia API rail in the product and prove that the platform can consume real government data in production-like conditions.
+Keep the CIDB provider adapter available for technical experiments, but do not treat it as a product pillar while the project is focused on halal dossier operations and MyInvois tax workflows.
 
 ### Current state
 
@@ -393,8 +394,8 @@ Optional but useful:
 |---|---|---|---|---|
 | P0 request-shape integration | Complete | official path mapping and auth envelope | none | `test_cidb_states_uses_official_path` |
 | P1 mocked remote behavior | Complete | provider actions behave correctly with stubbed remote responses | none | `test_provider_cidb_dataset_with_mocked_remote` |
-| P2 live read-only execution | Next | states and at least one pricing endpoint exercised with real token | CIDB token | manual live tests below |
-| P3 workflow layer | Planned | quoting, cost benchmarking, or procurement helpers on top of CIDB data | design partner workflow | product-specific tests |
+| P2 live read-only execution | Parked | states and at least one pricing endpoint exercised with real token | CIDB token | manual live tests below |
+| P3 workflow layer | Out of current scope | quoting, cost benchmarking, or procurement helpers on top of CIDB data | design partner workflow | product-specific tests |
 
 ### Tests to run now
 
@@ -682,9 +683,9 @@ This is the recommended order for the next implementation cycle:
 1. complete one real MyInvois sandbox flow through the high-level `invoices.*` path
 2. replace sandbox payment completion with a real provider-backed event source
 3. add operator-facing approvals and run-inspection UI
-4. validate CIDB with a real token and wrap it in one business workflow
-5. move halal from seeded pilot to one real partner dataset
-6. only then deepen trade gateway work or start healthcare coding
+4. deepen halal precheck from demo dossiers to real discovered workflows once interviews exist
+5. add local GLM-OCR extraction as an optional metadata verification input
+6. only then deepen trade gateway work, revisit CIDB, or start healthcare coding
 
 ## Anti-Roadmap
 

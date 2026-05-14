@@ -70,6 +70,9 @@ The package is intentionally dependency-free so it runs in this environment with
 
 - [Purpose and architecture](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/purpose-and-architecture.md)
 - [Roadmap and phases](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/roadmap-and-phases.md)
+- [Halal ground truth register](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-ground-truth-register.md)
+- [Halal precheck PRD](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-precheck-prd.md)
+- [Halal precheck demo guide](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-precheck-demo-guide.md)
 - [Project status dashboard](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/project-status-dashboard.html)
 - [Halal vertical attack plan](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-vertical-attack-plan.html)
 - [Halal operations workbench](/Users/faiqhilman/Projects/malaysia-agent-ops/docs/halal-ops-workbench.html)
@@ -79,8 +82,10 @@ The package is intentionally dependency-free so it runs in this environment with
 
 - `45` action contracts are exposed through the shared service layer.
 - The autonomous runner, approval store, payment event ingestion path, MCP server, and repo-local skill are implemented.
-- `MyInvois` and `CIDB` official adapters are wired, but live execution is still gated by credentials and partner onboarding.
-- The richest vertical in the repo is the halal operations layer with a seeded F&B pilot, persistent artifact graph, and browser workbench.
+- `MyInvois` official actions are wired, but live execution is still gated by credentials and compliant document payloads.
+- The core product direction is halal dossier pre-check plus Malaysia tax/e-invoicing workflows.
+- `CIDB` remains available as an experimental provider adapter, but it is no longer a core product pillar.
+- The richest vertical in the repo is the halal operations layer with a seeded F&B pilot, persistent artifact graph, browser workbench, and source-grounded precheck reports.
 
 ## Run
 
@@ -198,6 +203,36 @@ Read the aggregated halal dashboard snapshot:
 
 ```bash
 python3 manage.py action halal.dashboard.snapshot --json '{}' --pretty
+```
+
+Run a source-grounded halal dossier precheck:
+
+```bash
+python3 manage.py halal precheck run \
+  --file examples/barakah-curry-paste.dossier.json \
+  --ocr-dir examples/ocr/barakah \
+  --out-dir reports/barakah \
+  --pretty
+```
+
+Run the failing demo dossier:
+
+```bash
+python3 manage.py halal precheck run \
+  --file examples/barakah-curry-paste-incomplete.dossier.json \
+  --ocr-dir examples/ocr/barakah-failing \
+  --out-dir reports/barakah-failing \
+  --pretty
+```
+
+Run the restaurant / food-premise demo dossier:
+
+```bash
+python3 manage.py halal precheck run \
+  --file examples/seri-melaka-restaurant.dossier.json \
+  --ocr-dir examples/ocr/seri-melaka \
+  --out-dir reports/seri-melaka \
+  --pretty
 ```
 
 Run a workflow automatically until completion or blocked state:
@@ -370,7 +405,7 @@ The codebase already leaves clean expansion seams for:
 
 ## Real-provider commands
 
-The project now includes explicit real-provider actions for official MyInvois and CIDB rails.
+The project includes explicit real-provider actions for official MyInvois rails. It also includes CIDB provider actions as an experimental adapter surface, but CIDB is not part of the current core product direction.
 
 Prepare env vars:
 
@@ -421,7 +456,7 @@ python3 manage.py action providers.cidb.building_material_price --json '{
 
 ## Tests
 
-Current automated status in this workspace: `16/16` passing.
+Current automated status in this workspace: `20/20` passing.
 
 ```bash
 cd /Users/faiqhilman/Projects/malaysia-agent-ops

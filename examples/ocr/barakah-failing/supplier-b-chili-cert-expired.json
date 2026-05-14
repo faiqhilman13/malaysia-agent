@@ -1,0 +1,10 @@
+{
+  "document_path": "docs/barakah/supplier-b-chili-cert-expired.pdf",
+  "extractor": "glm-ocr",
+  "fields": {
+    "supplier_name": {"observed": "Supplier Bee Sdn Bhd", "confidence": 0.93},
+    "certificate_no": {"observed": "JAKIM-2023-099", "confidence": 0.89},
+    "issuing_body": {"observed": "JAKIM", "confidence": 0.86},
+    "expiry_date": {"observed": "2024-12-31", "confidence": 0.85}
+  }
+}

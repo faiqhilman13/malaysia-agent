@@ -1,0 +1,484 @@
+{
+  "schema_version": "halal-precheck.v0",
+  "generated_at": "2026-05-14T01:55:02+00:00",
+  "dossier_path": "examples/seri-melaka-restaurant.dossier.json",
+  "dossier_id": "seri-melaka-restaurant-demo",
+  "application": {
+    "type": "food_premise",
+    "product_name": null,
+    "menu_name": "Seri Melaka Bistro Main Menu",
+    "oem": false
+  },
+  "applicant": {
+    "name": "Seri Melaka Bistro Sdn Bhd",
+    "registration_no": "202602009876",
+    "tin": "C1234567804"
+  },
+  "summary": {
+    "overall_status": "pass",
+    "requirements_total": 10,
+    "requirements_passed": 10,
+    "requirements_failed": 0,
+    "requirements_skipped": 0,
+    "ocr_total": 8,
+    "ocr_matches": 1,
+    "ocr_mismatches": 0,
+    "ocr_low_confidence": 0,
+    "ocr_missing_from_document": 0,
+    "document_checks_total": 3,
+    "expired_documents": 0
+  },
+  "documents": [
+    {
+      "kind": "premise_location_map",
+      "path": "docs/seri-melaka/location-map.pdf",
+      "metadata": {
+        "premise_name": "Seri Melaka Bistro Bangsar"
+      },
+      "context": "applicant.premises[0].documents[0]"
+    },
+    {
+      "kind": "company_profile",
+      "path": "docs/seri-melaka/company-profile.pdf",
+      "metadata": {
+        "company_name": "Seri Melaka Bistro Sdn Bhd"
+      },
+      "context": "documents[0]"
+    },
+    {
+      "kind": "ssm_certificate",
+      "path": "docs/seri-melaka/ssm.pdf",
+      "metadata": {
+        "company_name": "Seri Melaka Bistro Sdn Bhd",
+        "registration_no": "202602009876"
+      },
+      "context": "documents[1]"
+    },
+    {
+      "kind": "pbt_license",
+      "path": "docs/seri-melaka/dbkl-license.pdf",
+      "metadata": {
+        "license_holder": "Seri Melaka Bistro Sdn Bhd",
+        "expiry_date": "2027-03-31"
+      },
+      "context": "documents[2]"
+    },
+    {
+      "kind": "kkm_food_premise_registration",
+      "path": "docs/seri-melaka/kkm-food-premise-registration.pdf",
+      "metadata": {
+        "premise_name": "Seri Melaka Bistro Bangsar",
+        "expiry_date": "2027-05-31"
+      },
+      "context": "documents[3]"
+    },
+    {
+      "kind": "menu_description",
+      "path": "docs/seri-melaka/menu.pdf",
+      "metadata": {
+        "menu_name": "Seri Melaka Bistro Main Menu"
+      },
+      "context": "documents[4]"
+    },
+    {
+      "kind": "ingredient_list",
+      "path": "docs/seri-melaka/menu-ingredient-list.pdf",
+      "metadata": {
+        "menu_name": "Seri Melaka Bistro Main Menu"
+      },
+      "context": "documents[5]"
+    },
+    {
+      "kind": "supplier_list",
+      "path": "docs/seri-melaka/supplier-list.pdf",
+      "metadata": {},
+      "context": "documents[6]"
+    },
+    {
+      "kind": "financial_statement",
+      "path": "docs/seri-melaka/financial-statement.pdf",
+      "metadata": {},
+      "context": "documents[7]"
+    },
+    {
+      "kind": "ingredient_halal_certificate",
+      "path": "docs/seri-melaka/supplier-c-stock-cert.pdf",
+      "metadata": {
+        "supplier_name": "Supplier C Sdn Bhd",
+        "certificate_no": "JAKIM-2026-010",
+        "issuing_body": "JAKIM",
+        "expiry_date": "2027-01-31",
+        "covers": [
+          "Chicken stock powder"
+        ]
+      },
+      "context": "ingredients[0].documents[0]"
+    }
+  ],
+  "requirements": [
+    {
+      "requirement_id": "MY-HALAL-APP-COMPANY-001",
+      "title": "Company profile",
+      "description": "Application documentation should include the applicant company profile.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "company_profile"
+      ],
+      "matched_documents": [
+        {
+          "kind": "company_profile",
+          "path": "docs/seri-melaka/company-profile.pdf",
+          "metadata": {
+            "company_name": "Seri Melaka Bistro Sdn Bhd"
+          },
+          "context": "documents[0]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-SSM-001",
+      "title": "Company or business registration",
+      "description": "The dossier should include company or business registration evidence, including SSM where applicable.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "ssm_certificate",
+        "business_registration"
+      ],
+      "matched_documents": [
+        {
+          "kind": "ssm_certificate",
+          "path": "docs/seri-melaka/ssm.pdf",
+          "metadata": {
+            "company_name": "Seri Melaka Bistro Sdn Bhd",
+            "registration_no": "202602009876"
+          },
+          "context": "documents[1]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-PBT-001",
+      "title": "PBT license or government support letter",
+      "description": "JAKIM filing guidance lists a local authority business license or government support letter.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement",
+      "required_document_kinds": [
+        "pbt_license",
+        "government_support_letter"
+      ],
+      "matched_documents": [
+        {
+          "kind": "pbt_license",
+          "path": "docs/seri-melaka/dbkl-license.pdf",
+          "metadata": {
+            "license_holder": "Seri Melaka Bistro Sdn Bhd",
+            "expiry_date": "2027-03-31"
+          },
+          "context": "documents[2]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-FOODPREM-MENU-001",
+      "title": "Menu for certification",
+      "description": "Food premise applications should identify menu items covered by the certification context.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "menu_description"
+      ],
+      "matched_documents": [
+        {
+          "kind": "menu_description",
+          "path": "docs/seri-melaka/menu.pdf",
+          "metadata": {
+            "menu_name": "Seri Melaka Bistro Main Menu"
+          },
+          "context": "documents[4]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-INGREDIENTS-001",
+      "title": "Ingredient or raw material list",
+      "description": "Applications should include ingredients used, with raw-material discipline reinforced by MyHALALINGREDIENTS.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "ingredient_list",
+        "raw_material_list"
+      ],
+      "matched_documents": [
+        {
+          "kind": "ingredient_list",
+          "path": "docs/seri-melaka/menu-ingredient-list.pdf",
+          "metadata": {
+            "menu_name": "Seri Melaka Bistro Main Menu"
+          },
+          "context": "documents[5]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-SUPPLIER-001",
+      "title": "Ingredient supplier or manufacturer details",
+      "description": "Applications should include name and address of ingredient suppliers or manufacturers.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "supplier_list",
+        "supplier_declaration"
+      ],
+      "matched_documents": [
+        {
+          "kind": "supplier_list",
+          "path": "docs/seri-melaka/supplier-list.pdf",
+          "metadata": {},
+          "context": "documents[6]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-INGREDIENT-CERT-001",
+      "title": "Ingredient halal certificates or critical ingredient specifications",
+      "description": "The dossier should include halal certificates for ingredients, or specifications for critical ingredients where relevant.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "ingredient_halal_certificate",
+        "critical_ingredient_specification"
+      ],
+      "matched_documents": [
+        {
+          "kind": "ingredient_halal_certificate",
+          "path": "docs/seri-melaka/supplier-c-stock-cert.pdf",
+          "metadata": {
+            "supplier_name": "Supplier C Sdn Bhd",
+            "certificate_no": "JAKIM-2026-010",
+            "issuing_body": "JAKIM",
+            "expiry_date": "2027-01-31",
+            "covers": [
+              "Chicken stock powder"
+            ]
+          },
+          "context": "ingredients[0].documents[0]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-PREMISE-MAP-001",
+      "title": "Premise or factory location map",
+      "description": "Applications should include a location map of the premise or factory.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "premise_location_map",
+        "factory_location_map"
+      ],
+      "matched_documents": [
+        {
+          "kind": "premise_location_map",
+          "path": "docs/seri-melaka/location-map.pdf",
+          "metadata": {
+            "premise_name": "Seri Melaka Bistro Bangsar"
+          },
+          "context": "applicant.premises[0].documents[0]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-FINANCIAL-001",
+      "title": "Latest company financial statement",
+      "description": "JAKIM filing guidance lists latest company financial statement evidence.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement",
+      "required_document_kinds": [
+        "financial_statement"
+      ],
+      "matched_documents": [
+        {
+          "kind": "financial_statement",
+          "path": "docs/seri-melaka/financial-statement.pdf",
+          "metadata": {},
+          "context": "documents[7]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-KKM-FOODPREM-001",
+      "title": "KKM food premise registration",
+      "description": "JAKIM filing guidance lists KKM food premise registration for food premise and food product schemes.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement",
+      "required_document_kinds": [
+        "kkm_food_premise_registration"
+      ],
+      "matched_documents": [
+        {
+          "kind": "kkm_food_premise_registration",
+          "path": "docs/seri-melaka/kkm-food-premise-registration.pdf",
+          "metadata": {
+            "premise_name": "Seri Melaka Bistro Bangsar",
+            "expiry_date": "2027-05-31"
+          },
+          "context": "documents[3]"
+        }
+      ],
+      "missing_document_kinds": []
+    }
+  ],
+  "document_checks": [
+    {
+      "document_path": "docs/seri-melaka/dbkl-license.pdf",
+      "document_kind": "pbt_license",
+      "field": "expiry_date",
+      "declared": "2027-03-31",
+      "status": "valid",
+      "as_of": "2026-05-14"
+    },
+    {
+      "document_path": "docs/seri-melaka/kkm-food-premise-registration.pdf",
+      "document_kind": "kkm_food_premise_registration",
+      "field": "expiry_date",
+      "declared": "2027-05-31",
+      "status": "valid",
+      "as_of": "2026-05-14"
+    },
+    {
+      "document_path": "docs/seri-melaka/supplier-c-stock-cert.pdf",
+      "document_kind": "ingredient_halal_certificate",
+      "field": "expiry_date",
+      "declared": "2027-01-31",
+      "status": "valid",
+      "as_of": "2026-05-14"
+    }
+  ],
+  "ocr_verifications": [
+    {
+      "document_path": "docs/seri-melaka/location-map.pdf",
+      "document_kind": "premise_location_map",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/seri-melaka/company-profile.pdf",
+      "document_kind": "company_profile",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/seri-melaka/ssm.pdf",
+      "document_kind": "ssm_certificate",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/seri-melaka/dbkl-license.pdf",
+      "document_kind": "pbt_license",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/seri-melaka/kkm-food-premise-registration.pdf",
+      "document_kind": "kkm_food_premise_registration",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/seri-melaka/menu.pdf",
+      "document_kind": "menu_description",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/seri-melaka/menu-ingredient-list.pdf",
+      "document_kind": "ingredient_list",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/seri-melaka/supplier-c-stock-cert.pdf",
+      "document_kind": "ingredient_halal_certificate",
+      "extractor": "glm-ocr",
+      "status": "match",
+      "fields": [
+        {
+          "field": "supplier_name",
+          "declared": "Supplier C Sdn Bhd",
+          "observed": "Supplier C Sdn Bhd",
+          "confidence": 0.93,
+          "status": "match"
+        },
+        {
+          "field": "certificate_no",
+          "declared": "JAKIM-2026-010",
+          "observed": "JAKIM-2026-010",
+          "confidence": 0.91,
+          "status": "match"
+        },
+        {
+          "field": "issuing_body",
+          "declared": "JAKIM",
+          "observed": "JAKIM",
+          "confidence": 0.89,
+          "status": "match"
+        },
+        {
+          "field": "expiry_date",
+          "declared": "2027-01-31",
+          "observed": "2027-01-31",
+          "confidence": 0.86,
+          "status": "match"
+        }
+      ]
+    }
+  ]
+}

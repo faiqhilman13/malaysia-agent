@@ -1,0 +1,10 @@
+{
+  "document_path": "docs/barakah/supplier-a-coconut-cert.pdf",
+  "extractor": "glm-ocr",
+  "fields": {
+    "supplier_name": {"observed": "Supplier A Sdn Bhd", "confidence": 0.94},
+    "certificate_no": {"observed": "JAKIM-2025-001", "confidence": 0.91},
+    "issuing_body": {"observed": "JAKIM", "confidence": 0.88},
+    "expiry_date": {"observed": "2026-12-31", "confidence": 0.87}
+  }
+}

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reviewer Halal Precheck Report</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.55;margin:0;color:#151515;background:#f7f5ef}
+main{max-width:1040px;margin:0 auto;padding:40px 24px 64px;background:#fff;min-height:100vh}
+h1,h2{line-height:1.15} h1{font-size:32px;margin-bottom:20px} h2{font-size:22px;margin-top:32px;border-top:1px solid #ddd;padding-top:20px}
+code{background:#f0eee8;padding:2px 5px;border-radius:4px} table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{border:1px solid #ddd;padding:8px;text-align:left;vertical-align:top} th{background:#f3efe4}
+li{margin:6px 0}
+</style>
+</head>
+<body><main>
+<h1>Reviewer Halal Precheck Report</h1>
+<ul>
+<li>Dossier: <code>seri-melaka-restaurant-demo</code></li>
+<li>Applicant: Seri Melaka Bistro Sdn Bhd</li>
+<li>Application type: <code>food_premise</code></li>
+<li>Product/menu: Seri Melaka Bistro Main Menu</li>
+<li>Generated: <code>2026-05-14T01:55:02+00:00</code></li>
+</ul>
+<h2>Summary</h2>
+<ul>
+<li>Overall status: <code>pass</code></li>
+<li>Requirements passed: 10</li>
+<li>Requirements failed: 0</li>
+<li>Conditional requirements skipped: 0</li>
+<li>OCR matches: 1</li>
+<li>OCR mismatches: 0</li>
+<li>OCR low-confidence checks: 0</li>
+<li>Expired document metadata checks: 0</li>
+</ul>
+<h2>Dossier Inventory</h2>
+<table>
+<tr><th>Kind</th><th>Path</th><th>Metadata Fields</th></tr>
+<tr><td><code>premise_location_map</code></td><td><code>docs/seri-melaka/location-map.pdf</code></td><td>premise_name</td></tr>
+<tr><td><code>company_profile</code></td><td><code>docs/seri-melaka/company-profile.pdf</code></td><td>company_name</td></tr>
+<tr><td><code>ssm_certificate</code></td><td><code>docs/seri-melaka/ssm.pdf</code></td><td>company_name, registration_no</td></tr>
+<tr><td><code>pbt_license</code></td><td><code>docs/seri-melaka/dbkl-license.pdf</code></td><td>expiry_date, license_holder</td></tr>
+<tr><td><code>kkm_food_premise_registration</code></td><td><code>docs/seri-melaka/kkm-food-premise-registration.pdf</code></td><td>expiry_date, premise_name</td></tr>
+<tr><td><code>menu_description</code></td><td><code>docs/seri-melaka/menu.pdf</code></td><td>menu_name</td></tr>
+<tr><td><code>ingredient_list</code></td><td><code>docs/seri-melaka/menu-ingredient-list.pdf</code></td><td>menu_name</td></tr>
+<tr><td><code>supplier_list</code></td><td><code>docs/seri-melaka/supplier-list.pdf</code></td><td>-</td></tr>
+<tr><td><code>financial_statement</code></td><td><code>docs/seri-melaka/financial-statement.pdf</code></td><td>-</td></tr>
+<tr><td><code>ingredient_halal_certificate</code></td><td><code>docs/seri-melaka/supplier-c-stock-cert.pdf</code></td><td>certificate_no, covers, expiry_date, issuing_body, supplier_name</td></tr>
+</table>
+<h2>Requirement Matrix</h2>
+<table>
+<tr><th>Requirement</th><th>Status</th><th>Severity</th><th>Evidence Class</th><th>Source</th><th>Missing Kinds</th></tr>
+<tr><td><code>MY-HALAL-APP-COMPANY-001</code> Company profile</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&amp;utama=panduan&amp;view=%27">S1</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-APP-SSM-001</code> Company or business registration</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&amp;utama=panduan&amp;view=%27">S1</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-APP-PBT-001</code> PBT license or government support letter</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&amp;data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&amp;page_title=Announcement">S2</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-FOODPREM-MENU-001</code> Menu for certification</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&amp;utama=panduan&amp;view=%27">S1</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-INGREDIENTS-001</code> Ingredient or raw material list</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&amp;utama=panduan&amp;view=%27">S1</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-SUPPLIER-001</code> Ingredient supplier or manufacturer details</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&amp;utama=panduan&amp;view=%27">S1</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-INGREDIENT-CERT-001</code> Ingredient halal certificates or critical ingredient specifications</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&amp;utama=panduan&amp;view=%27">S1</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-PREMISE-MAP-001</code> Premise or factory location map</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&amp;utama=panduan&amp;view=%27">S1</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-FINANCIAL-001</code> Latest company financial statement</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&amp;data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&amp;page_title=Announcement">S2</a></td><td>-</td></tr>
+<tr><td><code>MY-HALAL-KKM-FOODPREM-001</code> KKM food premise registration</td><td><code>pass</code></td><td><code>required</code></td><td><code>official_guidance</code></td><td><a href="https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&amp;data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&amp;page_title=Announcement">S2</a></td><td>-</td></tr>
+</table>
+<h2>Document Metadata Checks</h2>
+<table>
+<tr><th>Document</th><th>Field</th><th>Declared</th><th>Status</th><th>As Of</th></tr>
+<tr><td><code>docs/seri-melaka/dbkl-license.pdf</code></td><td><code>expiry_date</code></td><td>2027-03-31</td><td><code>valid</code></td><td>2026-05-14</td></tr>
+<tr><td><code>docs/seri-melaka/kkm-food-premise-registration.pdf</code></td><td><code>expiry_date</code></td><td>2027-05-31</td><td><code>valid</code></td><td>2026-05-14</td></tr>
+<tr><td><code>docs/seri-melaka/supplier-c-stock-cert.pdf</code></td><td><code>expiry_date</code></td><td>2027-01-31</td><td><code>valid</code></td><td>2026-05-14</td></tr>
+</table>
+<h2>OCR Metadata Verification</h2>
+<table>
+<tr><th>Document</th><th>Status</th><th>Field</th><th>Declared</th><th>Observed</th><th>Confidence</th></tr>
+<tr><td><code>docs/seri-melaka/location-map.pdf</code></td><td><code>not_evaluable</code></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><code>docs/seri-melaka/company-profile.pdf</code></td><td><code>not_evaluable</code></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><code>docs/seri-melaka/ssm.pdf</code></td><td><code>not_evaluable</code></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><code>docs/seri-melaka/dbkl-license.pdf</code></td><td><code>not_evaluable</code></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><code>docs/seri-melaka/kkm-food-premise-registration.pdf</code></td><td><code>not_evaluable</code></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><code>docs/seri-melaka/menu.pdf</code></td><td><code>not_evaluable</code></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><code>docs/seri-melaka/menu-ingredient-list.pdf</code></td><td><code>not_evaluable</code></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><code>docs/seri-melaka/supplier-c-stock-cert.pdf</code></td><td><code>match</code></td><td><code>supplier_name</code></td><td>Supplier C Sdn Bhd</td><td>Supplier C Sdn Bhd</td><td>0.93</td></tr>
+<tr><td><code>docs/seri-melaka/supplier-c-stock-cert.pdf</code></td><td><code>match</code></td><td><code>certificate_no</code></td><td>JAKIM-2026-010</td><td>JAKIM-2026-010</td><td>0.91</td></tr>
+<tr><td><code>docs/seri-melaka/supplier-c-stock-cert.pdf</code></td><td><code>match</code></td><td><code>issuing_body</code></td><td>JAKIM</td><td>JAKIM</td><td>0.89</td></tr>
+<tr><td><code>docs/seri-melaka/supplier-c-stock-cert.pdf</code></td><td><code>match</code></td><td><code>expiry_date</code></td><td>2027-01-31</td><td>2027-01-31</td><td>0.86</td></tr>
+</table>
+</main></body></html>

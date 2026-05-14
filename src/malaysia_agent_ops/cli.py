@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .config import get_settings
+from .halal_precheck import HalalPrecheckError, run_halal_precheck
 from .mcp_server import serve_mcp
 from .server import serve
 from .service import InputError, NotFoundError, OperationsService
@@ -33,6 +34,17 @@ def build_parser() -> argparse.ArgumentParser:
     action_parser.add_argument("--file", dest="payload_file")
     action_parser.add_argument("--db-path")
     action_parser.add_argument("--pretty", action="store_true")
+
+    halal_parser = subparsers.add_parser("halal", help="Run halal-industry operator workflows.")
+    halal_subparsers = halal_parser.add_subparsers(dest="halal_command", required=True)
+    precheck_parser = halal_subparsers.add_parser("precheck", help="Run halal dossier pre-check workflows.")
+    precheck_subparsers = precheck_parser.add_subparsers(dest="precheck_command", required=True)
+    precheck_run = precheck_subparsers.add_parser("run", help="Validate a halal dossier and write reports.")
+    precheck_run.add_argument("--file", required=True, dest="dossier_file", help="Path to a JSON dossier file.")
+    precheck_run.add_argument("--out-dir", required=True, help="Directory for JSON, Markdown, and HTML reports.")
+    precheck_run.add_argument("--ocr-dir", help="Optional directory of OCR verification JSON files.")
+    precheck_run.add_argument("--requirements", help="Optional requirements JSON file.")
+    precheck_run.add_argument("--pretty", action="store_true", help="Pretty-print the CLI summary JSON.")
 
     return parser
 
@@ -61,21 +73,46 @@ def emit(payload: dict[str, Any], pretty: bool = False) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-    settings = get_settings(db_path=Path(args.db_path).resolve() if getattr(args, "db_path", None) else None)
 
     try:
         if args.command == "serve":
+            settings = get_settings(db_path=Path(args.db_path).resolve() if getattr(args, "db_path", None) else None)
             serve(settings, host=args.host, port=args.port)
             return 0
         if args.command == "mcp":
+            settings = get_settings(db_path=Path(args.db_path).resolve() if getattr(args, "db_path", None) else None)
             serve_mcp(settings)
             return 0
+        if args.command == "halal" and args.halal_command == "precheck" and args.precheck_command == "run":
+            result = run_halal_precheck(
+                dossier_path=Path(args.dossier_file),
+                out_dir=Path(args.out_dir),
+                requirements_path=Path(args.requirements) if args.requirements else None,
+                ocr_dir=Path(args.ocr_dir) if args.ocr_dir else None,
+            )
+            emit(
+                {
+                    "status": "success",
+                    "overall_status": result["summary"]["overall_status"],
+                    "out_dir": args.out_dir,
+                    "files": [
+                        "precheck.json",
+                        "applicant-report.md",
+                        "reviewer-report.md",
+                        "applicant-report.html",
+                        "reviewer-report.html",
+                    ],
+                },
+                pretty=args.pretty,
+            )
+            return 0
 
+        settings = get_settings(db_path=Path(args.db_path).resolve() if getattr(args, "db_path", None) else None)
         payload = load_payload(args)
         service = OperationsService(settings)
         response = service.invoke(args.action, payload)
         emit(response, pretty=args.pretty)
         return 0
-    except (InputError, NotFoundError, json.JSONDecodeError) as exc:
+    except (InputError, NotFoundError, HalalPrecheckError, json.JSONDecodeError) as exc:
         emit({"error": str(exc)}, pretty=True)
         return 1

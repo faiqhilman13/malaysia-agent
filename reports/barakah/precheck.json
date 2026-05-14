@@ -1,0 +1,593 @@
+{
+  "schema_version": "halal-precheck.v0",
+  "generated_at": "2026-05-14T01:55:01+00:00",
+  "dossier_path": "examples/barakah-curry-paste.dossier.json",
+  "dossier_id": "barakah-curry-paste-demo",
+  "application": {
+    "type": "manufacturer",
+    "product_name": "Instant Curry Paste",
+    "menu_name": null,
+    "oem": false
+  },
+  "applicant": {
+    "name": "Barakah Foods Manufacturing Sdn Bhd",
+    "registration_no": "202601001234",
+    "tin": "C1234567803"
+  },
+  "summary": {
+    "overall_status": "pass",
+    "requirements_total": 12,
+    "requirements_passed": 12,
+    "requirements_failed": 0,
+    "requirements_skipped": 0,
+    "ocr_total": 9,
+    "ocr_matches": 2,
+    "ocr_mismatches": 0,
+    "ocr_low_confidence": 0,
+    "ocr_missing_from_document": 0,
+    "document_checks_total": 2,
+    "expired_documents": 0
+  },
+  "documents": [
+    {
+      "kind": "premise_location_map",
+      "path": "docs/barakah/location-map.pdf",
+      "metadata": {
+        "premise_name": "Barakah Shah Alam Factory"
+      },
+      "context": "applicant.premises[0].documents[0]"
+    },
+    {
+      "kind": "company_profile",
+      "path": "docs/barakah/company-profile.pdf",
+      "metadata": {
+        "company_name": "Barakah Foods Manufacturing Sdn Bhd"
+      },
+      "context": "documents[0]"
+    },
+    {
+      "kind": "ssm_certificate",
+      "path": "docs/barakah/ssm.pdf",
+      "metadata": {
+        "company_name": "Barakah Foods Manufacturing Sdn Bhd",
+        "registration_no": "202601001234"
+      },
+      "context": "documents[1]"
+    },
+    {
+      "kind": "pbt_license",
+      "path": "docs/barakah/pbt-license.pdf",
+      "metadata": {
+        "license_holder": "Barakah Foods Manufacturing Sdn Bhd"
+      },
+      "context": "documents[2]"
+    },
+    {
+      "kind": "product_description",
+      "path": "docs/barakah/product-description.pdf",
+      "metadata": {
+        "product_name": "Instant Curry Paste"
+      },
+      "context": "documents[3]"
+    },
+    {
+      "kind": "ingredient_list",
+      "path": "docs/barakah/ingredient-list.pdf",
+      "metadata": {
+        "product_name": "Instant Curry Paste"
+      },
+      "context": "documents[4]"
+    },
+    {
+      "kind": "supplier_list",
+      "path": "docs/barakah/supplier-list.pdf",
+      "metadata": {},
+      "context": "documents[5]"
+    },
+    {
+      "kind": "packaging_material",
+      "path": "docs/barakah/packaging-material.pdf",
+      "metadata": {},
+      "context": "documents[6]"
+    },
+    {
+      "kind": "packaging_label",
+      "path": "docs/barakah/label.pdf",
+      "metadata": {
+        "product_name": "Instant Curry Paste"
+      },
+      "context": "documents[7]"
+    },
+    {
+      "kind": "process_flow_chart",
+      "path": "docs/barakah/process-flow.pdf",
+      "metadata": {},
+      "context": "documents[8]"
+    },
+    {
+      "kind": "financial_statement",
+      "path": "docs/barakah/financial-statement.pdf",
+      "metadata": {},
+      "context": "documents[9]"
+    },
+    {
+      "kind": "ingredient_halal_certificate",
+      "path": "docs/barakah/supplier-a-coconut-cert.pdf",
+      "metadata": {
+        "supplier_name": "Supplier A Sdn Bhd",
+        "certificate_no": "JAKIM-2025-001",
+        "issuing_body": "JAKIM",
+        "expiry_date": "2026-12-31",
+        "covers": [
+          "Coconut milk powder"
+        ]
+      },
+      "context": "ingredients[0].documents[0]"
+    },
+    {
+      "kind": "ingredient_halal_certificate",
+      "path": "docs/barakah/supplier-b-chili-cert.pdf",
+      "metadata": {
+        "supplier_name": "Supplier B Sdn Bhd",
+        "certificate_no": "JAKIM-2025-002",
+        "issuing_body": "JAKIM",
+        "expiry_date": "2026-10-15",
+        "covers": [
+          "Chili paste"
+        ]
+      },
+      "context": "ingredients[1].documents[0]"
+    }
+  ],
+  "requirements": [
+    {
+      "requirement_id": "MY-HALAL-APP-COMPANY-001",
+      "title": "Company profile",
+      "description": "Application documentation should include the applicant company profile.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "company_profile"
+      ],
+      "matched_documents": [
+        {
+          "kind": "company_profile",
+          "path": "docs/barakah/company-profile.pdf",
+          "metadata": {
+            "company_name": "Barakah Foods Manufacturing Sdn Bhd"
+          },
+          "context": "documents[0]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-SSM-001",
+      "title": "Company or business registration",
+      "description": "The dossier should include company or business registration evidence, including SSM where applicable.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "ssm_certificate",
+        "business_registration"
+      ],
+      "matched_documents": [
+        {
+          "kind": "ssm_certificate",
+          "path": "docs/barakah/ssm.pdf",
+          "metadata": {
+            "company_name": "Barakah Foods Manufacturing Sdn Bhd",
+            "registration_no": "202601001234"
+          },
+          "context": "documents[1]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-PBT-001",
+      "title": "PBT license or government support letter",
+      "description": "JAKIM filing guidance lists a local authority business license or government support letter.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement",
+      "required_document_kinds": [
+        "pbt_license",
+        "government_support_letter"
+      ],
+      "matched_documents": [
+        {
+          "kind": "pbt_license",
+          "path": "docs/barakah/pbt-license.pdf",
+          "metadata": {
+            "license_holder": "Barakah Foods Manufacturing Sdn Bhd"
+          },
+          "context": "documents[2]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-PRODUCT-001",
+      "title": "Product name and description",
+      "description": "Manufacturer applications should identify the product being certified.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "product_description"
+      ],
+      "matched_documents": [
+        {
+          "kind": "product_description",
+          "path": "docs/barakah/product-description.pdf",
+          "metadata": {
+            "product_name": "Instant Curry Paste"
+          },
+          "context": "documents[3]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-INGREDIENTS-001",
+      "title": "Ingredient or raw material list",
+      "description": "Applications should include ingredients used, with raw-material discipline reinforced by MyHALALINGREDIENTS.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "ingredient_list",
+        "raw_material_list"
+      ],
+      "matched_documents": [
+        {
+          "kind": "ingredient_list",
+          "path": "docs/barakah/ingredient-list.pdf",
+          "metadata": {
+            "product_name": "Instant Curry Paste"
+          },
+          "context": "documents[4]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-SUPPLIER-001",
+      "title": "Ingredient supplier or manufacturer details",
+      "description": "Applications should include name and address of ingredient suppliers or manufacturers.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "supplier_list",
+        "supplier_declaration"
+      ],
+      "matched_documents": [
+        {
+          "kind": "supplier_list",
+          "path": "docs/barakah/supplier-list.pdf",
+          "metadata": {},
+          "context": "documents[5]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-INGREDIENT-CERT-001",
+      "title": "Ingredient halal certificates or critical ingredient specifications",
+      "description": "The dossier should include halal certificates for ingredients, or specifications for critical ingredients where relevant.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "ingredient_halal_certificate",
+        "critical_ingredient_specification"
+      ],
+      "matched_documents": [
+        {
+          "kind": "ingredient_halal_certificate",
+          "path": "docs/barakah/supplier-a-coconut-cert.pdf",
+          "metadata": {
+            "supplier_name": "Supplier A Sdn Bhd",
+            "certificate_no": "JAKIM-2025-001",
+            "issuing_body": "JAKIM",
+            "expiry_date": "2026-12-31",
+            "covers": [
+              "Coconut milk powder"
+            ]
+          },
+          "context": "ingredients[0].documents[0]"
+        },
+        {
+          "kind": "ingredient_halal_certificate",
+          "path": "docs/barakah/supplier-b-chili-cert.pdf",
+          "metadata": {
+            "supplier_name": "Supplier B Sdn Bhd",
+            "certificate_no": "JAKIM-2025-002",
+            "issuing_body": "JAKIM",
+            "expiry_date": "2026-10-15",
+            "covers": [
+              "Chili paste"
+            ]
+          },
+          "context": "ingredients[1].documents[0]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-PACKAGING-001",
+      "title": "Packaging material",
+      "description": "Manufacturer applications should identify packaging material.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "packaging_material"
+      ],
+      "matched_documents": [
+        {
+          "kind": "packaging_material",
+          "path": "docs/barakah/packaging-material.pdf",
+          "metadata": {},
+          "context": "documents[6]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-LABEL-001",
+      "title": "Product packaging label",
+      "description": "JAKIM filing guidance lists product packaging label evidence.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement",
+      "required_document_kinds": [
+        "packaging_label"
+      ],
+      "matched_documents": [
+        {
+          "kind": "packaging_label",
+          "path": "docs/barakah/label.pdf",
+          "metadata": {
+            "product_name": "Instant Curry Paste"
+          },
+          "context": "documents[7]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-PROCESS-001",
+      "title": "Manufacturing process flow",
+      "description": "Applications should include the manufacturing process and procedure or process flow chart.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "process_flow_chart",
+        "manufacturing_process"
+      ],
+      "matched_documents": [
+        {
+          "kind": "process_flow_chart",
+          "path": "docs/barakah/process-flow.pdf",
+          "metadata": {},
+          "context": "documents[8]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-PREMISE-MAP-001",
+      "title": "Premise or factory location map",
+      "description": "Applications should include a location map of the premise or factory.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "required_document_kinds": [
+        "premise_location_map",
+        "factory_location_map"
+      ],
+      "matched_documents": [
+        {
+          "kind": "premise_location_map",
+          "path": "docs/barakah/location-map.pdf",
+          "metadata": {
+            "premise_name": "Barakah Shah Alam Factory"
+          },
+          "context": "applicant.premises[0].documents[0]"
+        }
+      ],
+      "missing_document_kinds": []
+    },
+    {
+      "requirement_id": "MY-HALAL-FINANCIAL-001",
+      "title": "Latest company financial statement",
+      "description": "JAKIM filing guidance lists latest company financial statement evidence.",
+      "status": "pass",
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement",
+      "required_document_kinds": [
+        "financial_statement"
+      ],
+      "matched_documents": [
+        {
+          "kind": "financial_statement",
+          "path": "docs/barakah/financial-statement.pdf",
+          "metadata": {},
+          "context": "documents[9]"
+        }
+      ],
+      "missing_document_kinds": []
+    }
+  ],
+  "document_checks": [
+    {
+      "document_path": "docs/barakah/supplier-a-coconut-cert.pdf",
+      "document_kind": "ingredient_halal_certificate",
+      "field": "expiry_date",
+      "declared": "2026-12-31",
+      "status": "valid",
+      "as_of": "2026-05-14"
+    },
+    {
+      "document_path": "docs/barakah/supplier-b-chili-cert.pdf",
+      "document_kind": "ingredient_halal_certificate",
+      "field": "expiry_date",
+      "declared": "2026-10-15",
+      "status": "valid",
+      "as_of": "2026-05-14"
+    }
+  ],
+  "ocr_verifications": [
+    {
+      "document_path": "docs/barakah/location-map.pdf",
+      "document_kind": "premise_location_map",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/barakah/company-profile.pdf",
+      "document_kind": "company_profile",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/barakah/ssm.pdf",
+      "document_kind": "ssm_certificate",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/barakah/pbt-license.pdf",
+      "document_kind": "pbt_license",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/barakah/product-description.pdf",
+      "document_kind": "product_description",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/barakah/ingredient-list.pdf",
+      "document_kind": "ingredient_list",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/barakah/label.pdf",
+      "document_kind": "packaging_label",
+      "status": "not_evaluable",
+      "reason": "no_ocr_record",
+      "fields": []
+    },
+    {
+      "document_path": "docs/barakah/supplier-a-coconut-cert.pdf",
+      "document_kind": "ingredient_halal_certificate",
+      "extractor": "glm-ocr",
+      "status": "match",
+      "fields": [
+        {
+          "field": "supplier_name",
+          "declared": "Supplier A Sdn Bhd",
+          "observed": "Supplier A Sdn Bhd",
+          "confidence": 0.94,
+          "status": "match"
+        },
+        {
+          "field": "certificate_no",
+          "declared": "JAKIM-2025-001",
+          "observed": "JAKIM-2025-001",
+          "confidence": 0.91,
+          "status": "match"
+        },
+        {
+          "field": "issuing_body",
+          "declared": "JAKIM",
+          "observed": "JAKIM",
+          "confidence": 0.88,
+          "status": "match"
+        },
+        {
+          "field": "expiry_date",
+          "declared": "2026-12-31",
+          "observed": "2026-12-31",
+          "confidence": 0.87,
+          "status": "match"
+        }
+      ]
+    },
+    {
+      "document_path": "docs/barakah/supplier-b-chili-cert.pdf",
+      "document_kind": "ingredient_halal_certificate",
+      "extractor": "glm-ocr",
+      "status": "match",
+      "fields": [
+        {
+          "field": "supplier_name",
+          "declared": "Supplier B Sdn Bhd",
+          "observed": "Supplier B Sdn Bhd",
+          "confidence": 0.93,
+          "status": "match"
+        },
+        {
+          "field": "certificate_no",
+          "declared": "JAKIM-2025-002",
+          "observed": "JAKIM-2025-002",
+          "confidence": 0.89,
+          "status": "match"
+        },
+        {
+          "field": "issuing_body",
+          "declared": "JAKIM",
+          "observed": "JAKIM",
+          "confidence": 0.86,
+          "status": "match"
+        },
+        {
+          "field": "expiry_date",
+          "declared": "2026-10-15",
+          "observed": "2026-10-15",
+          "confidence": 0.85,
+          "status": "match"
+        }
+      ]
+    }
+  ]
+}

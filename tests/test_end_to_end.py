@@ -15,6 +15,8 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from malaysia_agent_ops.config import get_settings
+from malaysia_agent_ops.cli import main as cli_main
+from malaysia_agent_ops.halal_precheck import evaluate_dossier
 from malaysia_agent_ops.mcp_server import McpStdioServer
 from malaysia_agent_ops.providers import CIDBClient, MyInvoisClient
 from malaysia_agent_ops.server import ROUTES
@@ -258,6 +260,107 @@ class OperationsServiceTests(unittest.TestCase):
         renewals = self.service.halal_renewals_list({"within_days": 10000})
         self.assertEqual(renewals["status"], "success")
         self.assertGreaterEqual(len(renewals["data"]["items"]), 1)
+
+    def test_halal_precheck_evaluates_sample_dossier_with_ocr(self) -> None:
+        dossier = json.loads((PROJECT_ROOT / "examples/barakah-curry-paste.dossier.json").read_text())
+        requirements = json.loads(
+            (PROJECT_ROOT / "src/malaysia_agent_ops/data/halal_requirements.json").read_text()
+        )
+        ocr_a = json.loads((PROJECT_ROOT / "examples/ocr/barakah/supplier-a-coconut-cert.json").read_text())
+        ocr_b = json.loads((PROJECT_ROOT / "examples/ocr/barakah/supplier-b-chili-cert.json").read_text())
+
+        result = evaluate_dossier(
+            dossier=dossier,
+            ruleset=requirements,
+            ocr_records={
+                ocr_a["document_path"]: ocr_a,
+                ocr_b["document_path"]: ocr_b,
+            },
+        )
+
+        self.assertEqual(result["summary"]["overall_status"], "pass")
+        self.assertGreaterEqual(result["summary"]["requirements_passed"], 10)
+        self.assertEqual(result["summary"]["ocr_mismatches"], 0)
+        requirement_ids = {item["requirement_id"] for item in result["requirements"]}
+        self.assertIn("MY-HALAL-APP-SSM-001", requirement_ids)
+        self.assertIn("MY-HALAL-INGREDIENT-CERT-001", requirement_ids)
+
+    def test_halal_precheck_failing_dossier_surfaces_remediation(self) -> None:
+        dossier = json.loads((PROJECT_ROOT / "examples/barakah-curry-paste-incomplete.dossier.json").read_text())
+        requirements = json.loads(
+            (PROJECT_ROOT / "src/malaysia_agent_ops/data/halal_requirements.json").read_text()
+        )
+        ocr_a = json.loads((PROJECT_ROOT / "examples/ocr/barakah-failing/supplier-a-coconut-cert.json").read_text())
+        ocr_b = json.loads(
+            (PROJECT_ROOT / "examples/ocr/barakah-failing/supplier-b-chili-cert-expired.json").read_text()
+        )
+
+        result = evaluate_dossier(
+            dossier=dossier,
+            ruleset=requirements,
+            ocr_records={
+                ocr_a["document_path"]: ocr_a,
+                ocr_b["document_path"]: ocr_b,
+            },
+        )
+
+        self.assertEqual(result["summary"]["overall_status"], "needs_remediation")
+        self.assertGreaterEqual(result["summary"]["requirements_failed"], 2)
+        self.assertEqual(result["summary"]["ocr_mismatches"], 1)
+        self.assertEqual(result["summary"]["expired_documents"], 1)
+        failed_ids = {item["requirement_id"] for item in result["requirements"] if item["status"] == "fail"}
+        self.assertIn("MY-HALAL-PROCESS-001", failed_ids)
+        self.assertIn("MY-HALAL-FINANCIAL-001", failed_ids)
+
+    def test_halal_precheck_restaurant_dossier_uses_food_premise_rules(self) -> None:
+        dossier = json.loads((PROJECT_ROOT / "examples/seri-melaka-restaurant.dossier.json").read_text())
+        requirements = json.loads(
+            (PROJECT_ROOT / "src/malaysia_agent_ops/data/halal_requirements.json").read_text()
+        )
+        ocr = json.loads((PROJECT_ROOT / "examples/ocr/seri-melaka/supplier-c-stock-cert.json").read_text())
+
+        result = evaluate_dossier(
+            dossier=dossier,
+            ruleset=requirements,
+            ocr_records={ocr["document_path"]: ocr},
+        )
+
+        self.assertEqual(result["summary"]["overall_status"], "pass")
+        requirement_ids = {item["requirement_id"] for item in result["requirements"]}
+        self.assertIn("MY-HALAL-FOODPREM-MENU-001", requirement_ids)
+        self.assertIn("MY-HALAL-KKM-FOODPREM-001", requirement_ids)
+        self.assertNotIn("MY-HALAL-PROCESS-001", requirement_ids)
+
+    def test_halal_precheck_cli_writes_reports(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            out_dir = Path(temp_dir) / "reports"
+            with patch("sys.stdout", io.StringIO()):
+                code = cli_main(
+                    [
+                        "halal",
+                        "precheck",
+                        "run",
+                        "--file",
+                        str(PROJECT_ROOT / "examples/barakah-curry-paste.dossier.json"),
+                        "--ocr-dir",
+                        str(PROJECT_ROOT / "examples/ocr/barakah"),
+                        "--out-dir",
+                        str(out_dir),
+                    ]
+                )
+
+            self.assertEqual(code, 0)
+            for filename in [
+                "precheck.json",
+                "applicant-report.md",
+                "reviewer-report.md",
+                "applicant-report.html",
+                "reviewer-report.html",
+            ]:
+                self.assertTrue((out_dir / filename).exists(), filename)
+
+            precheck = json.loads((out_dir / "precheck.json").read_text())
+            self.assertEqual(precheck["summary"]["overall_status"], "pass")
 
     def test_halal_bom_and_registry_block_on_non_active_supplier(self) -> None:
         supplier = self.service.halal_suppliers_upsert({"supplier_tin": "C1234567805"})

@@ -1,6 +1,6 @@
 ---
 name: "malaysia-agent-ops"
-description: "Operate the local malaysia-agent-ops application through its CLI, HTTP API, and MCP surfaces. Use when an agent needs to run Malaysia-specific business workflows like MyInvois invoice submission, payment request creation, payment event ingestion, approval handling, CIDB lookups, halal compliance workflows, or autonomous run-until-blocked execution inside /Users/faiqhilman/Projects/malaysia-agent-ops."
+description: "Operate the local malaysia-agent-ops application through its CLI, HTTP API, and MCP surfaces. Use when an agent needs to run Malaysia-specific business workflows like halal dossier prechecks, MyInvois invoice submission, payment request creation, payment event ingestion, approval handling, or autonomous run-until-blocked execution inside /Users/faiqhilman/Projects/malaysia-agent-ops."
 ---
 
 # Malaysia Agent Ops
@@ -25,7 +25,8 @@ Choose the execution interface in this order:
    - approvals
    - exception resolution
    - payment event ingestion
-   - provider-level MyInvois or CIDB tests
+   - provider-level MyInvois tests
+   - CIDB adapter smoke tests only when explicitly requested
 3. Use the HTTP API when a browser app, webhook sender, or external process needs access.
 4. Use `python3 manage.py mcp` only when another MCP-capable agent runtime needs tool discovery over stdio.
 

@@ -1,0 +1,102 @@
+{
+  "dossier_id": "seri-melaka-restaurant-demo",
+  "applicant": {
+    "name": "Seri Melaka Bistro Sdn Bhd",
+    "registration_no": "202602009876",
+    "tin": "C1234567804",
+    "premises": [
+      {
+        "name": "Seri Melaka Bistro Bangsar",
+        "address": "Lot 8, Jalan Telawi, Bangsar, Kuala Lumpur",
+        "documents": [
+          {
+            "kind": "premise_location_map",
+            "path": "docs/seri-melaka/location-map.pdf",
+            "metadata": {
+              "premise_name": "Seri Melaka Bistro Bangsar"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "application": {
+    "type": "food_premise",
+    "menu_name": "Seri Melaka Bistro Main Menu",
+    "oem": false
+  },
+  "documents": [
+    {
+      "kind": "company_profile",
+      "path": "docs/seri-melaka/company-profile.pdf",
+      "metadata": {
+        "company_name": "Seri Melaka Bistro Sdn Bhd"
+      }
+    },
+    {
+      "kind": "ssm_certificate",
+      "path": "docs/seri-melaka/ssm.pdf",
+      "metadata": {
+        "company_name": "Seri Melaka Bistro Sdn Bhd",
+        "registration_no": "202602009876"
+      }
+    },
+    {
+      "kind": "pbt_license",
+      "path": "docs/seri-melaka/dbkl-license.pdf",
+      "metadata": {
+        "license_holder": "Seri Melaka Bistro Sdn Bhd",
+        "expiry_date": "2027-03-31"
+      }
+    },
+    {
+      "kind": "kkm_food_premise_registration",
+      "path": "docs/seri-melaka/kkm-food-premise-registration.pdf",
+      "metadata": {
+        "premise_name": "Seri Melaka Bistro Bangsar",
+        "expiry_date": "2027-05-31"
+      }
+    },
+    {
+      "kind": "menu_description",
+      "path": "docs/seri-melaka/menu.pdf",
+      "metadata": {
+        "menu_name": "Seri Melaka Bistro Main Menu"
+      }
+    },
+    {
+      "kind": "ingredient_list",
+      "path": "docs/seri-melaka/menu-ingredient-list.pdf",
+      "metadata": {
+        "menu_name": "Seri Melaka Bistro Main Menu"
+      }
+    },
+    {
+      "kind": "supplier_list",
+      "path": "docs/seri-melaka/supplier-list.pdf"
+    },
+    {
+      "kind": "financial_statement",
+      "path": "docs/seri-melaka/financial-statement.pdf"
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Chicken stock powder",
+      "supplier": "Supplier C Sdn Bhd",
+      "documents": [
+        {
+          "kind": "ingredient_halal_certificate",
+          "path": "docs/seri-melaka/supplier-c-stock-cert.pdf",
+          "metadata": {
+            "supplier_name": "Supplier C Sdn Bhd",
+            "certificate_no": "JAKIM-2026-010",
+            "issuing_body": "JAKIM",
+            "expiry_date": "2027-01-31",
+            "covers": ["Chicken stock powder"]
+          }
+        }
+      ]
+    }
+  ]
+}

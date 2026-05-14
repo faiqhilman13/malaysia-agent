@@ -1,0 +1,10 @@
+{
+  "document_path": "docs/seri-melaka/supplier-c-stock-cert.pdf",
+  "extractor": "glm-ocr",
+  "fields": {
+    "supplier_name": {"observed": "Supplier C Sdn Bhd", "confidence": 0.93},
+    "certificate_no": {"observed": "JAKIM-2026-010", "confidence": 0.91},
+    "issuing_body": {"observed": "JAKIM", "confidence": 0.89},
+    "expiry_date": {"observed": "2027-01-31", "confidence": 0.86}
+  }
+}

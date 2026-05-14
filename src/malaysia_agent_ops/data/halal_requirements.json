@@ -1,0 +1,187 @@
+{
+  "sources": {
+    "S1": {
+      "title": "Halal Malaysia Portal procedure page",
+      "url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27",
+      "evidence_class": "official_guidance"
+    },
+    "S2": {
+      "title": "Halal Malaysia 2021 document filing announcement",
+      "url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement",
+      "evidence_class": "official_guidance"
+    },
+    "S3": {
+      "title": "JAKIM MyHALALINGREDIENTS media statement, 14 August 2025",
+      "url": "https://www.islam.gov.my/en/media-statement/4798-kenyataan-media-jabatan-kemajuan-islam-malaysia-jakim-berkenaan-pelaksanaan-myhalalingredients",
+      "evidence_class": "official_guidance"
+    }
+  },
+  "requirements": [
+    {
+      "requirement_id": "MY-HALAL-APP-COMPANY-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "Company profile",
+      "description": "Application documentation should include the applicant company profile.",
+      "required_document_kinds": ["company_profile"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-SSM-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "Company or business registration",
+      "description": "The dossier should include company or business registration evidence, including SSM where applicable.",
+      "required_document_kinds": ["ssm_certificate", "business_registration"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-PBT-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "PBT license or government support letter",
+      "description": "JAKIM filing guidance lists a local authority business license or government support letter.",
+      "required_document_kinds": ["pbt_license", "government_support_letter"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement"
+    },
+    {
+      "requirement_id": "MY-HALAL-APP-PRODUCT-001",
+      "applies_to": ["manufacturer"],
+      "title": "Product name and description",
+      "description": "Manufacturer applications should identify the product being certified.",
+      "required_document_kinds": ["product_description"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-FOODPREM-MENU-001",
+      "applies_to": ["food_premise"],
+      "title": "Menu for certification",
+      "description": "Food premise applications should identify menu items covered by the certification context.",
+      "required_document_kinds": ["menu_description"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-INGREDIENTS-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "Ingredient or raw material list",
+      "description": "Applications should include ingredients used, with raw-material discipline reinforced by MyHALALINGREDIENTS.",
+      "required_document_kinds": ["ingredient_list", "raw_material_list"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-SUPPLIER-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "Ingredient supplier or manufacturer details",
+      "description": "Applications should include name and address of ingredient suppliers or manufacturers.",
+      "required_document_kinds": ["supplier_list", "supplier_declaration"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-INGREDIENT-CERT-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "Ingredient halal certificates or critical ingredient specifications",
+      "description": "The dossier should include halal certificates for ingredients, or specifications for critical ingredients where relevant.",
+      "required_document_kinds": ["ingredient_halal_certificate", "critical_ingredient_specification"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-PACKAGING-001",
+      "applies_to": ["manufacturer"],
+      "title": "Packaging material",
+      "description": "Manufacturer applications should identify packaging material.",
+      "required_document_kinds": ["packaging_material"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-LABEL-001",
+      "applies_to": ["manufacturer"],
+      "title": "Product packaging label",
+      "description": "JAKIM filing guidance lists product packaging label evidence.",
+      "required_document_kinds": ["packaging_label"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement"
+    },
+    {
+      "requirement_id": "MY-HALAL-PROCESS-001",
+      "applies_to": ["manufacturer"],
+      "title": "Manufacturing process flow",
+      "description": "Applications should include the manufacturing process and procedure or process flow chart.",
+      "required_document_kinds": ["process_flow_chart", "manufacturing_process"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-PREMISE-MAP-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "Premise or factory location map",
+      "description": "Applications should include a location map of the premise or factory.",
+      "required_document_kinds": ["premise_location_map", "factory_location_map"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S1",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?data=bW9kdWxlcy9jb2xsYXBzaWJsZV9jb250ZW50Ozs7Ow%3D%3D&utama=panduan&view=%27"
+    },
+    {
+      "requirement_id": "MY-HALAL-FINANCIAL-001",
+      "applies_to": ["manufacturer", "food_premise"],
+      "title": "Latest company financial statement",
+      "description": "JAKIM filing guidance lists latest company financial statement evidence.",
+      "required_document_kinds": ["financial_statement"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement"
+    },
+    {
+      "requirement_id": "MY-HALAL-KKM-FOODPREM-001",
+      "applies_to": ["food_premise"],
+      "title": "KKM food premise registration",
+      "description": "JAKIM filing guidance lists KKM food premise registration for food premise and food product schemes.",
+      "required_document_kinds": ["kkm_food_premise_registration"],
+      "severity": "required",
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement"
+    },
+    {
+      "requirement_id": "MY-HALAL-OEM-001",
+      "applies_to": ["manufacturer"],
+      "title": "OEM agreement if applicable",
+      "description": "JAKIM filing guidance lists OEM agreement evidence where applicable.",
+      "required_document_kinds": ["oem_agreement"],
+      "severity": "conditional",
+      "condition": {"field": "application.oem", "equals": true},
+      "evidence_class": "official_guidance",
+      "source_id": "S2",
+      "source_url": "https://myehalal.halal.gov.my/portal-halal/v1/index.php?content_id=20210310604821a5189e3&data=bW9kdWxlcy9jb250ZW50X2RldGFpbHM7Ozs%3D&page_title=Announcement"
+    }
+  ]
+}

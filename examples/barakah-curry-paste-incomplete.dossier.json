@@ -1,0 +1,117 @@
+{
+  "dossier_id": "barakah-curry-paste-incomplete-demo",
+  "applicant": {
+    "name": "Barakah Foods Manufacturing Sdn Bhd",
+    "registration_no": "202601001234",
+    "tin": "C1234567803",
+    "premises": [
+      {
+        "name": "Barakah Shah Alam Factory",
+        "address": "No. 12, Jalan Industri 3, Shah Alam, Selangor",
+        "documents": [
+          {
+            "kind": "premise_location_map",
+            "path": "docs/barakah/location-map.pdf",
+            "metadata": {
+              "premise_name": "Barakah Shah Alam Factory"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "application": {
+    "type": "manufacturer",
+    "product_name": "Instant Curry Paste",
+    "oem": false
+  },
+  "documents": [
+    {
+      "kind": "company_profile",
+      "path": "docs/barakah/company-profile.pdf",
+      "metadata": {
+        "company_name": "Barakah Foods Manufacturing Sdn Bhd"
+      }
+    },
+    {
+      "kind": "ssm_certificate",
+      "path": "docs/barakah/ssm.pdf",
+      "metadata": {
+        "company_name": "Barakah Foods Manufacturing Sdn Bhd",
+        "registration_no": "202601001234"
+      }
+    },
+    {
+      "kind": "pbt_license",
+      "path": "docs/barakah/pbt-license.pdf",
+      "metadata": {
+        "license_holder": "Barakah Foods Manufacturing Sdn Bhd"
+      }
+    },
+    {
+      "kind": "product_description",
+      "path": "docs/barakah/product-description.pdf",
+      "metadata": {
+        "product_name": "Instant Curry Paste"
+      }
+    },
+    {
+      "kind": "ingredient_list",
+      "path": "docs/barakah/ingredient-list.pdf",
+      "metadata": {
+        "product_name": "Instant Curry Paste"
+      }
+    },
+    {
+      "kind": "supplier_list",
+      "path": "docs/barakah/supplier-list.pdf"
+    },
+    {
+      "kind": "packaging_material",
+      "path": "docs/barakah/packaging-material.pdf"
+    },
+    {
+      "kind": "packaging_label",
+      "path": "docs/barakah/label.pdf",
+      "metadata": {
+        "product_name": "Instant Curry Paste"
+      }
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Coconut milk powder",
+      "supplier": "Supplier A Sdn Bhd",
+      "documents": [
+        {
+          "kind": "ingredient_halal_certificate",
+          "path": "docs/barakah/supplier-a-coconut-cert.pdf",
+          "metadata": {
+            "supplier_name": "Supplier A Sdn Bhd",
+            "certificate_no": "JAKIM-2025-001",
+            "issuing_body": "JAKIM",
+            "expiry_date": "2026-12-31",
+            "covers": ["Coconut milk powder"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chili paste",
+      "supplier": "Supplier B Sdn Bhd",
+      "documents": [
+        {
+          "kind": "ingredient_halal_certificate",
+          "path": "docs/barakah/supplier-b-chili-cert-expired.pdf",
+          "metadata": {
+            "supplier_name": "Supplier B Sdn Bhd",
+            "certificate_no": "JAKIM-2023-099",
+            "issuing_body": "JAKIM",
+            "expiry_date": "2024-12-31",
+            "covers": ["Chili paste"]
+          }
+        }
+      ]
+    }
+  ]
+}

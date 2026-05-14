@@ -18,3 +18,5 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+malaysia_agent_ops = ["data/*.json"]

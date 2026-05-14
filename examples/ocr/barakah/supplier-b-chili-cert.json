@@ -1,0 +1,10 @@
+{
+  "document_path": "docs/barakah/supplier-b-chili-cert.pdf",
+  "extractor": "glm-ocr",
+  "fields": {
+    "supplier_name": {"observed": "Supplier B Sdn Bhd", "confidence": 0.93},
+    "certificate_no": {"observed": "JAKIM-2025-002", "confidence": 0.89},
+    "issuing_body": {"observed": "JAKIM", "confidence": 0.86},
+    "expiry_date": {"observed": "2026-10-15", "confidence": 0.85}
+  }
+}
