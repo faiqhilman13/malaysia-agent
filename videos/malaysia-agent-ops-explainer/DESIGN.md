@@ -2,26 +2,35 @@
 
 ## Style Prompt
 
-Premium technical public-sector fintech: calm, trustworthy, Malaysian-regulatory context, source-grounded, not hype. The visuals should feel like a serious operator dashboard translated into a clean explainer. Use strong contrast, restrained motion, and clear evidence trails.
+Regulatory evidence film, not SaaS pitch deck. The frame should feel like a compliance desk under clean office light: paper, ink, stamps, audit tables, and source labels. Use precise typography, dry confidence, visible artifacts, and restrained motion. Avoid ornamental tech gradients, fake glass, glowing dashboards, and "AI-made" oversized serif drama.
+
+## Physical Scene
+
+A halal consultant, finance operator, or reviewer is scanning a dossier on a 27-inch monitor in a normal office. The room is bright enough for paperwork, so the canvas should be light, quiet, and legible rather than dark and cinematic.
 
 ## Colors
 
-- Deep Navy `#0F172A` -- primary background
-- Cobalt `#1D4ED8` -- tax/e-invoice accent
-- Emerald `#047857` -- halal/precheck accent
-- Gold `#B8860B` -- source/audit accent
-- Ivory `#F8FAFC` -- primary text
-- Slate `#94A3B8` -- secondary text
+- Paper `oklch(96.5% 0.012 87)` -- primary background
+- Ink `oklch(22% 0.025 246)` -- primary text
+- Muted Ink `oklch(47% 0.03 246)` -- secondary text
+- Halal Green `oklch(42% 0.115 165)` -- pass / halal state
+- Tax Blue `oklch(45% 0.12 250)` -- tax / invoice state
+- Review Amber `oklch(55% 0.11 76)` -- warning / blocked state
+- Rework Red `oklch(45% 0.15 22)` -- fail state
 
 ## Typography
 
-- Headings: Georgia, serif
-- Body: Inter, Arial, system sans-serif
-- Labels: SFMono-Regular, Menlo, monospace
+- Headings: Helvetica Neue / Arial / system sans, heavy but not decorative
+- Body: Helvetica Neue / Arial / system sans
+- Labels and code: JetBrains Mono / monospace
 
 ## What NOT To Do
 
 - Do not use playful startup gradients.
+- Do not use dark dashboard grid as the default canvas.
+- Do not use generic oversized serif headlines.
+- Do not use decorative glass, glow, or vague AI-document mockups.
+- Do not use side-stripe alert accents.
 - Do not claim the app certifies halal status.
 - Do not imply live MyInvois submission without credentials.
 - Do not center CIDB as a core pillar.
