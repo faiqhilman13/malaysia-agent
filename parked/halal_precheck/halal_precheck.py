@@ -1,13 +1,20 @@
+"""Parked halal dossier precheck (from v0). Standalone: no imports from the main package.
+
+Run: python parked/halal_precheck/halal_precheck.py --file DOSSIER.json --out-dir OUT [--ocr-dir DIR] [--as-of YYYY-MM-DD]
+"""
+
 from __future__ import annotations
 
+import argparse
 import html
 import json
 import re
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
-from importlib import resources
 from pathlib import Path
 from typing import Any
+
+DEFAULT_REQUIREMENTS_PATH = Path(__file__).with_name("halal_requirements.json")
 
 
 class HalalPrecheckError(ValueError):
@@ -32,6 +39,7 @@ def run_halal_precheck(
     out_dir: Path,
     requirements_path: Path | None = None,
     ocr_dir: Path | None = None,
+    as_of: date | None = None,
 ) -> dict[str, Any]:
     dossier = _load_json_object(dossier_path)
     ruleset = _load_json_object(requirements_path) if requirements_path else _load_default_requirements()
@@ -42,6 +50,7 @@ def run_halal_precheck(
         ruleset=ruleset,
         ocr_records=ocr_records,
         dossier_path=dossier_path,
+        as_of=as_of,
     )
     write_reports(result=result, out_dir=out_dir)
     return result
@@ -53,7 +62,10 @@ def evaluate_dossier(
     ruleset: dict[str, Any],
     ocr_records: dict[str, dict[str, Any]] | None = None,
     dossier_path: Path | None = None,
+    as_of: date | None = None,
 ) -> dict[str, Any]:
+    """Evaluate a dossier. Expiry checks use `as_of` (defaults to today) so results are reproducible."""
+    as_of = as_of or date.today()
     application = dossier.get("application")
     if not isinstance(application, dict):
         raise HalalPrecheckError("Dossier must contain an application object.")
@@ -78,7 +90,7 @@ def evaluate_dossier(
             continue
         requirement_results.append(_evaluate_requirement(requirement, documents, document_kinds))
 
-    document_checks = _evaluate_document_metadata(documents)
+    document_checks = _evaluate_document_metadata(documents, as_of)
     ocr_results = _evaluate_ocr(documents, ocr_records)
     summary = _summarise(requirement_results, ocr_results, document_checks)
     generated_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -200,8 +212,7 @@ def render_html_report(markdown: str, title: str) -> str:
 
 
 def _load_default_requirements() -> dict[str, Any]:
-    resource = resources.files("malaysia_agent_ops.data").joinpath("halal_requirements.json")
-    return json.loads(resource.read_text())
+    return _load_json_object(DEFAULT_REQUIREMENTS_PATH)
 
 
 def _load_json_object(path: Path) -> dict[str, Any]:
@@ -355,9 +366,8 @@ def _evaluate_ocr(
     return results
 
 
-def _evaluate_document_metadata(documents: list[CollectedDocument]) -> list[dict[str, Any]]:
+def _evaluate_document_metadata(documents: list[CollectedDocument], as_of: date) -> list[dict[str, Any]]:
     checks: list[dict[str, Any]] = []
-    today = date.today()
     for document in documents:
         expiry_date = document.metadata.get("expiry_date")
         if not expiry_date:
@@ -381,8 +391,8 @@ def _evaluate_document_metadata(documents: list[CollectedDocument]) -> list[dict
                 "document_kind": document.kind,
                 "field": "expiry_date",
                 "declared": expiry_date,
-                "status": "expired" if parsed < today else "valid",
-                "as_of": today.isoformat(),
+                "status": "expired" if parsed < as_of else "valid",
+                "as_of": as_of.isoformat(),
             }
         )
     return checks
@@ -677,3 +687,30 @@ def _parse_date(value: str) -> date | None:
         except ValueError:
             continue
     return None
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Validate a halal dossier and write reports.")
+    parser.add_argument("--file", required=True, dest="dossier_file", help="Path to a JSON dossier file.")
+    parser.add_argument("--out-dir", required=True, help="Directory for JSON, Markdown, and HTML reports.")
+    parser.add_argument("--ocr-dir", help="Optional directory of OCR verification JSON files.")
+    parser.add_argument("--requirements", help="Optional requirements JSON file.")
+    parser.add_argument("--as-of", help="Evaluate expiry dates as of this date (YYYY-MM-DD). Defaults to today.")
+    args = parser.parse_args(argv)
+    try:
+        result = run_halal_precheck(
+            dossier_path=Path(args.dossier_file),
+            out_dir=Path(args.out_dir),
+            requirements_path=Path(args.requirements) if args.requirements else None,
+            ocr_dir=Path(args.ocr_dir) if args.ocr_dir else None,
+            as_of=date.fromisoformat(args.as_of) if args.as_of else None,
+        )
+    except HalalPrecheckError as exc:
+        print(json.dumps({"status": "error", "message": str(exc)}))
+        return 1
+    print(json.dumps({"status": "success", "overall_status": result["summary"]["overall_status"], "out_dir": args.out_dir}))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

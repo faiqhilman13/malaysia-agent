@@ -7,3 +7,6 @@ coverage.xml
 .env
 data/*.db
 data/*.sqlite3
+.venv/
+*.db
+*.sqlite3
