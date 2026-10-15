@@ -10,3 +10,5 @@ data/*.sqlite3
 .venv/
 *.db
 *.sqlite3
+*.egg-info/
+.ruff_cache/

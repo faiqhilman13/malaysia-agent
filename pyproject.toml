@@ -4,19 +4,51 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "malaysia-agent-ops"
-version = "0.1.0"
-description = "Malaysia-first API and CLI primitives for agentic business operations."
+version = "0.2.0"
+description = "Compliance-grade, multi-tenant MyInvois e-invoicing layer for AI agents (remote MCP + REST)."
 readme = "README.md"
 requires-python = ">=3.11"
-authors = [
-  { name = "Faiq Hilman" }
+license = { text = "MIT" }
+authors = [{ name = "Faiq Hilman" }]
+dependencies = [
+  "mcp==2.3.0",
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "sqlalchemy>=2.0",
+  "alembic>=1.13",
+  "httpx>=0.27",
+  "cryptography>=43",
+  "pyjwt[crypto]>=2.9",
+  "pydantic>=2.8",
+  "pydantic-settings>=2.4",
 ]
 
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.2"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+myops = "malaysia_agent_ops.cli:main"
+
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-malaysia_agent_ops = ["data/*.json"]
+malaysia_agent_ops = ["migrations/*.ini", "migrations/*.py", "migrations/versions/*.py", "migrations/script.py.mako"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning:mcp.*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = ["legacy", "parked"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["UP017"]  # datetime.timezone.utc reads fine
