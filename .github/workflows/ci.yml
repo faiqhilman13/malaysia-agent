@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: ruff check src tests
+      - run: ruff format --check src tests
+      - run: pytest
+      - run: python -m unittest discover -s parked/halal_precheck -p "test_*.py"
+
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: myops
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      MYOPS_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/myops
+      MYOPS_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/myops_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -e ".[dev,postgres]"
+      - run: PGPASSWORD=postgres psql -h localhost -U postgres -c "create database myops_test"
+      - name: Migrations apply and match the models
+        run: |
+          myops db upgrade
+          alembic -c src/malaysia_agent_ops/migrations/alembic.ini check
+      - run: pytest
